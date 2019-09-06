@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/new_post.dart';
 import 'package:realworld_flutter/screens/settings.dart';
+import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
@@ -20,6 +21,9 @@ RouteFactory routes() {
         break;
       case SignUpScreen.route:
         screen = SignUpScreen();
+        break;
+      case SignInScreen.route:
+        screen = SignInScreen();
         break;
       case SettingsScreen.route:
         screen = SettingsScreen();

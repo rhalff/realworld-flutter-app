@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart' hide Banner;
 import 'package:realworld_flutter/layout.dart';
-import 'package:realworld_flutter/pages/settings.dart';
+import 'package:realworld_flutter/pages/signin_form.dart';
+import 'package:realworld_flutter/screens/sign_up.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
-class SettingsScreen extends StatelessWidget {
-  static const String route = '/settings';
+class SignInScreen extends StatelessWidget {
+  static const String route = '/sign_in';
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Layout(
       child: ScrollPage(
         child: Column(
@@ -21,19 +21,28 @@ class SettingsScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Your Settings',
+                    'Sign in',
                     style: theme.textTheme.title.copyWith(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  SizedBox(height: 12),
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(SignUpScreen.route);
+                      },
+                      child: Text(
+                        'Do not have an account?',
+                        style: theme.textTheme.subtitle,
+                      ))
                 ],
               ),
             ),
-            SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: SettingsForm(),
+              padding: const EdgeInsets.all(12.0),
+              child: SignInForm(),
             ),
           ],
         ),

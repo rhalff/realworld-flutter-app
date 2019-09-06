@@ -4,14 +4,19 @@ description: A Realworld Flutter Application
 version: 1.0.0
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
+  jaguar_retrofit: ^2.8.8
+  jaguar_serializer: ^2.2.12
+  jaguar_mimetype: ^1.0.1
+
   intl: ^0.16.0
   bloc: ^0.15.0
+  validations: ^0.8.3
   flutter_bloc: ^0.21.0
 
   cupertino_icons: ^0.1.2
@@ -19,6 +24,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  validations_generator: ^0.8.3
+  jaguar_retrofit_gen: ^2.8.10
+  jaguar_serializer_cli: ^2.2.8
+  build_runner: ^1.6.7
+
 
 
 # For information on the generic Dart part of this file, see the
