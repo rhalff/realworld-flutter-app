@@ -1,45 +1,43 @@
 library realworld_flutter.api;
 
 import 'package:http/io_client.dart';
-import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_retrofit/jaguar_retrofit.dart';
-import 'package:realworld_flutter/auth/api_key_auth.dart';
-import 'package:realworld_flutter/auth/basic_auth.dart';
-import 'package:realworld_flutter/auth/oauth.dart';
 import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-
+import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:realworld_flutter/api/articles_api.dart';
 import 'package:realworld_flutter/api/comments_api.dart';
 import 'package:realworld_flutter/api/default_api.dart';
 import 'package:realworld_flutter/api/favorites_api.dart';
+import 'package:realworld_flutter/api/model/generic_error_model.dart';
+import 'package:realworld_flutter/api/model/generic_error_model_errors.dart';
+import 'package:realworld_flutter/api/model/login_user.dart';
+import 'package:realworld_flutter/api/model/new_article.dart';
+import 'package:realworld_flutter/api/model/new_comment.dart';
+import 'package:realworld_flutter/api/model/new_user.dart';
+import 'package:realworld_flutter/api/model/update_article.dart';
+import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
-
+import 'package:realworld_flutter/auth/api_key_auth.dart';
+import 'package:realworld_flutter/auth/basic_auth.dart';
+import 'package:realworld_flutter/auth/oauth.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/generic_error_model_errors.dart';
-import 'package:realworld_flutter/model/login_user.dart';
-import 'package:realworld_flutter/model/login_user_request.dart';
-import 'package:realworld_flutter/model/multiple_articles_response.dart';
-import 'package:realworld_flutter/model/multiple_comments_response.dart';
-import 'package:realworld_flutter/model/new_article.dart';
-import 'package:realworld_flutter/model/new_article_request.dart';
-import 'package:realworld_flutter/model/new_comment.dart';
-import 'package:realworld_flutter/model/new_comment_request.dart';
-import 'package:realworld_flutter/model/new_user.dart';
-import 'package:realworld_flutter/model/new_user_request.dart';
 import 'package:realworld_flutter/model/profile.dart';
-import 'package:realworld_flutter/model/profile_response.dart';
-import 'package:realworld_flutter/model/single_article_response.dart';
-import 'package:realworld_flutter/model/single_comment_response.dart';
-import 'package:realworld_flutter/model/tags_response.dart';
-import 'package:realworld_flutter/model/update_article.dart';
-import 'package:realworld_flutter/model/update_article_request.dart';
-import 'package:realworld_flutter/model/update_user.dart';
-import 'package:realworld_flutter/model/update_user_request.dart';
+import 'package:realworld_flutter/model/request/login_user_request.dart';
+import 'package:realworld_flutter/model/request/new_article_request.dart';
+import 'package:realworld_flutter/model/request/new_comment_request.dart';
+import 'package:realworld_flutter/model/request/new_user_request.dart';
+import 'package:realworld_flutter/model/request/update_article_request.dart';
+import 'package:realworld_flutter/model/request/update_user_request.dart';
+import 'package:realworld_flutter/model/response/multiple_articles_response.dart';
+import 'package:realworld_flutter/model/response/multiple_comments_response.dart';
+import 'package:realworld_flutter/model/response/profile_response.dart';
+import 'package:realworld_flutter/model/response/single_article_response.dart';
+import 'package:realworld_flutter/model/response/single_comment_response.dart';
+import 'package:realworld_flutter/model/response/tags_response.dart';
+import 'package:realworld_flutter/model/response/user_response.dart';
 import 'package:realworld_flutter/model/user.dart';
-import 'package:realworld_flutter/model/user_response.dart';
 
 final _jsonJaguarRepo = JsonRepo()
   ..add(ArticleSerializer())

@@ -15,11 +15,12 @@ class Profile {
   @Alias('following', isNullable: false)
   final bool following;
 
-  Profile(
-      {this.username = null,
-      this.bio = null,
-      this.image = null,
-      this.following = null});
+  Profile({
+    this.username,
+    this.bio,
+    this.image,
+    this.following,
+  });
 
   @override
   String toString() {

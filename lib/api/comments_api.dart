@@ -1,13 +1,11 @@
+import 'dart:async';
+
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-import 'dart:async';
-
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/new_comment_request.dart';
-import 'package:realworld_flutter/model/single_comment_response.dart';
-import 'package:realworld_flutter/model/multiple_comments_response.dart';
+import 'package:realworld_flutter/api/model/request/new_comment_request.dart';
+import 'package:realworld_flutter/api/model/response/multiple_comments_response.dart';
+import 'package:realworld_flutter/api/model/response/single_comment_response.dart';
 
 part 'comments_api.jretro.dart';
 
@@ -17,8 +15,11 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
-  CommentsApi(
-      {this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+  CommentsApi({
+    this.base,
+    this.converters,
+    this.timeout = const Duration(minutes: 2),
+  });
 
   /// Create a comment for an article
   ///
@@ -34,7 +35,9 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
     ]
   })
   Future<SingleCommentResponse> createArticleComment(
-      @PathParam("slug") String slug, @AsJson() NewCommentRequest comment) {
+    @PathParam("slug") String slug,
+    @AsJson() NewCommentRequest comment,
+  ) {
     return super.createArticleComment(slug, comment).timeout(timeout);
   }
 
@@ -52,7 +55,9 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
     ]
   })
   Future<void> deleteArticleComment(
-      @PathParam("slug") String slug, @PathParam("id") int id) {
+    @PathParam("slug") String slug,
+    @PathParam("id") int id,
+  ) {
     return super.deleteArticleComment(slug, id).timeout(timeout);
   }
 
@@ -61,7 +66,8 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Get the comments for an article. Auth is optional
   @GetReq(path: "/articles/:slug/comments")
   Future<MultipleCommentsResponse> getArticleComments(
-      @PathParam("slug") String slug) {
+    @PathParam("slug") String slug,
+  ) {
     return super.getArticleComments(slug).timeout(timeout);
   }
 }

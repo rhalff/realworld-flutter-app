@@ -1,5 +1,4 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
 import 'package:realworld_flutter/model/comment.dart';
 
 part 'single_comment_response.jser.dart';
@@ -8,7 +7,9 @@ class SingleCommentResponse {
   @Alias('comment', isNullable: false)
   final Comment comment;
 
-  SingleCommentResponse({this.comment = null});
+  SingleCommentResponse({
+    this.comment,
+  });
 
   @override
   String toString() {

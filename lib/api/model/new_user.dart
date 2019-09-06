@@ -12,7 +12,11 @@ class NewUser {
   @Alias('password', isNullable: false)
   final String password;
 
-  NewUser({this.username = null, this.email = null, this.password = null});
+  NewUser({
+    this.username,
+    this.email,
+    this.password,
+  });
 
   @override
   String toString() {

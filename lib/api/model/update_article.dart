@@ -12,7 +12,11 @@ class UpdateArticle {
   @Alias('body', isNullable: false)
   final String body;
 
-  UpdateArticle({this.title = null, this.description = null, this.body = null});
+  UpdateArticle({
+    this.title,
+    this.description,
+    this.body,
+  });
 
   @override
   String toString() {

@@ -18,12 +18,13 @@ class UpdateUser {
   @Alias('image', isNullable: false)
   final String image;
 
-  UpdateUser(
-      {this.email = null,
-      this.token = null,
-      this.username = null,
-      this.bio = null,
-      this.image = null});
+  UpdateUser({
+    this.email,
+    this.token,
+    this.username,
+    this.bio,
+    this.image,
+  });
 
   @override
   String toString() {

@@ -1,5 +1,4 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
 import 'package:realworld_flutter/model/profile.dart';
 
 part 'profile_response.jser.dart';
@@ -8,7 +7,9 @@ class ProfileResponse {
   @Alias('profile', isNullable: false)
   final Profile profile;
 
-  ProfileResponse({this.profile = null});
+  ProfileResponse({
+    this.profile,
+  });
 
   @override
   String toString() {

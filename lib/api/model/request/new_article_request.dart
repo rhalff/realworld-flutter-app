@@ -1,6 +1,5 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
-import 'package:realworld_flutter/model/new_article.dart';
+import 'package:realworld_flutter/api/model/new_article.dart';
 
 part 'new_article_request.jser.dart';
 
@@ -8,7 +7,9 @@ class NewArticleRequest {
   @Alias('article', isNullable: false)
   final NewArticle article;
 
-  NewArticleRequest({this.article = null});
+  NewArticleRequest({
+    this.article,
+  });
 
   @override
   String toString() {

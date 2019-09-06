@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  meta: ^1.1.7
+  equatable: ^0.5.1
   jaguar_retrofit: ^2.8.8
   jaguar_serializer: ^2.2.12
   jaguar_mimetype: ^1.0.1

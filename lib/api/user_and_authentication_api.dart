@@ -1,14 +1,12 @@
+import 'dart:async';
+
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-import 'dart:async';
-
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/login_user_request.dart';
-import 'package:realworld_flutter/model/update_user_request.dart';
-import 'package:realworld_flutter/model/new_user_request.dart';
-import 'package:realworld_flutter/model/user_response.dart';
+import 'package:realworld_flutter/api/model/request/login_user_request.dart';
+import 'package:realworld_flutter/api/model/request/new_user_request.dart';
+import 'package:realworld_flutter/api/model/request/update_user_request.dart';
+import 'package:realworld_flutter/api/model/response/user_response.dart';
 
 part 'user_and_authentication_api.jretro.dart';
 
@@ -19,8 +17,11 @@ class UserAndAuthenticationApi extends ApiClient
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
-  UserAndAuthenticationApi(
-      {this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+  UserAndAuthenticationApi({
+    this.base,
+    this.converters,
+    this.timeout = const Duration(minutes: 2),
+  });
 
   /// Register a new user
   ///

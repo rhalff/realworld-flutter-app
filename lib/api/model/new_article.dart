@@ -15,11 +15,12 @@ class NewArticle {
   @Alias('tagList', isNullable: false)
   final List<String> tagList;
 
-  NewArticle(
-      {this.title = null,
-      this.description = null,
-      this.body = null,
-      this.tagList = const []});
+  NewArticle({
+    this.title,
+    this.description,
+    this.body,
+    this.tagList = const [],
+  });
 
   @override
   String toString() {

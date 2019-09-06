@@ -1,14 +1,12 @@
+import 'dart:async';
+
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-import 'dart:async';
-
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/single_article_response.dart';
-import 'package:realworld_flutter/model/new_article_request.dart';
-import 'package:realworld_flutter/model/update_article_request.dart';
-import 'package:realworld_flutter/model/multiple_articles_response.dart';
+import 'package:realworld_flutter/api/model/request/new_article_request.dart';
+import 'package:realworld_flutter/api/model/request/update_article_request.dart';
+import 'package:realworld_flutter/api/model/response/multiple_articles_response.dart';
+import 'package:realworld_flutter/api/model/response/single_article_response.dart';
 
 part 'articles_api.jretro.dart';
 
@@ -18,8 +16,11 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
-  ArticlesApi(
-      {this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+  ArticlesApi({
+    this.base,
+    this.converters,
+    this.timeout = const Duration(minutes: 2),
+  });
 
   /// Create an article
   ///
@@ -35,7 +36,8 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
     ]
   })
   Future<SingleArticleResponse> createArticle(
-      @AsJson() NewArticleRequest article) {
+    @AsJson() NewArticleRequest article,
+  ) {
     return super.createArticle(article).timeout(timeout);
   }
 
@@ -69,11 +71,12 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Get most recent articles globally. Use query parameters to filter results. Auth is optional
   @GetReq(path: "/articles")
   Future<MultipleArticlesResponse> getArticles(
-      @QueryParam("tag") String tag,
-      @QueryParam("author") String author,
-      @QueryParam("favorited") String favorited,
-      @QueryParam("limit") int limit,
-      @QueryParam("offset") int offset) {
+    @QueryParam("tag") String tag,
+    @QueryParam("author") String author,
+    @QueryParam("favorited") String favorited,
+    @QueryParam("limit") int limit,
+    @QueryParam("offset") int offset,
+  ) {
     return super
         .getArticles(tag, author, favorited, limit, offset)
         .timeout(timeout);
@@ -93,7 +96,9 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
     ]
   })
   Future<MultipleArticlesResponse> getArticlesFeed(
-      @QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+    @QueryParam("limit") int limit,
+    @QueryParam("offset") int offset,
+  ) {
     return super.getArticlesFeed(limit, offset).timeout(timeout);
   }
 
@@ -111,7 +116,9 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
     ]
   })
   Future<SingleArticleResponse> updateArticle(
-      @PathParam("slug") String slug, @AsJson() UpdateArticleRequest article) {
+    @PathParam("slug") String slug,
+    @AsJson() UpdateArticleRequest article,
+  ) {
     return super.updateArticle(slug, article).timeout(timeout);
   }
 }

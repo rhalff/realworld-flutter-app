@@ -1,11 +1,9 @@
+import 'dart:async';
+
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-import 'dart:async';
-
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/tags_response.dart';
+import 'package:realworld_flutter/api/model/response/tags_response.dart';
 
 part 'default_api.jretro.dart';
 
@@ -15,8 +13,11 @@ class DefaultApi extends ApiClient with _$DefaultApiClient {
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
-  DefaultApi(
-      {this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+  DefaultApi({
+    this.base,
+    this.converters,
+    this.timeout = const Duration(minutes: 2),
+  });
 
   /// Get tags
   ///

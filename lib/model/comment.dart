@@ -1,5 +1,4 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
 import 'package:realworld_flutter/model/profile.dart';
 
 part 'comment.jser.dart';
@@ -20,12 +19,13 @@ class Comment {
   @Alias('author', isNullable: false)
   final Profile author;
 
-  Comment(
-      {this.id = null,
-      this.createdAt = null,
-      this.updatedAt = null,
-      this.body = null,
-      this.author = null});
+  Comment({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.body,
+    this.author,
+  });
 
   @override
   String toString() {

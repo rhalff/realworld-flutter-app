@@ -1,5 +1,4 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
 import 'package:realworld_flutter/model/profile.dart';
 
 part 'article.jser.dart';
@@ -35,17 +34,18 @@ class Article {
   @Alias('author', isNullable: false)
   final Profile author;
 
-  Article(
-      {this.slug = null,
-      this.title = null,
-      this.description = null,
-      this.body = null,
-      this.tagList = const [],
-      this.createdAt = null,
-      this.updatedAt = null,
-      this.favorited = null,
-      this.favoritesCount = null,
-      this.author = null});
+  Article({
+    this.slug,
+    this.title,
+    this.description,
+    this.body,
+    this.tagList = const [],
+    this.createdAt,
+    this.updatedAt,
+    this.favorited,
+    this.favoritesCount,
+    this.author,
+  });
 
   @override
   String toString() {

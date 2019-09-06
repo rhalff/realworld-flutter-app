@@ -1,6 +1,5 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
-import 'package:realworld_flutter/model/new_comment.dart';
+import 'package:realworld_flutter/api/model/new_comment.dart';
 
 part 'new_comment_request.jser.dart';
 
@@ -8,7 +7,7 @@ class NewCommentRequest {
   @Alias('comment', isNullable: false)
   final NewComment comment;
 
-  NewCommentRequest({this.comment = null});
+  NewCommentRequest({this.comment});
 
   @override
   String toString() {

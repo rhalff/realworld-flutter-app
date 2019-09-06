@@ -9,7 +9,10 @@ class LoginUser {
   @Alias('password', isNullable: false)
   final String password;
 
-  LoginUser({this.email = null, this.password = null});
+  LoginUser({
+    this.email,
+    this.password,
+  });
 
   @override
   String toString() {

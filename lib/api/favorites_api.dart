@@ -1,11 +1,9 @@
+import 'dart:async';
+
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_mimetype/jaguar_mimetype.dart';
-import 'dart:async';
-
-import 'package:realworld_flutter/model/generic_error_model.dart';
-import 'package:realworld_flutter/model/single_article_response.dart';
+import 'package:realworld_flutter/api/model/response/single_article_response.dart';
 
 part 'favorites_api.jretro.dart';
 
@@ -15,8 +13,11 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
-  FavoritesApi(
-      {this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+  FavoritesApi({
+    this.base,
+    this.converters,
+    this.timeout = const Duration(minutes: 2),
+  });
 
   /// Favorite an article
   ///
@@ -32,7 +33,8 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
     ]
   })
   Future<SingleArticleResponse> createArticleFavorite(
-      @PathParam("slug") String slug) {
+    @PathParam("slug") String slug,
+  ) {
     return super.createArticleFavorite(slug).timeout(timeout);
   }
 
@@ -50,7 +52,8 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
     ]
   })
   Future<SingleArticleResponse> deleteArticleFavorite(
-      @PathParam("slug") String slug) {
+    @PathParam("slug") String slug,
+  ) {
     return super.deleteArticleFavorite(slug).timeout(timeout);
   }
 }

@@ -6,7 +6,9 @@ class NewComment {
   @Alias('body', isNullable: false)
   final String body;
 
-  NewComment({this.body = null});
+  NewComment({
+    this.body,
+  });
 
   @override
   String toString() {
