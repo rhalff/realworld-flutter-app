@@ -15,36 +15,47 @@ class Layout extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: <Widget>[
-          FlatButton(
+          RawMaterialButton(
             child: const Text('New Post'),
-            onPressed: () {
-              Navigator.of(context).pushNamed(NewPostScreen.route);
-            },
+            constraints: const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
+            padding: const EdgeInsets.all(3),
+            onPressed: _navigateTo(context, NewPostScreen.route),
           ),
-          FlatButton(
+          RawMaterialButton(
             child: const Text('Sign up'),
-            onPressed: () {
-              Navigator.of(context).pushNamed(SignUpScreen.route);
-            },
+            constraints: const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
+            padding: const EdgeInsets.all(3),
+            onPressed: _navigateTo(context, SignUpScreen.route),
           ),
-          FlatButton(
+          RawMaterialButton(
+            constraints: const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
             child: const Text('Settings'),
-            onPressed: () {
-              Navigator.of(context).pushNamed(SettingsScreen.route);
-            },
+            padding: const EdgeInsets.all(3),
+            onPressed: _navigateTo(context, SettingsScreen.route),
           ),
+          SizedBox(width: 15),
         ],
-        title: Text(
-          'conduit',
-          style: TextStyle(
-            fontFamily: 'Titilliumweb',
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: theme.primaryColor,
+        title: SizedBox(
+          width: 300,
+          child: Text(
+            'conduit',
+            style: TextStyle(
+              fontFamily: 'Titilliumweb',
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: theme.primaryColor,
+            ),
           ),
         ),
       ),
       body: child,
     );
+  }
+
+  _navigateTo(BuildContext context, String route) {
+    final navigator = Navigator.of(context);
+    navigator.pushNamedAndRemoveUntil(route, (Route route) {
+      return route.isFirst;
+    });
   }
 }
