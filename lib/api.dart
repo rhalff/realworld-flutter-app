@@ -6,7 +6,6 @@ import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:realworld_flutter/api/articles_api.dart';
 import 'package:realworld_flutter/api/comments_api.dart';
-import 'package:realworld_flutter/api/default_api.dart';
 import 'package:realworld_flutter/api/favorites_api.dart';
 import 'package:realworld_flutter/api/model/generic_error_model.dart';
 import 'package:realworld_flutter/api/model/generic_error_model_errors.dart';
@@ -14,9 +13,23 @@ import 'package:realworld_flutter/api/model/login_user.dart';
 import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
+import 'package:realworld_flutter/api/model/request/login_user_request.dart';
+import 'package:realworld_flutter/api/model/request/new_article_request.dart';
+import 'package:realworld_flutter/api/model/request/new_comment_request.dart';
+import 'package:realworld_flutter/api/model/request/new_user_request.dart';
+import 'package:realworld_flutter/api/model/request/update_article_request.dart';
+import 'package:realworld_flutter/api/model/request/update_user_request.dart';
+import 'package:realworld_flutter/api/model/response/multiple_articles_response.dart';
+import 'package:realworld_flutter/api/model/response/multiple_comments_response.dart';
+import 'package:realworld_flutter/api/model/response/profile_response.dart';
+import 'package:realworld_flutter/api/model/response/single_article_response.dart';
+import 'package:realworld_flutter/api/model/response/single_comment_response.dart';
+import 'package:realworld_flutter/api/model/response/tags_response.dart';
+import 'package:realworld_flutter/api/model/response/user_response.dart';
 import 'package:realworld_flutter/api/model/update_article.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/api/profile_api.dart';
+import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/auth/api_key_auth.dart';
 import 'package:realworld_flutter/auth/basic_auth.dart';
@@ -24,19 +37,6 @@ import 'package:realworld_flutter/auth/oauth.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
 import 'package:realworld_flutter/model/profile.dart';
-import 'package:realworld_flutter/model/request/login_user_request.dart';
-import 'package:realworld_flutter/model/request/new_article_request.dart';
-import 'package:realworld_flutter/model/request/new_comment_request.dart';
-import 'package:realworld_flutter/model/request/new_user_request.dart';
-import 'package:realworld_flutter/model/request/update_article_request.dart';
-import 'package:realworld_flutter/model/request/update_user_request.dart';
-import 'package:realworld_flutter/model/response/multiple_articles_response.dart';
-import 'package:realworld_flutter/model/response/multiple_comments_response.dart';
-import 'package:realworld_flutter/model/response/profile_response.dart';
-import 'package:realworld_flutter/model/response/single_article_response.dart';
-import 'package:realworld_flutter/model/response/single_comment_response.dart';
-import 'package:realworld_flutter/model/response/tags_response.dart';
-import 'package:realworld_flutter/model/response/user_response.dart';
 import 'package:realworld_flutter/model/user.dart';
 
 final _jsonJaguarRepo = JsonRepo()
@@ -69,22 +69,18 @@ final Map<String, CodecRepo> defaultConverters = {
   MimeTypes.json: _jsonJaguarRepo,
 };
 
-final _defaultInterceptors = [
-  OAuthInterceptor(),
-  BasicAuthInterceptor(),
-  ApiKeyAuthInterceptor()
-];
+final _defaultInterceptors = [ApiKeyAuthInterceptor()];
 
-class RealworldFlutter {
+class RealWorldApi {
   List<Interceptor> interceptors;
-  String basePath = "http://localhost/api";
+  String basePath = 'https://conduit.productionready.io/api';
   Route _baseRoute;
   final Duration timeout;
 
   /**
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
-  RealworldFlutter(
+  RealWorldApi(
       {List<Interceptor> interceptors,
       bool overrideInterceptors = false,
       String baseUrl,
@@ -147,17 +143,17 @@ class RealworldFlutter {
   }
 
   /**
-    * Get DefaultApi instance, base route and serializer can be overridden by a given but be careful,
+    * Get TagsApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-  DefaultApi getDefaultApi({Route base, Map<String, CodecRepo> converters}) {
+  TagsApi getTagsApi({Route base, Map<String, CodecRepo> converters}) {
     if (base == null) {
       base = _baseRoute;
     }
     if (converters == null) {
       converters = defaultConverters;
     }
-    return DefaultApi(base: base, converters: converters, timeout: timeout);
+    return TagsApi(base: base, converters: converters, timeout: timeout);
   }
 
   /**

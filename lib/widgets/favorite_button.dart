@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
-class LikeButton extends StatefulWidget {
+class FavoriteButton extends StatefulWidget {
+  final num favorites;
+  final bool favorited;
+  FavoriteButton({
+    Key key,
+    this.favorites = 0,
+    this.favorited = false,
+  }) : super(key: key);
   @override
-  _LikeButtonState createState() => _LikeButtonState();
+  _FavoriteButtonState createState() => _FavoriteButtonState();
 }
 
-class _LikeButtonState extends State<LikeButton> {
+class _FavoriteButtonState extends State<FavoriteButton> {
   bool _pressed = false;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,7 @@ class _LikeButtonState extends State<LikeButton> {
               color: _pressed ? Colors.white : theme.primaryColor,
             ),
             Text(
-              '29',
+              widget.favorites.toString(),
               style: TextStyle(
                 color: _pressed ? Colors.white : theme.primaryColor,
               ),

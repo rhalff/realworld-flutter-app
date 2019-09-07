@@ -53,9 +53,11 @@ class Layout extends StatelessWidget {
   }
 
   _navigateTo(BuildContext context, String route) {
-    final navigator = Navigator.of(context);
-    navigator.pushNamedAndRemoveUntil(route, (Route route) {
-      return route.isFirst;
-    });
+    return () {
+      final navigator = Navigator.of(context);
+      navigator.pushNamedAndRemoveUntil(route, (Route route) {
+        return route.isFirst;
+      });
+    };
   }
 }

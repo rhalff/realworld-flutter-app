@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:realworld_flutter/routes.dart';
 
-void main() => runApp(RealWorldApp());
+import 'app.dart';
+import 'application.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+void main() async {
+  final application = Application();
 
-class RealWorldApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'RealWorld App',
-      theme: ThemeData(
-        fontFamily: 'SourceSansPro',
-        primaryColor: Color(0xFF5CB85C),
-      ),
-      navigatorKey: navigatorKey,
-      onGenerateRoute: routes(),
-    );
-  }
+  await application.setup();
+
+  runApp(RealWorldApp(application: application));
 }

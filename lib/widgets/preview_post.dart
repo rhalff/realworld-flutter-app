@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realworld_flutter/utils.dart';
 
-import 'like_button.dart';
+import 'favorite_button.dart';
 
 class PreviewPost extends StatelessWidget {
   final String avatar;
@@ -9,12 +9,16 @@ class PreviewPost extends StatelessWidget {
   final DateTime date;
   final String title;
   final String text;
+  final bool favorited;
+  final int favorites;
   PreviewPost({
     this.avatar,
     this.author,
     this.date,
     this.title,
     this.text,
+    this.favorited,
+    this.favorites,
   });
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class PreviewPost extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 14,
-                    child: Placeholder(),
+                    backgroundImage: NetworkImage(avatar),
                   ),
                   SizedBox(width: 8),
                   Column(
@@ -67,7 +71,10 @@ class PreviewPost extends StatelessWidget {
                   ),
                 ],
               ),
-              LikeButton(),
+              FavoriteButton(
+                favorites: favorites,
+                favorited: favorited,
+              ),
             ],
           ),
           Column(

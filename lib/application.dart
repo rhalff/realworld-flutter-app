@@ -1,0 +1,111 @@
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:jaguar_cache/jaguar_cache.dart';
+import 'package:realworld_flutter/blocs/articles/articles_events.dart';
+import 'package:realworld_flutter/repositories/user_repository.dart';
+
+import 'api.dart';
+import 'blocs/articles/articles_bloc.dart';
+import 'repositories/articles_repository.dart';
+
+class Config {}
+
+class Application {
+  // SharedPreferences sharedPreferences;
+  // FlutterSecureStorage secureStorage;
+  Config config;
+  // Cache cache;
+  RealWorldApi _api;
+  ArticlesRepository articlesRepository;
+  UserRepository userRepository;
+
+  // AuthBloc authBloc;
+  ArticlesBloc articlesBloc;
+
+  Application({
+    this.config,
+  });
+
+  Future<void> setup() async {
+    // sharedPreferences = await SharedPreferences.getInstance();
+
+    // secureStorage = FlutterSecureStorage();
+
+    // cache = InMemoryCache(
+    //   const Duration(
+    //     hours: 5,
+    //  ),
+    // );
+
+    _api = RealWorldApi(
+      interceptors: [
+        //  LogInterceptor(),
+      ],
+    );
+
+    setupRepositories();
+
+    // final accessToken = await authRepository.getAccessToken();
+
+    var isAuthenticated = false;
+    // if (accessToken != null) {
+    //   _api.setOAuthToken('customer', accessToken);
+    //
+    //   isAuthenticated = true;
+    // }
+
+    setupBlocs(
+      isAuthenticated: isAuthenticated,
+    );
+  }
+
+  void setupRepositories() {
+    final articlesApi = _api.getArticlesApi();
+    final commentsApi = _api.getCommentsApi();
+    final favoritesApi = _api.getFavoritesApi();
+    final profileApi = _api.getProfileApi();
+    final tagsApi = _api.getTagsApi();
+    final userApi = _api.getUserAndAuthenticationApi();
+
+    articlesRepository = ArticlesRepository(
+      articlesApi: articlesApi,
+      commentsApi: commentsApi,
+      favoritesApi: favoritesApi,
+      tagsApi: tagsApi,
+    );
+
+    userRepository = UserRepository(
+      profileApi: profileApi,
+      usersApi: userApi,
+    );
+  }
+
+  void setupBlocs({
+    bool isAuthenticated,
+  }) {
+    /*
+    authBloc = AuthBloc(
+      initialState: isAuthenticated ? Authenticated() : NotAuthenticated(),
+      authRepository: authRepository,
+    );
+    */
+
+    articlesBloc = ArticlesBloc(
+      articlesRepository: articlesRepository,
+    );
+  }
+
+  Future<void> init() async {
+    articlesBloc.dispatch(LoadArticles());
+
+    /*
+    if (await authRepository.isAuthenticated()) {
+      userBloc.dispatch(LoadCurrentUser());
+    }
+    */
+  }
+
+  void dispose() {
+    articlesBloc.dispose();
+    // userBloc.dispose();
+  }
+}

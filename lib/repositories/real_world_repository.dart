@@ -1,4 +1,0 @@
-class RealWorldRepository {
-  createArticle()
-
-}
