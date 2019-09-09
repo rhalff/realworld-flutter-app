@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/articles_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/articles_events.dart';
 import 'package:realworld_flutter/blocs/articles/articles_state.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/model/article.dart';
-import 'package:realworld_flutter/widgets/banner.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
+import 'package:realworld_flutter/widgets/header.dart';
 import 'package:realworld_flutter/widgets/preview_post.dart';
+
+import 'article.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String route = '/';
@@ -18,7 +20,11 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Banner(),
+          const Header(
+            title: 'conduit',
+            subtitle: 'A place to share your knowledge.',
+            padding: EdgeInsets.only(top: 8, bottom: 26),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Container(
@@ -30,8 +36,8 @@ class HomeScreen extends StatelessWidget {
                   // and thus dispatch a bloc action.
                   // controller: use custom controller,
                   tabs: <Widget>[
-                    Tab(text: 'Your Feed'),
-                    Tab(text: 'Global Feed'),
+                    const Tab(text: 'Your Feed'),
+                    const Tab(text: 'Global Feed'),
                   ],
                 ),
               ),
@@ -54,7 +60,8 @@ class ArticlesList extends StatefulWidget {
 
 class _ArticlesListState extends State<ArticlesList> {
   final _scrollController = ScrollController();
-  final _scrollThreshold = 200.0;
+  final _scrollThreshold = 400.0;
+  double _scrollMarker = 0;
   ArticlesBloc _articlesBloc;
 
   @override
@@ -78,28 +85,35 @@ class _ArticlesListState extends State<ArticlesList> {
           final articles = state.articles;
           if (articles.isEmpty) {
             return Center(
-              child: Text('no articles'),
+              child: const Text('no articles'),
             );
           }
 
           final itemCount =
               state.hasReachedMax ? articles.length : articles.length + 1;
 
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return index >= articles.length
-                  ? BottomLoader()
-                  : ArticleWidget(article: articles[index]);
-            },
-            itemCount: itemCount,
-            // controller: _scrollController,
+          return RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return index >= articles.length
+                    ? BottomLoader()
+                    : ArticleWidget(article: articles[index]);
+              },
+              itemCount: itemCount,
+              controller: _scrollController,
+            ),
           );
         }
         return Center(
-          child: CircularProgressIndicator(),
+          child: const CircularProgressIndicator(),
         );
       },
     );
+  }
+
+  Future<void> _refresh() async {
+    _articlesBloc.dispatch(LoadArticles(refresh: true));
   }
 
   @override
@@ -109,10 +123,16 @@ class _ArticlesListState extends State<ArticlesList> {
   }
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
+    final maxScroll = _scrollMarker +
+        _scrollThreshold; // _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _articlesBloc.dispatch(LoadArticles());
+    print(currentScroll);
+    if (_articlesBloc.currentState is ArticlesLoaded) {
+      if (!(_articlesBloc.currentState as ArticlesLoaded).hasReachedMax &&
+          currentScroll >= maxScroll) {
+        _scrollMarker = maxScroll;
+        _articlesBloc.dispatch(LoadArticles());
+      }
     }
   }
 }
@@ -123,7 +143,7 @@ class BottomLoader extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Center(
-        child: SizedBox(
+        child: const SizedBox(
           width: 33,
           height: 33,
           child: CircularProgressIndicator(
@@ -146,16 +166,6 @@ class ArticleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*
-    PreviewArticles(
-      author: 'Eric Simons',
-      avatar: '',
-      date: DateTime.now(),
-      title: 'How to build webapps that scale',
-      text:
-      "In my demo, the holy grail layout is nested inside a document, so there's no body or main tags like shown above. Regardles, we're interested in the class names and the appearance of sections in the markup as opposed to the actual elements themselves. In particular, take note of the modifier classes used on the two sidebars, and the trivial order in which they appear in the markup. Let's break this down to paint a clear picture of what's happening...",
-    ),
-    */
     return PreviewPost(
       author: article.author.username,
       avatar: article.author.image,
@@ -164,18 +174,14 @@ class ArticleWidget extends StatelessWidget {
       text: article.description,
       favorited: article.favorited,
       favorites: article.favoritesCount,
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          ArticleScreen.route,
+          arguments: {
+            'slug': article.slug,
+          },
+        );
+      },
     );
-    /*
-    return ListTile(
-      leading: Text(
-        '${article.slug}',
-        style: TextStyle(fontSize: 10.0),
-      ),
-      title: Text(article.title),
-      isThreeLine: true,
-      subtitle: Text(article.body),
-      dense: true,
-    );
-     */
   }
 }

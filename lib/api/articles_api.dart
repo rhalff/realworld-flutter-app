@@ -12,7 +12,9 @@ part 'articles_api.jretro.dart';
 
 @GenApiClient()
 class ArticlesApi extends ApiClient with _$ArticlesApiClient {
+  @override
   final Route base;
+  @override
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
@@ -25,16 +27,17 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Create an article
   ///
   /// Create an article. Auth is required
-  @PostReq(path: "/articles", metadata: {
-    "auth": [
+  @PostReq(path: '/articles', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<SingleArticleResponse> createArticle(
     @AsJson() NewArticleRequest article,
   ) {
@@ -44,38 +47,41 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Delete an article
   ///
   /// Delete an article. Auth is required
-  @DeleteReq(path: "/articles/:slug", metadata: {
-    "auth": [
+  @DeleteReq(path: '/articles/:slug', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
-  Future<void> deleteArticle(@PathParam("slug") String slug) {
+  @override
+  Future<void> deleteArticle(@PathParam('slug') String slug) {
     return super.deleteArticle(slug).timeout(timeout);
   }
 
   /// Get an article
   ///
   /// Get an article. Auth not required
-  @GetReq(path: "/articles/:slug")
-  Future<SingleArticleResponse> getArticle(@PathParam("slug") String slug) {
+  @GetReq(path: '/articles/:slug')
+  @override
+  Future<SingleArticleResponse> getArticle(@PathParam('slug') String slug) {
     return super.getArticle(slug).timeout(timeout);
   }
 
   /// Get recent articles globally
   ///
   /// Get most recent articles globally. Use query parameters to filter results. Auth is optional
-  @GetReq(path: "/articles")
+  @GetReq(path: '/articles')
+  @override
   Future<MultipleArticlesResponse> getArticles(
-    @QueryParam("tag") String tag,
-    @QueryParam("author") String author,
-    @QueryParam("favorited") String favorited,
-    @QueryParam("limit") int limit,
-    @QueryParam("offset") int offset,
+    @QueryParam('tag') String tag,
+    @QueryParam('author') String author,
+    @QueryParam('favorited') String favorited,
+    @QueryParam('limit') int limit,
+    @QueryParam('offset') int offset,
   ) {
     return super
         .getArticles(tag, author, favorited, limit, offset)
@@ -85,19 +91,20 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Get recent articles from users you follow
   ///
   /// Get most recent articles from users you follow. Use query parameters to limit. Auth is required
-  @GetReq(path: "/articles/feed", metadata: {
-    "auth": [
+  @GetReq(path: '/articles/feed', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<MultipleArticlesResponse> getArticlesFeed(
-    @QueryParam("limit") int limit,
-    @QueryParam("offset") int offset,
+    @QueryParam('limit') int limit,
+    @QueryParam('offset') int offset,
   ) {
     return super.getArticlesFeed(limit, offset).timeout(timeout);
   }
@@ -105,18 +112,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Update an article
   ///
   /// Update an article. Auth is required
-  @PutReq(path: "/articles/:slug", metadata: {
-    "auth": [
+  @PutReq(path: '/articles/:slug', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<SingleArticleResponse> updateArticle(
-    @PathParam("slug") String slug,
+    @PathParam('slug') String slug,
     @AsJson() UpdateArticleRequest article,
   ) {
     return super.updateArticle(slug, article).timeout(timeout);

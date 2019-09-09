@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/new_post.dart';
 import 'package:realworld_flutter/screens/settings.dart';
@@ -8,6 +9,7 @@ import 'package:realworld_flutter/screens/sign_up.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
 import 'application.dart';
+import 'blocs/article/article_bloc.dart';
 import 'blocs/articles/articles_bloc.dart';
 
 RouteFactory routes({
@@ -15,6 +17,8 @@ RouteFactory routes({
 }) {
   return (RouteSettings settings) {
     Widget screen;
+
+    final arguments = settings.arguments as Map<String, dynamic> ?? {};
 
     switch (settings.name) {
       case HomeScreen.route:
@@ -25,6 +29,18 @@ RouteFactory routes({
             ),
           ],
           child: HomeScreen(),
+        );
+        break;
+      case ArticleScreen.route:
+        screen = MultiBlocProvider(
+          providers: [
+            BlocProvider<ArticleBloc>.value(
+              value: application.articleBloc,
+            ),
+          ],
+          child: ArticleScreen(
+            slug: arguments['slug'] as String,
+          ),
         );
         break;
       case NewPostScreen.route:

@@ -8,9 +8,10 @@ Widget createTextField({
   String hintText,
   int maxLines,
   EdgeInsetsGeometry contentPadding,
+  FocusNode focusNode,
 }) {
   return TextFormField(
-    // focusNode: _emailFocus,
+    focusNode: focusNode,
     autovalidate: autovalidate ?? false,
     validator: validator,
     onSaved: onSaved,

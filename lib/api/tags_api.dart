@@ -9,7 +9,9 @@ part 'tags_api.jretro.dart';
 
 @GenApiClient()
 class TagsApi extends ApiClient with _$TagsApiClient {
+  @override
   final Route base;
+  @override
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
@@ -22,7 +24,8 @@ class TagsApi extends ApiClient with _$TagsApiClient {
   /// Get tags
   ///
   /// Get tags. Auth not required
-  @GetReq(path: "/tags")
+  @GetReq(path: '/tags')
+  @override
   Future<TagsResponse> tagsGet() {
     return super.tagsGet().timeout(timeout);
   }

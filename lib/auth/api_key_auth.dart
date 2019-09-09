@@ -1,17 +1,18 @@
 import 'dart:async';
-import 'package:realworld_flutter/auth/auth.dart';
+
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+import 'package:realworld_flutter/auth/auth.dart';
 
 class ApiKeyAuthInterceptor extends AuthInterceptor {
   Map<String, String> apiKeys = {};
 
   @override
   FutureOr<void> before(RouteBase route) {
-    final authInfo = getAuthInfo(route, "apiKey");
+    final authInfo = getAuthInfo(route, 'apiKey');
     for (var info in authInfo) {
-      final authName = info["name"];
-      final authKeyName = info["keyName"];
-      final authWhere = info["where"];
+      final authName = info['name'] as String;
+      final authKeyName = info['keyName'] as String;
+      final authWhere = info['where'] as String;
       final apiKey = apiKeys[authName];
       if (apiKey != null) {
         if (authWhere == 'query') {

@@ -3,11 +3,11 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class AuthEvent {}
 
-class SignedIn extends AuthEvent {
+class SignedInEvent extends AuthEvent {
   final String accessToken;
-  SignedIn({
+  SignedInEvent({
     this.accessToken,
   });
 }
 
-class SignOut extends AuthEvent {}
+class SignOutEvent extends AuthEvent {}

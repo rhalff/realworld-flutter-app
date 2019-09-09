@@ -47,10 +47,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       (currentState as ArticlesLoaded).hasReachedMax;
 
   Stream<ArticlesState> _loadArticles(LoadArticles event) async* {
-    // yield ArticlesLoading();
-
     try {
-      if (currentState is ArticlesUninitialized) {
+      if (currentState is ArticlesUninitialized || event.refresh) {
         final result = await articlesRepository.getArticles(
           // solve switching of tag, author and favorited later.
           tag: event.tag,

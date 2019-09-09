@@ -1,3 +1,5 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:realworld_flutter/api.dart';
 import 'package:realworld_flutter/api/model/login_user.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
 import 'package:realworld_flutter/api/model/request/login_user_request.dart';
@@ -9,15 +11,21 @@ import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
 
+final _authKey = 'auth';
+
 class UserRepository {
-  ProfileApi profileApi;
-  UserAndAuthenticationApi usersApi;
+  final RealWorldApi api;
+  final ProfileApi profileApi;
+  final UserAndAuthenticationApi usersApi;
+  final FlutterSecureStorage secureStorage;
   UserRepository({
+    this.api,
     this.profileApi,
     this.usersApi,
+    this.secureStorage,
   });
 
-  Future<User> createUser(NewUser user) async {
+  Future<User> signUp(NewUser user) async {
     final result = await usersApi.createUser(NewUserRequest(user: user));
 
     return result.user;
@@ -60,5 +68,27 @@ class UserRepository {
     final result = await profileApi.unfollowUserByUsername(username);
 
     return result.profile;
+  }
+
+  Future<void> setAccessToken(String accessToken) async {
+    await secureStorage.write(key: _authKey, value: accessToken);
+
+    api.setOAuthToken('customer', accessToken);
+  }
+
+  Future<String> getAccessToken() async {
+    return secureStorage.read(key: _authKey);
+  }
+
+  Future<bool> isAuthenticated() async {
+    final token = await getAccessToken();
+
+    return token != null;
+  }
+
+  Future<void> removeAccessToken() async {
+    api.setOAuthToken('customer', null);
+
+    return secureStorage.delete(key: _authKey);
   }
 }

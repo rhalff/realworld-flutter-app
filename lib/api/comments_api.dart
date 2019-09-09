@@ -11,7 +11,9 @@ part 'comments_api.jretro.dart';
 
 @GenApiClient()
 class CommentsApi extends ApiClient with _$CommentsApiClient {
+  @override
   final Route base;
+  @override
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 
@@ -24,18 +26,19 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Create a comment for an article
   ///
   /// Create a comment for an article. Auth is required
-  @PostReq(path: "/articles/:slug/comments", metadata: {
-    "auth": [
+  @PostReq(path: '/articles/:slug/comments', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<SingleCommentResponse> createArticleComment(
-    @PathParam("slug") String slug,
+    @PathParam('slug') String slug,
     @AsJson() NewCommentRequest comment,
   ) {
     return super.createArticleComment(slug, comment).timeout(timeout);
@@ -44,19 +47,20 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Delete a comment for an article
   ///
   /// Delete a comment for an article. Auth is required
-  @DeleteReq(path: "/articles/:slug/comments/:id", metadata: {
-    "auth": [
+  @DeleteReq(path: '/articles/:slug/comments/:id', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<void> deleteArticleComment(
-    @PathParam("slug") String slug,
-    @PathParam("id") int id,
+    @PathParam('slug') String slug,
+    @PathParam('id') int id,
   ) {
     return super.deleteArticleComment(slug, id).timeout(timeout);
   }
@@ -64,9 +68,10 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Get comments for an article
   ///
   /// Get the comments for an article. Auth is optional
-  @GetReq(path: "/articles/:slug/comments")
+  @GetReq(path: '/articles/:slug/comments')
+  @override
   Future<MultipleCommentsResponse> getArticleComments(
-    @PathParam("slug") String slug,
+    @PathParam('slug') String slug,
   ) {
     return super.getArticleComments(slug).timeout(timeout);
   }

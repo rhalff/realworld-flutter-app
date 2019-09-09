@@ -6,9 +6,6 @@ class User {
   @Alias('email', isNullable: false)
   final String email;
 
-  @Alias('token', isNullable: false)
-  final String token;
-
   @Alias('username', isNullable: false)
   final String username;
 
@@ -18,12 +15,15 @@ class User {
   @Alias('image', isNullable: false)
   final String image;
 
+  @Alias('token', isNullable: false)
+  final String token;
+
   User({
     this.email,
-    this.token,
     this.username,
     this.bio,
     this.image,
+    this.token,
   });
 
   @override

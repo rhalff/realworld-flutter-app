@@ -1,25 +1,32 @@
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:jaguar_cache/jaguar_cache.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:realworld_flutter/blocs/articles/articles_events.dart';
 import 'package:realworld_flutter/repositories/user_repository.dart';
 
 import 'api.dart';
+import 'blocs/article/article_bloc.dart';
 import 'blocs/articles/articles_bloc.dart';
+import 'blocs/auth/auth_bloc.dart';
+import 'blocs/auth/auth_state.dart';
+import 'blocs/user/blocs.dart';
 import 'repositories/articles_repository.dart';
 
 class Config {}
 
 class Application {
   // SharedPreferences sharedPreferences;
-  // FlutterSecureStorage secureStorage;
+  FlutterSecureStorage secureStorage;
   Config config;
   // Cache cache;
   RealWorldApi _api;
   ArticlesRepository articlesRepository;
   UserRepository userRepository;
 
-  // AuthBloc authBloc;
+  AuthBloc authBloc;
+  UserBloc userBloc;
   ArticlesBloc articlesBloc;
+  ArticleBloc articleBloc;
 
   Application({
     this.config,
@@ -28,7 +35,7 @@ class Application {
   Future<void> setup() async {
     // sharedPreferences = await SharedPreferences.getInstance();
 
-    // secureStorage = FlutterSecureStorage();
+    secureStorage = FlutterSecureStorage();
 
     // cache = InMemoryCache(
     //   const Duration(
@@ -74,6 +81,8 @@ class Application {
     );
 
     userRepository = UserRepository(
+      api: _api,
+      secureStorage: secureStorage,
       profileApi: profileApi,
       usersApi: userApi,
     );
@@ -82,14 +91,16 @@ class Application {
   void setupBlocs({
     bool isAuthenticated,
   }) {
-    /*
     authBloc = AuthBloc(
       initialState: isAuthenticated ? Authenticated() : NotAuthenticated(),
-      authRepository: authRepository,
+      userRepository: userRepository,
     );
-    */
 
     articlesBloc = ArticlesBloc(
+      articlesRepository: articlesRepository,
+    );
+
+    articleBloc = ArticleBloc(
       articlesRepository: articlesRepository,
     );
   }
@@ -97,15 +108,13 @@ class Application {
   Future<void> init() async {
     articlesBloc.dispatch(LoadArticles());
 
-    /*
-    if (await authRepository.isAuthenticated()) {
-      userBloc.dispatch(LoadCurrentUser());
+    if (await userRepository.isAuthenticated()) {
+      userBloc.dispatch(LoadUserEvent());
     }
-    */
   }
 
   void dispose() {
     articlesBloc.dispose();
-    // userBloc.dispose();
+    authBloc.dispose();
   }
 }

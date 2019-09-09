@@ -16,10 +16,19 @@ dependencies:
   jaguar_serializer: ^2.2.12
   jaguar_mimetype: ^1.0.1
 
+  fluro: ^1.5.1
+
+  cached_network_image: ^1.1.1
+
+  pedantic: 1.8.0+1
+  flutter_secure_storage: ^3.2.1+1
+
   intl: ^0.16.0
   bloc: ^0.15.0
   validations: ^0.8.3
   flutter_bloc: ^0.21.0
+
+  flutter_markdown: ^0.2.0
 
   cupertino_icons: ^0.1.2
 

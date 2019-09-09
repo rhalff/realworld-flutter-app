@@ -3,14 +3,14 @@ import 'package:jaguar_serializer/jaguar_serializer.dart';
 part 'update_user.jser.dart';
 
 class UpdateUser {
+  @Alias('username', isNullable: false)
+  final String username;
+
   @Alias('email', isNullable: false)
   final String email;
 
   @Alias('token', isNullable: false)
   final String token;
-
-  @Alias('username', isNullable: false)
-  final String username;
 
   @Alias('bio', isNullable: false)
   final String bio;
@@ -19,9 +19,9 @@ class UpdateUser {
   final String image;
 
   UpdateUser({
+    this.username,
     this.email,
     this.token,
-    this.username,
     this.bio,
     this.image,
   });

@@ -13,7 +13,9 @@ part 'user_and_authentication_api.jretro.dart';
 @GenApiClient()
 class UserAndAuthenticationApi extends ApiClient
     with _$UserAndAuthenticationApiClient {
+  @override
   final Route base;
+  @override
   final Map<String, CodecRepo> converters;
   final Duration timeout;
 

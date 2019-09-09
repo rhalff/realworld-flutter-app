@@ -10,14 +10,16 @@ class LoadArticles extends ArticlesEvent {
   final String tag;
   final String author;
   final String favorited;
+  final bool refresh;
   LoadArticles({
     this.tag,
     this.author,
     this.favorited,
+    this.refresh = false,
   });
   @override
   String toString() =>
-      'LoadArticles[tag: $tag, author: $author, favorited: $favorited]';
+      'LoadArticles[tag: $tag, author: $author, favorited: $favorited, refresh: $refresh]';
 }
 
 class LoadArticlesFeed extends ArticlesEvent {

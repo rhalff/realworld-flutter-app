@@ -32,7 +32,6 @@ import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/auth/api_key_auth.dart';
-import 'package:realworld_flutter/auth/basic_auth.dart';
 import 'package:realworld_flutter/auth/oauth.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
@@ -77,16 +76,13 @@ class RealWorldApi {
   Route _baseRoute;
   final Duration timeout;
 
-  /**
-    * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
-    */
   RealWorldApi(
       {List<Interceptor> interceptors,
       bool overrideInterceptors = false,
       String baseUrl,
       this.timeout = const Duration(minutes: 2)}) {
-    _baseRoute =
-        Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
+    _baseRoute = Route(baseUrl ?? basePath)
+        .withClient(globalClient ?? IOClient()) as Route;
     if (interceptors == null) {
       this.interceptors = _defaultInterceptors;
     } else if (overrideInterceptors) {
@@ -95,108 +91,54 @@ class RealWorldApi {
       this.interceptors = List.from(_defaultInterceptors)..addAll(interceptors);
     }
 
-    this.interceptors.forEach((interceptor) {
-      _baseRoute.before(interceptor.before);
-      _baseRoute.after(interceptor.after);
-    });
+    for (var interceptor in this.interceptors) {
+      _baseRoute.before(interceptor.before).after(interceptor.after);
+    }
   }
 
   void setOAuthToken(String name, String token) {
     (_defaultInterceptors[0] as OAuthInterceptor).tokens[name] = token;
   }
 
-  void setBasicAuth(String name, String username, String password) {
-    (_defaultInterceptors[1] as BasicAuthInterceptor).authInfo[name] =
-        BasicAuthInfo(username, password);
-  }
-
   void setApiKey(String name, String apiKey) {
-    (_defaultInterceptors[2] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
+    _defaultInterceptors[2].apiKeys[name] = apiKey;
   }
 
-  /**
-    * Get ArticlesApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   ArticlesApi getArticlesApi({Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return ArticlesApi(base: base, converters: converters, timeout: timeout);
   }
 
-  /**
-    * Get CommentsApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   CommentsApi getCommentsApi({Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return CommentsApi(base: base, converters: converters, timeout: timeout);
   }
 
-  /**
-    * Get TagsApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   TagsApi getTagsApi({Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return TagsApi(base: base, converters: converters, timeout: timeout);
   }
 
-  /**
-    * Get FavoritesApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   FavoritesApi getFavoritesApi(
       {Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return FavoritesApi(base: base, converters: converters, timeout: timeout);
   }
 
-  /**
-    * Get ProfileApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   ProfileApi getProfileApi({Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return ProfileApi(base: base, converters: converters, timeout: timeout);
   }
 
-  /**
-    * Get UserAndAuthenticationApi instance, base route and serializer can be overridden by a given but be careful,
-    * by doing that all interceptors will not be executed
-    */
   UserAndAuthenticationApi getUserAndAuthenticationApi(
       {Route base, Map<String, CodecRepo> converters}) {
-    if (base == null) {
-      base = _baseRoute;
-    }
-    if (converters == null) {
-      converters = defaultConverters;
-    }
+    base ??= _baseRoute;
+    converters ??= defaultConverters;
     return UserAndAuthenticationApi(
         base: base, converters: converters, timeout: timeout);
   }

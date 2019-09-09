@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:realworld_flutter/utils.dart';
+import 'package:flutter/painting.dart';
 
+import 'article_meta.dart';
 import 'favorite_button.dart';
 
 class PreviewPost extends StatelessWidget {
@@ -11,6 +12,7 @@ class PreviewPost extends StatelessWidget {
   final String text;
   final bool favorited;
   final int favorites;
+  final VoidCallback onTap;
   PreviewPost({
     this.avatar,
     this.author,
@@ -19,18 +21,17 @@ class PreviewPost extends StatelessWidget {
     this.text,
     this.favorited,
     this.favorites,
+    this.onTap,
   });
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             width: 1.0,
-            color: Color(0X16000000),
+            color: const Color(0X16000000),
           ),
         ),
         color: Colors.white,
@@ -40,36 +41,10 @@ class PreviewPost extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 14,
-                    backgroundImage: NetworkImage(avatar),
-                  ),
-                  SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        author,
-                        style: TextStyle(
-                          color: theme.primaryColor,
-                          fontFamily: 'SourceSansPro',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        formatDate(date),
-                        style: TextStyle(
-                          color: Color(0XFFBBBBBB),
-                          fontSize: 12,
-                          fontFamily: 'SourceSansPro',
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              ArticleMeta(
+                avatar: avatar,
+                author: author,
+                date: date,
               ),
               FavoriteButton(
                 favorites: favorites,
@@ -77,27 +52,31 @@ class PreviewPost extends StatelessWidget {
               ),
             ],
           ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'MerriweatherSans',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
+          InkWell(
+            onTap: onTap,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'MerriweatherSans',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                text,
-                style: TextStyle(
-                  fontFamily: 'SourceSerifPro',
-                  fontSize: 14,
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: 'SourceSerifPro',
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),

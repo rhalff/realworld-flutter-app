@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:realworld_flutter/repositories/user_repository.dart';
 
 import 'auth_events.dart';
 import 'auth_state.dart';
@@ -6,29 +8,30 @@ import 'auth_state.dart';
 class AuthException implements Exception {}
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
-  AuthState initialState;
+  final UserRepository userRepository;
+  @override
+  final AuthState initialState;
 
   AuthBloc({
     this.initialState,
-    @required this.authRepository,
+    @required this.userRepository,
   }) {
-    assert(authRepository != null);
+    assert(userRepository != null);
     assert(initialState != null);
   }
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    if (event is SignedIn) {
+    if (event is SignedInEvent) {
       yield* _signedIn(event);
-    } else if (event is SignOut) {
+    } else if (event is SignOutEvent) {
       yield* _signOut(event);
     }
   }
 
-  Stream<AuthState> _signedIn(SignedIn event) async* {
+  Stream<AuthState> _signedIn(SignedInEvent event) async* {
     try {
-      await authRepository.setAccessToken(event.accessToken);
+      await userRepository.setAccessToken(event.accessToken);
 
       yield Authenticated();
     } catch (error) {
@@ -36,8 +39,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Stream<AuthState> _signOut(SignOut event) async* {
-    await authRepository.removeAccessToken();
+  Stream<AuthState> _signOut(SignOutEvent event) async* {
+    await userRepository.removeAccessToken();
 
     yield NotAuthenticated();
   }
