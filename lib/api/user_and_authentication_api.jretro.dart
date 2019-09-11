@@ -27,7 +27,7 @@ abstract class _$UserAndAuthenticationApiClient implements ApiClient {
           ],
         })
         .path(basePath)
-        .path("/users");
+        .path("/user");
     return req.go(throwOnErr: true).map(decodeOne);
   }
 
@@ -52,7 +52,7 @@ abstract class _$UserAndAuthenticationApiClient implements ApiClient {
           ],
         })
         .path(basePath)
-        .path("/users")
+        .path("/user")
         .json(jsonConverter.to(body));
     return req.go(throwOnErr: true).map(decodeOne);
   }

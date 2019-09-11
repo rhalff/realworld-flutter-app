@@ -12,7 +12,7 @@ class NewComment {
 
   @override
   String toString() {
-    return 'NewComment[body=$body, ]';
+    return 'NewComment[body=$body]';
   }
 }
 

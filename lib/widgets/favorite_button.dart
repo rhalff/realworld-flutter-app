@@ -38,7 +38,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         setState(() => _pressed = false);
       },
       child: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 5.0,
           bottom: 5.0,
           left: 12.0,

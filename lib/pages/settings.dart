@@ -1,70 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
-import 'package:realworld_flutter/blocs/auth/auth_bloc.dart';
-import 'package:realworld_flutter/blocs/auth/auth_events.dart';
-import 'package:realworld_flutter/blocs/user/blocs.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
-import 'package:validations/validations.dart';
-
-part 'settings.g.dart';
-
-class SettingsData {
-  @Size(
-    min: 2,
-    max: 255,
-  )
-  String pictureUrl;
-
-  @Size(
-    min: 2,
-    max: 255,
-  )
-  String name;
-
-  String bio;
-
-  @Email()
-  @NotEmpty()
-  String email;
-
-  @NotEmpty()
-  @Size(
-    min: 2,
-    max: 20,
-    message: r'password length must be between $min and $max',
-  )
-  String password;
-}
-
-@GenValidator()
-class SettingsDataValidator extends Validator<SettingsData>
-    with _$SettingsDataValidator {}
 
 class SettingsForm extends StatefulWidget {
   final String error;
-  SettingsForm({this.error});
+  final UpdateUser user;
+  final Function(UpdateUser user) onSave;
+  final VoidCallback onLogout;
+  SettingsForm({
+    this.user,
+    this.error,
+    this.onSave,
+    this.onLogout,
+  });
   @override
   _SettingsFormState createState() => _SettingsFormState();
 }
 
 class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
-  final _data = SettingsData();
-  UserBloc _userBloc;
-  AuthBloc _authBloc;
-  SettingsDataValidator _validator;
+  final _updateUser = UpdateUser();
+  UpdateUserValidator _validator;
 
   @override
   void initState() {
     super.initState();
 
-    _validator = SettingsDataValidator();
-
-    _userBloc = BlocProvider.of<UserBloc>(context);
-    _authBloc = BlocProvider.of<AuthBloc>(context);
+    _validator = UpdateUserValidator();
   }
 
   @override
@@ -78,67 +42,61 @@ class _SettingsFormState extends State<SettingsForm> {
               error: widget.error,
             ),
           createTextField(
+            initialValue: widget.user.image,
             hintText: 'URL of profile picture',
             contentPadding: const EdgeInsets.all(8),
             // focusNode: _emailFocus,
-            validator: _validator.validatePictureUrl,
+            validator: _validator.validateImage,
             onSaved: (String value) {
               setState(() {
-                _data.pictureUrl = value;
+                _updateUser.image = value;
               });
             },
           ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.user.username,
             hintText: 'Your Name',
             // focusNode: _emailFocus,
-            validator: _validator.validateName,
+            validator: _validator.validateUsername,
             onSaved: (String value) {
               setState(() {
-                _data.name = value;
+                _updateUser.username = value;
               });
             },
           ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.user.bio,
             hintText: 'Short bio about you',
             maxLines: 8,
             // focusNode: _emailFocus,
-            validator: _validator.validateName,
+            validator: _validator.validateBio,
             onSaved: (String value) {
               setState(() {
-                _data.name = value;
+                _updateUser.bio = value;
               });
             },
           ),
           const SizedBox(height: 16),
           createTextField(
             // focusNode: _emailFocus,
+            initialValue: widget.user.email,
             hintText: 'Email',
             autovalidate: false,
             validator: _validator.validateEmail,
             onSaved: (String value) {
               setState(() {
-                _data.email = value;
+                _updateUser.email = value;
               });
             },
-          ),
-          const SizedBox(height: 16),
-          createTextField(
-            hintText: 'Password',
-            autovalidate: false,
-            // focusNode: _passwordFocus,
-            onChanged: (String value) {
-              _data.password = value;
-            },
-            validator: _validator.validatePassword,
           ),
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
               text: 'Update Settings',
-              onPressed: _updateSettings,
+              onPressed: _onSave,
             ),
           ),
           const Divider(),
@@ -146,7 +104,7 @@ class _SettingsFormState extends State<SettingsForm> {
             alignment: Alignment.centerLeft,
             child: RoundedButton(
               text: 'Or click here to logout.',
-              onPressed: _logout,
+              onPressed: widget.onLogout,
             ),
           ),
         ],
@@ -154,27 +112,11 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
-  void _logout() {
-    _authBloc.dispatch(SignOutEvent());
-  }
-
-  void _updateSettings() {
+  void _onSave() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc.dispatch(
-        UpdateUserEvent(
-          UpdateUser(
-            username: _data.name,
-            email: _data.email,
-            bio: _data.bio,
-            image: _data.pictureUrl,
-          ),
-        ),
-      );
-
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: const Text('Processing Data')));
+      widget.onSave(_updateUser);
     }
   }
 }

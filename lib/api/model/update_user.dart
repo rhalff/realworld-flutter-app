@@ -1,22 +1,39 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
+import 'package:validations/validations.dart';
 
+part 'update_user.g.dart';
 part 'update_user.jser.dart';
 
 class UpdateUser {
+  @Size(
+    min: 2,
+    max: 255,
+  )
   @Alias('username', isNullable: false)
-  final String username;
+  String username;
 
+  @Email()
+  @NotEmpty()
   @Alias('email', isNullable: false)
-  final String email;
+  String email;
 
   @Alias('token', isNullable: false)
-  final String token;
+  String token;
 
+  @NotEmpty()
+  @Size(
+    min: 1,
+    max: 255,
+  )
   @Alias('bio', isNullable: false)
-  final String bio;
+  String bio;
 
+  @Size(
+    min: 2,
+    max: 255,
+  )
   @Alias('image', isNullable: false)
-  final String image;
+  String image;
 
   UpdateUser({
     this.username,
@@ -28,10 +45,14 @@ class UpdateUser {
 
   @override
   String toString() {
-    return 'UpdateUser[email=$email, token=$token, username=$username, bio=$bio, image=$image, ]';
+    return 'UpdateUser[email=$email, token=$token, username=$username, bio=$bio, image=$image]';
   }
 }
 
 @GenSerializer(nullableFields: true)
 class UpdateUserSerializer extends Serializer<UpdateUser>
     with _$UpdateUserSerializer {}
+
+@GenValidator()
+class UpdateUserValidator extends Validator<UpdateUser>
+    with _$UpdateUserValidator {}

@@ -20,7 +20,7 @@ class UpdateArticle {
 
   @override
   String toString() {
-    return 'UpdateArticle[title=$title, description=$description, body=$body, ]';
+    return 'UpdateArticle[title=$title, description=$description, body=$body]';
   }
 }
 

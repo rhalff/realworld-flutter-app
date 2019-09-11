@@ -24,7 +24,7 @@ class NewArticle {
 
   @override
   String toString() {
-    return 'NewArticle[title=$title, description=$description, body=$body, tagList=$tagList, ]';
+    return 'NewArticle[title=$title, description=$description, body=$body, tagList=$tagList]';
   }
 }
 

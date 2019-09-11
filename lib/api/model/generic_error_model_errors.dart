@@ -10,7 +10,7 @@ class GenericErrorModelErrors {
 
   @override
   String toString() {
-    return 'GenericErrorModelErrors[body=$body, ]';
+    return 'GenericErrorModelErrors[body=$body]';
   }
 }
 

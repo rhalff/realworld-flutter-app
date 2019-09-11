@@ -38,7 +38,7 @@ class UserAndAuthenticationApi extends ApiClient
   ///
   /// Gets the currently logged-in user
   @override
-  @GetReq(path: '/users', metadata: {
+  @GetReq(path: '/user', metadata: {
     'auth': [
       {
         'type': 'apiKey',
@@ -65,7 +65,7 @@ class UserAndAuthenticationApi extends ApiClient
   /// Update current user
   ///
   /// Updated user information for current user
-  @PutReq(path: '/users', metadata: {
+  @PutReq(path: '/user', metadata: {
     'auth': [
       {
         'type': 'apiKey',

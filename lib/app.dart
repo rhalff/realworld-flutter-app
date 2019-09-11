@@ -17,7 +17,7 @@ class RealWorldApp extends StatelessWidget {
       title: 'RealWorld App',
       theme: ThemeData(
         fontFamily: 'SourceSansPro',
-        primaryColor: Color(0xFF5CB85C),
+        primaryColor: const Color(0xFF5CB85C),
       ),
       // navigatorKey: navigatorKey,
       onGenerateRoute: routes(

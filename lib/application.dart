@@ -56,14 +56,14 @@ class Application {
     var isAuthenticated = false;
     if (accessToken != null) {
       try {
-        await userRepository.getCurrentUser();
-
         _api
           ..setOAuthToken('Token', accessToken)
           ..setApiKey('Token', accessToken);
 
+        await userRepository.getCurrentUser();
+
         isAuthenticated = true;
-      } catch (_) {
+      } catch (error) {
         await userRepository.removeAccessToken();
       }
     }

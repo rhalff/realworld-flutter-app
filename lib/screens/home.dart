@@ -64,9 +64,6 @@ class _HomeScreenState extends State<HomeScreen>
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Container(
               child: TabBar(
-                // instead of controlling which Widget is shown
-                // we will want to change the provided data.
-                // and thus dispatch a bloc action.
                 onTap: _loadTab,
                 controller: _tabController,
                 tabs: <Widget>[

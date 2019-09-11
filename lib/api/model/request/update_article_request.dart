@@ -13,7 +13,7 @@ class UpdateArticleRequest {
 
   @override
   String toString() {
-    return 'UpdateArticleRequest[article=$article, ]';
+    return 'UpdateArticleRequest[article=$article]';
   }
 }
 

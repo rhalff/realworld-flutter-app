@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   InkWell(
                       onTap: () {
                         Navigator.of(context)

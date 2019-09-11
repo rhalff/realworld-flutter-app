@@ -13,7 +13,7 @@ class UpdateUserRequest {
 
   @override
   String toString() {
-    return 'UpdateUserRequest[user=$user, ]';
+    return 'UpdateUserRequest[user=$user]';
   }
 }
 

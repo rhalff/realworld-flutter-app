@@ -16,7 +16,7 @@ class LoginUser {
 
   @override
   String toString() {
-    return 'LoginUser[email=$email, password=$password, ]';
+    return 'LoginUser[email=$email, password=$password]';
   }
 }
 

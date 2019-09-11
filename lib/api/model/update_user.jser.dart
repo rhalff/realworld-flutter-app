@@ -22,12 +22,13 @@ abstract class _$UpdateUserSerializer implements Serializer<UpdateUser> {
   @override
   UpdateUser fromMap(Map map) {
     if (map == null) return null;
-    final obj = UpdateUser(
-        username: map['username'] as String ?? getJserDefault('username'),
-        email: map['email'] as String ?? getJserDefault('email'),
-        token: map['token'] as String ?? getJserDefault('token'),
-        bio: map['bio'] as String ?? getJserDefault('bio'),
-        image: map['image'] as String ?? getJserDefault('image'));
+    final obj = UpdateUser();
+    obj.username =
+        map['username'] as String ?? getJserDefault('username') ?? obj.username;
+    obj.email = map['email'] as String ?? getJserDefault('email') ?? obj.email;
+    obj.token = map['token'] as String ?? getJserDefault('token') ?? obj.token;
+    obj.bio = map['bio'] as String ?? getJserDefault('bio') ?? obj.bio;
+    obj.image = map['image'] as String ?? getJserDefault('image') ?? obj.image;
     return obj;
   }
 }

@@ -13,7 +13,7 @@ class LoginUserRequest {
 
   @override
   String toString() {
-    return 'LoginUserRequest[user=$user, ]';
+    return 'LoginUserRequest[user=$user]';
   }
 }
 

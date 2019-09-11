@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget createTextField({
+  String initialValue,
   FormFieldValidator<String> validator,
   FormFieldSetter<String> onSaved,
   ValueChanged<String> onChanged,
@@ -14,6 +15,7 @@ Widget createTextField({
   TextInputAction textInputAction,
 }) {
   return TextFormField(
+    initialValue: initialValue,
     focusNode: focusNode,
     autovalidate: autovalidate ?? false,
     validator: validator,

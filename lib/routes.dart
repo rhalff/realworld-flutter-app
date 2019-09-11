@@ -62,7 +62,10 @@ RouteFactory routes({
         screen = SignInScreen();
         break;
       case SettingsScreen.route:
-        screen = SettingsScreen();
+        screen = RepositoryProvider.value(
+          value: application.userRepository,
+          child: SettingsScreen(),
+        );
         break;
       default:
         screen = ErrorContainer(

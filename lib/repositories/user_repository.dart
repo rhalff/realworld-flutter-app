@@ -39,7 +39,6 @@ class UserRepository {
   }
 
   Future<User> login(LoginUser user) async {
-    // where is our token? in the header?
     final result = await usersApi.login(LoginUserRequest(user: user));
 
     return result.user;

@@ -11,7 +11,7 @@ class NewCommentRequest {
 
   @override
   String toString() {
-    return 'NewCommentRequest[comment=$comment, ]';
+    return 'NewCommentRequest[comment=$comment]';
   }
 }
 

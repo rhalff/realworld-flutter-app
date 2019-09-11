@@ -1,12 +1,5 @@
 import 'package:meta/meta.dart';
 
-/*
-@immutable
-abstract class ArticlesEvent extends Equatable {
-  const ArticlesEvent([List props = const []]) : super(props);
-}
-*/
-
 abstract class ArticlesEvent {}
 
 @immutable
@@ -33,7 +26,7 @@ class LoadArticlesFeedEvent extends ArticlesEvent {
     this.refresh = false,
   }); // : super([refresh]);
   @override
-  String toString() => 'LoadArticlesFeed[]';
+  String toString() => 'LoadArticlesFeedEvent[refresh: $refresh]';
 }
 
 @immutable

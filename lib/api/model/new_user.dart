@@ -20,7 +20,7 @@ class NewUser {
 
   @override
   String toString() {
-    return 'NewUser[username=$username, email=$email, password=$password, ]';
+    return 'NewUser[username=$username, email=$email, password=$password]';
   }
 }
 

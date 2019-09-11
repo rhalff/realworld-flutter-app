@@ -51,7 +51,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 return true;
               },
               builder: (BuildContext context, ArticleState state) {
-                var error;
+                Object error;
                 if (state is ArticleError) {
                   error = state.error;
                 }
