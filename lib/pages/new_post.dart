@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
@@ -15,21 +16,28 @@ class PostData {
 
   @NotEmpty()
   @Size(
-    min: 10,
-    max: 255,
+    min: 1,
+    max: 500,
   )
+  String description;
+
+  @NotEmpty()
   String body;
 
   @NotEmpty()
-  String tags;
+  List<String> tags;
 }
 
-@GenValidator()
+@GenValidator(fields: {})
 class PostDataValidator extends Validator<PostData> with _$PostDataValidator {}
 
 class NewPostForm extends StatefulWidget {
   final String error;
-  NewPostForm({this.error});
+  final Function(NewArticle article) onSave;
+  NewPostForm({
+    this.error,
+    this.onSave,
+  });
   @override
   _NewPostFormState createState() => _NewPostFormState();
 }
@@ -37,7 +45,7 @@ class NewPostForm extends StatefulWidget {
 class _NewPostFormState extends State<NewPostForm> {
   final _formKey = GlobalKey<FormState>();
   final _data = PostData();
-  // CustomerBloc _customerBloc;
+  // ArticleBloc _articleBloc;
   PostDataValidator _validator;
 
   @override
@@ -46,7 +54,7 @@ class _NewPostFormState extends State<NewPostForm> {
 
     _validator = PostDataValidator();
 
-    // _customerBloc = BlocProvider.of<CustomerBloc>(context);
+    // _articleBloc = BlocProvider.of<ArticleBloc>(context);
   }
 
   @override
@@ -59,7 +67,7 @@ class _NewPostFormState extends State<NewPostForm> {
             ErrorContainer(
               error: widget.error,
             ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Title',
             // focusNode: _emailFocus,
@@ -70,7 +78,18 @@ class _NewPostFormState extends State<NewPostForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
+          createTextField(
+            hintText: 'What\'s this article about?',
+            // focusNode: _emailFocus,
+            validator: _validator.validateDescription,
+            onSaved: (String value) {
+              setState(() {
+                _data.description = value;
+              });
+            },
+          ),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Write your post (in markdown)',
             maxLines: 8,
@@ -82,17 +101,17 @@ class _NewPostFormState extends State<NewPostForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Enter tags',
             autovalidate: false,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
-              _data.tags = value;
+              _data.tags = value?.split(' ') ?? [];
             },
             validator: _validator.validateTags,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
@@ -109,18 +128,14 @@ class _NewPostFormState extends State<NewPostForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      /*
-      _customerBloc.dispatch(
-        NewPost(
-          name: _data.name,
-          email: _data.email,
-          password: _data.password,
+      widget?.onSave(
+        NewArticle(
+          title: _data.title,
+          description: _data.description,
+          body: _data.body,
+          tagList: _data.tags,
         ),
       );
-       */
-
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: const Text('Processing Data')));
     }
   }
 }

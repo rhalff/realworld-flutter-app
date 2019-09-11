@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/api/model/update_user.dart';
+import 'package:realworld_flutter/blocs/auth/auth_bloc.dart';
+import 'package:realworld_flutter/blocs/auth/auth_events.dart';
+import 'package:realworld_flutter/blocs/user/blocs.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
@@ -49,7 +53,8 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
   final _data = SettingsData();
-  // CustomerBloc _customerBloc;
+  UserBloc _userBloc;
+  AuthBloc _authBloc;
   SettingsDataValidator _validator;
 
   @override
@@ -58,7 +63,8 @@ class _SettingsFormState extends State<SettingsForm> {
 
     _validator = SettingsDataValidator();
 
-    // _customerBloc = BlocProvider.of<CustomerBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
+    _authBloc = BlocProvider.of<AuthBloc>(context);
   }
 
   @override
@@ -73,7 +79,7 @@ class _SettingsFormState extends State<SettingsForm> {
             ),
           createTextField(
             hintText: 'URL of profile picture',
-            contentPadding: prefix0.EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(8),
             // focusNode: _emailFocus,
             validator: _validator.validatePictureUrl,
             onSaved: (String value) {
@@ -82,7 +88,7 @@ class _SettingsFormState extends State<SettingsForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Your Name',
             // focusNode: _emailFocus,
@@ -93,7 +99,7 @@ class _SettingsFormState extends State<SettingsForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Short bio about you',
             maxLines: 8,
@@ -105,7 +111,7 @@ class _SettingsFormState extends State<SettingsForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             // focusNode: _emailFocus,
             hintText: 'Email',
@@ -117,7 +123,7 @@ class _SettingsFormState extends State<SettingsForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Password',
             autovalidate: false,
@@ -127,12 +133,20 @@ class _SettingsFormState extends State<SettingsForm> {
             },
             validator: _validator.validatePassword,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
-              text: 'Sign Up',
+              text: 'Update Settings',
               onPressed: _updateSettings,
+            ),
+          ),
+          const Divider(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: RoundedButton(
+              text: 'Or click here to logout.',
+              onPressed: _logout,
             ),
           ),
         ],
@@ -140,19 +154,24 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
+  void _logout() {
+    _authBloc.dispatch(SignOutEvent());
+  }
+
   void _updateSettings() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      /*
-      _customerBloc.dispatch(
-        Settings(
-          name: _data.name,
-          email: _data.email,
-          password: _data.password,
+      _userBloc.dispatch(
+        UpdateUserEvent(
+          UpdateUser(
+            username: _data.name,
+            email: _data.email,
+            bio: _data.bio,
+            image: _data.pictureUrl,
+          ),
         ),
       );
-       */
 
       Scaffold.of(context)
           .showSnackBar(SnackBar(content: const Text('Processing Data')));

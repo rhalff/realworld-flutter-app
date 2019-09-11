@@ -28,7 +28,8 @@ class UserAndAuthenticationApi extends ApiClient
   /// Register a new user
   ///
   /// Register a new user
-  @PostReq(path: "/users")
+  @PostReq(path: '/users')
+  @override
   Future<UserResponse> createUser(@AsJson() NewUserRequest body) {
     return super.createUser(body).timeout(timeout);
   }
@@ -36,16 +37,18 @@ class UserAndAuthenticationApi extends ApiClient
   /// Get current user
   ///
   /// Gets the currently logged-in user
-  @GetReq(path: "/users", metadata: {
-    "auth": [
+  @override
+  @GetReq(path: '/users', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<UserResponse> getCurrentUser() {
     return super.getCurrentUser().timeout(timeout);
   }
@@ -53,7 +56,8 @@ class UserAndAuthenticationApi extends ApiClient
   /// Existing user login
   ///
   /// Login for existing user
-  @PostReq(path: "/users/login")
+  @PostReq(path: '/users/login')
+  @override
   Future<UserResponse> login(@AsJson() LoginUserRequest body) {
     return super.login(body).timeout(timeout);
   }
@@ -61,16 +65,17 @@ class UserAndAuthenticationApi extends ApiClient
   /// Update current user
   ///
   /// Updated user information for current user
-  @PutReq(path: "/users", metadata: {
-    "auth": [
+  @PutReq(path: '/users', metadata: {
+    'auth': [
       {
-        "type": "apiKey",
-        "name": "Token",
-        "keyName": "Authorization",
-        "where": "header"
+        'type': 'apiKey',
+        'name': 'Token',
+        'keyName': 'Authorization',
+        'where': 'header'
       }
     ]
   })
+  @override
   Future<UserResponse> updateCurrentUser(@AsJson() UpdateUserRequest body) {
     return super.updateCurrentUser(body).timeout(timeout);
   }

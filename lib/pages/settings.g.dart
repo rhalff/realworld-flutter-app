@@ -7,7 +7,7 @@ part of 'settings.dart';
 // **************************************************************************
 
 abstract class _$SettingsDataValidator implements Validator<SettingsData> {
-  static String passwordSizeMessage1(int min, int max, Object validatedValue) {
+  static String passwordSizeMessage(int min, int max, Object validatedValue) {
     return 'password length must be between $min and $max';
   }
 
@@ -22,7 +22,7 @@ abstract class _$SettingsDataValidator implements Validator<SettingsData> {
           name: 'email', validators: [EmailValidator(), NotEmptyValidator()]),
       FieldValidator<String>(name: 'password', validators: [
         NotEmptyValidator(),
-        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage1
+        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage
       ])
     ];
   }

@@ -34,10 +34,12 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   @override
   Stream<ArticlesState> mapEventToState(ArticlesEvent event) async* {
     if (!_hasReachedMax()) {
-      if (event is LoadArticles) {
+      if (event is LoadArticlesEvent) {
         yield* _loadArticles(event);
-      } else if (event is LoadArticlesFeed) {
+      } else if (event is LoadArticlesFeedEvent) {
         yield* _loadArticlesFeed(event);
+      } else if (event is ToggleFavoriteEvent) {
+        yield* _toggleFavorite(event);
       }
     }
   }
@@ -46,11 +48,16 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       currentState is ArticlesLoaded &&
       (currentState as ArticlesLoaded).hasReachedMax;
 
-  Stream<ArticlesState> _loadArticles(LoadArticles event) async* {
+  Stream<ArticlesState> _loadArticles(LoadArticlesEvent event) async* {
     try {
-      if (currentState is ArticlesUninitialized || event.refresh) {
+      if (currentState is ArticlesUninitialized ||
+          (currentState is ArticlesLoaded &&
+              (currentState as ArticlesLoaded).feedType !=
+                  FeedType.globalFeed) ||
+          event.refresh) {
+        yield ArticlesUninitialized();
+
         final result = await articlesRepository.getArticles(
-          // solve switching of tag, author and favorited later.
           tag: event.tag,
           author: event.author,
           favorited: event.favorited,
@@ -58,7 +65,11 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           offset: 0,
         );
 
-        yield ArticlesLoaded(result.articles, false);
+        yield ArticlesLoaded(
+          FeedType.globalFeed,
+          result.articles,
+          false,
+        );
 
         return;
       }
@@ -78,6 +89,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           yield loadedArticles.copyWith(hasReachedMax: true);
         } else {
           yield ArticlesLoaded(
+            FeedType.globalFeed,
             loadedArticles.articles + result.articles,
             false,
           );
@@ -89,16 +101,83 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     }
   }
 
-  Stream<ArticlesState> _loadArticlesFeed(LoadArticlesFeed event) async* {
-    yield ArticlesLoading();
-
+  Stream<ArticlesState> _loadArticlesFeed(LoadArticlesFeedEvent event) async* {
     try {
-      final result = await articlesRepository.getArticlesFeed(
-        limit: _itemsPerRequest,
-        offset: 20,
-      );
+      if (currentState is ArticlesUninitialized ||
+          (currentState is ArticlesLoaded &&
+              (currentState as ArticlesLoaded).feedType != FeedType.userFeed) ||
+          event.refresh) {
+        yield ArticlesUninitialized();
+        final result = await articlesRepository.getArticlesFeed(
+          limit: _itemsPerRequest,
+          offset: 0,
+        );
 
-      yield ArticlesLoaded(result.articles, false);
+        yield ArticlesLoaded(
+          FeedType.userFeed,
+          result.articles,
+          false,
+        );
+
+        return;
+      }
+
+      if (currentState is ArticlesLoaded) {
+        final loadedArticles = currentState as ArticlesLoaded;
+
+        final result = await articlesRepository.getArticlesFeed(
+          limit: _itemsPerRequest,
+          offset: loadedArticles.articles.length,
+        );
+
+        if (result.articles.isEmpty) {
+          yield loadedArticles.copyWith(hasReachedMax: true);
+        } else {
+          yield ArticlesLoaded(
+            FeedType.userFeed,
+            loadedArticles.articles + result.articles,
+            false,
+          );
+        }
+      }
+    } catch (error) {
+      print(error);
+      yield ArticlesError('Failed to load articles');
+    }
+  }
+
+  Stream<ArticlesState> _toggleFavorite(ToggleFavoriteEvent event) async* {
+    try {
+      if (currentState is ArticlesLoaded) {
+        var favorited = false;
+
+        final articles = (currentState as ArticlesLoaded).articles.map((item) {
+          if (item.slug == event.slug) {
+            favorited = !item.favorited;
+            final favoritesCount =
+                favorited ? item.favoritesCount + 1 : item.favoritesCount - 1;
+
+            return item.copyWith(
+              favorited: favorited,
+              favoritesCount: favoritesCount,
+            );
+          }
+
+          return item;
+        }).toList();
+
+        if (favorited) {
+          await articlesRepository.createFavorite(event.slug);
+        } else {
+          await articlesRepository.deleteArticleFavorite(event.slug);
+        }
+
+        yield ArticlesLoaded(
+          (currentState as ArticlesLoaded).feedType,
+          articles,
+          false,
+        );
+      }
     } catch (error) {
       print(error);
       yield ArticlesError('Failed to load articles');

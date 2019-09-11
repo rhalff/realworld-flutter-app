@@ -44,10 +44,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Stream<UserState> _loadUser(LoadUserEvent event) async* {
-    yield UserLoading();
-    final user = await userRepository.getCurrentUser();
+    try {
+      yield UserLoading();
+      final user = await userRepository.getCurrentUser();
 
-    yield UserLoaded(user);
+      yield UserLoaded(user);
+    } catch (error) {
+      yield UserError(_parseError(error));
+    }
   }
 
   Stream<UserState> _updateUser(UpdateUserEvent event) async* {

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/api/model/update_article.dart';
 
@@ -18,6 +19,15 @@ class LoadArticleEvent extends ArticleEvent {
   String toString() => 'LoadArticleEvent[$slug]';
 }
 
+class CreateArticleEvent extends ArticleEvent {
+  final NewArticle article;
+  CreateArticleEvent({
+    this.article,
+  });
+  @override
+  String toString() => 'CreateArticleEvent[article: $article]';
+}
+
 @immutable
 class UpdateArticleEvent extends ArticleEvent {
   final String slug;
@@ -28,6 +38,16 @@ class UpdateArticleEvent extends ArticleEvent {
   });
   @override
   String toString() => 'UpdateArticleEvent[slug: $slug, article: $article]';
+}
+
+@immutable
+class DeleteArticleEvent extends ArticleEvent {
+  final String slug;
+  const DeleteArticleEvent({
+    this.slug,
+  });
+  @override
+  String toString() => 'DeleteArticleEvent[slug: $slug]';
 }
 
 @immutable

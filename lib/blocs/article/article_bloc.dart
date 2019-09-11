@@ -21,6 +21,14 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   Stream<ArticleState> mapEventToState(ArticleEvent event) async* {
     if (event is LoadArticleEvent) {
       yield* _loadArticle(event);
+    } else if (event is CreateArticleEvent) {
+      yield* _createArticle(event);
+    } else if (event is DeleteArticleEvent) {
+      yield* _deleteArticle(event);
+    } else if (event is CreateCommentEvent) {
+      yield* _createComment(event);
+    } else if (event is DeleteCommentEvent) {
+      yield* _deleteComment(event);
     }
   }
 
@@ -33,6 +41,61 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       yield ArticleLoaded(
         article: await article,
         comments: await comments,
+      );
+    } catch (error) {
+      yield ArticleError(error);
+    }
+  }
+
+  Stream<ArticleState> _createArticle(CreateArticleEvent event) async* {
+    try {
+      yield ArticleLoading();
+      final article = await articlesRepository.createArticle(event.article);
+
+      yield ArticleLoaded(
+        article: article,
+      );
+    } catch (error) {
+      print(error);
+      yield ArticleError(error);
+    }
+  }
+
+  Stream<ArticleState> _deleteArticle(DeleteArticleEvent event) async* {
+    try {
+      yield ArticleLoading();
+      await articlesRepository.deleteArticle(event.slug);
+
+      yield ArticleUninitialized();
+    } catch (error) {
+      yield ArticleError(error);
+    }
+  }
+
+  Stream<ArticleState> _createComment(CreateCommentEvent event) async* {
+    try {
+      yield ArticleLoading();
+      await articlesRepository.createComment(event.slug, event.comment);
+
+      dispatch(
+        LoadArticleEvent(
+          slug: event.slug,
+        ),
+      );
+    } catch (error) {
+      yield ArticleError(error);
+    }
+  }
+
+  Stream<ArticleState> _deleteComment(DeleteCommentEvent event) async* {
+    try {
+      yield ArticleLoading();
+      await articlesRepository.deleteComment(event.slug, event.id);
+
+      dispatch(
+        LoadArticleEvent(
+          slug: event.slug,
+        ),
       );
     } catch (error) {
       yield ArticleError(error);

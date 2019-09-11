@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class FavoriteButton extends StatefulWidget {
   final num favorites;
   final bool favorited;
+  final VoidCallback onTap;
   FavoriteButton({
     Key key,
     this.favorites = 0,
     this.favorited = false,
+    this.onTap,
   }) : super(key: key);
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();
@@ -19,7 +21,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     final theme = Theme.of(context);
 
     return InkWell(
-      onTap: () {},
+      onTap: widget.onTap,
       onHighlightChanged: (bool val) {
         setState(() {
           if (val) {

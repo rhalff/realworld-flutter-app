@@ -10,6 +10,7 @@ import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
+import 'package:realworld_flutter/repositories/parse_jwt.dart';
 
 final _authKey = 'auth';
 
@@ -73,11 +74,28 @@ class UserRepository {
   Future<void> setAccessToken(String accessToken) async {
     await secureStorage.write(key: _authKey, value: accessToken);
 
-    api.setOAuthToken('customer', accessToken);
+    api
+      ..setOAuthToken('Token', accessToken)
+      ..setApiKey('Token', accessToken);
   }
 
   Future<String> getAccessToken() async {
-    return secureStorage.read(key: _authKey);
+    final token = await secureStorage.read(key: _authKey);
+
+    if (token == null) return null;
+
+    final jwt = parseJwt(token);
+
+    final expires =
+        DateTime.fromMillisecondsSinceEpoch((jwt['exp'] as int) * 1000);
+
+    if (expires.isBefore(DateTime.now())) {
+      await removeAccessToken();
+
+      return null;
+    }
+
+    return token;
   }
 
   Future<bool> isAuthenticated() async {
@@ -87,7 +105,7 @@ class UserRepository {
   }
 
   Future<void> removeAccessToken() async {
-    api.setOAuthToken('customer', null);
+    api.setOAuthToken('Token', null);
 
     return secureStorage.delete(key: _authKey);
   }

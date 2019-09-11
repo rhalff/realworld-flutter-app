@@ -11,6 +11,8 @@ import 'package:realworld_flutter/widgets/error_container.dart';
 import 'application.dart';
 import 'blocs/article/article_bloc.dart';
 import 'blocs/articles/articles_bloc.dart';
+import 'blocs/auth/auth_bloc.dart';
+import 'blocs/user/blocs.dart';
 
 RouteFactory routes({
   @required Application application,
@@ -44,7 +46,14 @@ RouteFactory routes({
         );
         break;
       case NewPostScreen.route:
-        screen = NewPostScreen();
+        screen = MultiBlocProvider(
+          providers: [
+            BlocProvider<ArticleBloc>.value(
+              value: application.articleBloc,
+            ),
+          ],
+          child: NewPostScreen(),
+        );
         break;
       case SignUpScreen.route:
         screen = SignUpScreen();
@@ -62,7 +71,17 @@ RouteFactory routes({
     }
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {
-      return screen;
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>.value(
+            value: application.authBloc,
+          ),
+          BlocProvider<UserBloc>.value(
+            value: application.userBloc,
+          ),
+        ],
+        child: screen,
+      );
     }, transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
       return FadeTransition(opacity: animation, child: child);
     });

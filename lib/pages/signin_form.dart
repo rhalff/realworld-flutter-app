@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/api/model/login_user.dart';
+import 'package:realworld_flutter/blocs/user/blocs.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
@@ -40,7 +43,7 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _data = SignInData();
-  // CustomerBloc _customerBloc;
+  UserBloc _userBloc;
   SignInDataValidator _validator;
 
   @override
@@ -49,7 +52,7 @@ class _SignInFormState extends State<SignInForm> {
 
     _validator = SignInDataValidator();
 
-    // _customerBloc = BlocProvider.of<CustomerBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
   }
 
   @override
@@ -67,6 +70,7 @@ class _SignInFormState extends State<SignInForm> {
             // focusNode: _emailFocus,
             hintText: 'Email',
             autovalidate: false,
+            keyboardType: TextInputType.emailAddress,
             validator: _validator.validateEmail,
             onSaved: (String value) {
               setState(() {
@@ -77,6 +81,7 @@ class _SignInFormState extends State<SignInForm> {
           const SizedBox(height: 16),
           createTextField(
             hintText: 'Password',
+            obscureText: true,
             autovalidate: false,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
@@ -101,18 +106,20 @@ class _SignInFormState extends State<SignInForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      /*
-      _customerBloc.dispatch(
-        SignIn(
-          name: _data.name,
-          email: _data.email,
-          password: _data.password,
+      _userBloc.dispatch(
+        SignInEvent(
+          LoginUser(
+            email: _data.email,
+            password: _data.password,
+          ),
         ),
       );
-       */
 
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: const Text('Processing Data')));
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Processing Data'),
+        ),
+      );
     }
   }
 }

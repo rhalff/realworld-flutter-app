@@ -7,7 +7,7 @@ part of 'signin_form.dart';
 // **************************************************************************
 
 abstract class _$SignInDataValidator implements Validator<SignInData> {
-  static String passwordSizeMessage(int min, int max, Object validatedValue) {
+  static String passwordSizeMessage1(int min, int max, Object validatedValue) {
     return 'password length must be between $min and $max';
   }
 
@@ -20,7 +20,7 @@ abstract class _$SignInDataValidator implements Validator<SignInData> {
           name: 'email', validators: [EmailValidator(), NotEmptyValidator()]),
       FieldValidator<String>(name: 'password', validators: [
         NotEmptyValidator(),
-        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage
+        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage1
       ])
     ];
   }

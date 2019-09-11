@@ -33,6 +33,7 @@ import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/auth/api_key_auth.dart';
 import 'package:realworld_flutter/auth/oauth.dart';
+import 'package:realworld_flutter/log_interceptor.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
 import 'package:realworld_flutter/model/profile.dart';
@@ -68,7 +69,11 @@ final Map<String, CodecRepo> defaultConverters = {
   MimeTypes.json: _jsonJaguarRepo,
 };
 
-final _defaultInterceptors = [ApiKeyAuthInterceptor()];
+final _defaultInterceptors = [
+  OAuthInterceptor(),
+  ApiKeyAuthInterceptor(),
+  LogInterceptor(),
+];
 
 class RealWorldApi {
   List<Interceptor> interceptors;
@@ -100,8 +105,16 @@ class RealWorldApi {
     (_defaultInterceptors[0] as OAuthInterceptor).tokens[name] = token;
   }
 
+  void removeOAuthToken(String name) {
+    (_defaultInterceptors[0] as OAuthInterceptor).tokens.remove(name);
+  }
+
   void setApiKey(String name, String apiKey) {
-    _defaultInterceptors[2].apiKeys[name] = apiKey;
+    (_defaultInterceptors[1] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
+  }
+
+  void removeApiKey(String name) {
+    (_defaultInterceptors[1] as ApiKeyAuthInterceptor).apiKeys.remove(name);
   }
 
   ArticlesApi getArticlesApi({Route base, Map<String, CodecRepo> converters}) {

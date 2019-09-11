@@ -18,7 +18,7 @@ class ApiKeyAuthInterceptor extends AuthInterceptor {
         if (authWhere == 'query') {
           route.query(authKeyName, apiKey);
         } else {
-          route.header(authKeyName, apiKey);
+          route.header(authKeyName, 'Token ${apiKey}');
         }
         break;
       }

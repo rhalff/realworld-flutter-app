@@ -1,17 +1,18 @@
 import 'dart:async';
-import 'package:realworld_flutter/auth/auth.dart';
+
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+import 'package:realworld_flutter/auth/auth.dart';
 
 class OAuthInterceptor extends AuthInterceptor {
   Map<String, String> tokens = {};
 
   @override
   FutureOr<void> before(RouteBase route) {
-    final authInfo = getAuthInfo(route, "oauth");
+    final authInfo = getAuthInfo(route, 'oauth');
     for (var info in authInfo) {
-      final token = tokens[info["name"]];
+      final token = tokens[info['name']];
       if (token != null) {
-        route.header("Authorization", "Bearer ${token}");
+        route.header('Authorization', 'Token ${token}');
         break;
       }
     }

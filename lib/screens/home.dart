@@ -11,8 +11,43 @@ import 'package:realworld_flutter/widgets/preview_post.dart';
 
 import 'article.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String route = '/';
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  ArticlesBloc _articlesBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 2,
+      initialIndex: 0,
+      vsync: this,
+    );
+
+    _articlesBloc = BlocProvider.of<ArticlesBloc>(context)
+      ..dispatch(LoadArticlesEvent());
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _loadTab(int index) {
+    if (index == 0) {
+      _articlesBloc.dispatch(LoadArticlesEvent(refresh: true));
+    } else {
+      _articlesBloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,39 +63,95 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Container(
-              child: DefaultTabController(
-                length: 2,
-                child: TabBar(
-                  // instead of controlling which Widget is shown
-                  // we will want to change the provided data.
-                  // and thus dispatch a bloc action.
-                  // controller: use custom controller,
-                  tabs: <Widget>[
-                    const Tab(text: 'Your Feed'),
-                    const Tab(text: 'Global Feed'),
-                  ],
-                ),
+              child: TabBar(
+                // instead of controlling which Widget is shown
+                // we will want to change the provided data.
+                // and thus dispatch a bloc action.
+                onTap: _loadTab,
+                controller: _tabController,
+                tabs: <Widget>[
+                  const Tab(text: 'Your Feed'),
+                  const Tab(text: 'Global Feed'),
+                ],
               ),
             ),
           ),
           SizedBox(
             height: 300,
-            child: ArticlesList(),
-          ),
+            child: AnimatedBuilder(
+                animation: _tabController.animation,
+                builder: (BuildContext context, snapshot) {
+                  print(_tabController.animation.value);
+                  return TabBarView(
+                    controller: _tabController,
+                    children: [
+                      Opacity(
+                        opacity: _tabController.index == 0
+                            ? 1 - _tabController.animation.value
+                            : 1,
+                        child: ArticlesList(
+                          onFavorited: _onFavorited,
+                          onLoadMore: () {
+                            _articlesBloc.dispatch(LoadArticlesEvent());
+                          },
+                          onRefresh: () async {
+                            _articlesBloc.dispatch(
+                              LoadArticlesEvent(refresh: true),
+                            );
+                          },
+                        ),
+                      ),
+                      Opacity(
+                        opacity: _tabController.index == 1
+                            ? _tabController.animation.value
+                            : 1,
+                        child: ArticlesList(
+                          onFavorited: _onFavorited,
+                          onLoadMore: () {
+                            _articlesBloc.dispatch(LoadArticlesFeedEvent());
+                          },
+                          onRefresh: () async {
+                            _articlesBloc.dispatch(
+                              LoadArticlesFeedEvent(refresh: true),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          )
         ],
+      ),
+    );
+  }
+
+  void _onFavorited(String slug) {
+    _articlesBloc.dispatch(
+      ToggleFavoriteEvent(
+        slug: slug,
       ),
     );
   }
 }
 
 class ArticlesList extends StatefulWidget {
+  final Future<void> Function() onRefresh;
+  final VoidCallback onLoadMore;
+  final Function(String slug) onFavorited;
+  final double scrollThreshold;
+  ArticlesList({
+    @required this.onRefresh,
+    @required this.onLoadMore,
+    @required this.onFavorited,
+    this.scrollThreshold = 400.0,
+  });
   @override
   _ArticlesListState createState() => _ArticlesListState();
 }
 
 class _ArticlesListState extends State<ArticlesList> {
   final _scrollController = ScrollController();
-  final _scrollThreshold = 400.0;
   double _scrollMarker = 0;
   ArticlesBloc _articlesBloc;
 
@@ -68,8 +159,13 @@ class _ArticlesListState extends State<ArticlesList> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _articlesBloc = BlocProvider.of<ArticlesBloc>(context)
-      ..dispatch(LoadArticles());
+    _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   @override
@@ -93,12 +189,16 @@ class _ArticlesListState extends State<ArticlesList> {
               state.hasReachedMax ? articles.length : articles.length + 1;
 
           return RefreshIndicator(
-            onRefresh: _refresh,
+            onRefresh: widget.onRefresh,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return index >= articles.length
                     ? BottomLoader()
-                    : ArticleWidget(article: articles[index]);
+                    : ArticleWidget(
+                        article: articles[index],
+                        onFavorited: () =>
+                            widget.onFavorited(articles[index].slug),
+                      );
               },
               itemCount: itemCount,
               controller: _scrollController,
@@ -112,10 +212,6 @@ class _ArticlesListState extends State<ArticlesList> {
     );
   }
 
-  Future<void> _refresh() async {
-    _articlesBloc.dispatch(LoadArticles(refresh: true));
-  }
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -123,15 +219,13 @@ class _ArticlesListState extends State<ArticlesList> {
   }
 
   void _onScroll() {
-    final maxScroll = _scrollMarker +
-        _scrollThreshold; // _scrollController.position.maxScrollExtent;
+    final maxScroll = _scrollMarker + widget.scrollThreshold;
     final currentScroll = _scrollController.position.pixels;
-    print(currentScroll);
     if (_articlesBloc.currentState is ArticlesLoaded) {
       if (!(_articlesBloc.currentState as ArticlesLoaded).hasReachedMax &&
           currentScroll >= maxScroll) {
         _scrollMarker = maxScroll;
-        _articlesBloc.dispatch(LoadArticles());
+        widget.onLoadMore();
       }
     }
   }
@@ -158,10 +252,12 @@ class BottomLoader extends StatelessWidget {
 @immutable
 class ArticleWidget extends StatelessWidget {
   final Article article;
+  final VoidCallback onFavorited;
 
   const ArticleWidget({
     Key key,
     @required this.article,
+    this.onFavorited,
   }) : super(key: key);
 
   @override
@@ -174,6 +270,7 @@ class ArticleWidget extends StatelessWidget {
       text: article.description,
       favorited: article.favorited,
       favorites: article.favoritesCount,
+      onFavorited: onFavorited,
       onTap: () {
         Navigator.of(context).pushNamed(
           ArticleScreen.route,

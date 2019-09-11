@@ -13,6 +13,7 @@ class PreviewPost extends StatelessWidget {
   final bool favorited;
   final int favorites;
   final VoidCallback onTap;
+  final VoidCallback onFavorited;
   PreviewPost({
     this.avatar,
     this.author,
@@ -22,6 +23,7 @@ class PreviewPost extends StatelessWidget {
     this.favorited,
     this.favorites,
     this.onTap,
+    this.onFavorited,
   });
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class PreviewPost extends StatelessWidget {
               FavoriteButton(
                 favorites: favorites,
                 favorited: favorited,
+                onTap: onFavorited,
               ),
             ],
           ),

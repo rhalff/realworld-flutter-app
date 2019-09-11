@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/blocs/article/article_bloc.dart';
 import 'package:realworld_flutter/blocs/article/article_events.dart';
 import 'package:realworld_flutter/blocs/article/article_state.dart';
+import 'package:realworld_flutter/blocs/user/blocs.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
+import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/widgets/article_meta.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/header.dart';
@@ -27,10 +30,12 @@ class ArticleScreen extends StatefulWidget {
 
 class _ArticleScreenState extends State<ArticleScreen> {
   ArticleBloc _articleBloc;
+  UserBloc _userBloc;
 
   @override
   void initState() {
     super.initState();
+    _userBloc = BlocProvider.of<UserBloc>(context);
     _articleBloc = BlocProvider.of<ArticleBloc>(context)
       ..dispatch(LoadArticleEvent(slug: widget.slug));
   }
@@ -45,9 +50,33 @@ class _ArticleScreenState extends State<ArticleScreen> {
             error: 'failed to load article',
           );
         } else if (state is ArticleLoaded) {
-          child = ArticlePage(
-            article: state.article,
-            comments: state.comments,
+          child = BlocBuilder(
+            bloc: _userBloc,
+            builder: (BuildContext context, UserState userState) {
+              final user = userState is UserLoaded ? userState.user : null;
+
+              return ArticlePage(
+                user: user,
+                article: state.article,
+                comments: state.comments,
+                postComment: (String comment) {
+                  _articleBloc.dispatch(
+                    CreateCommentEvent(
+                      slug: state.article.slug,
+                      comment: NewComment(body: comment),
+                    ),
+                  );
+                },
+                removeComment: (int id) {
+                  _articleBloc.dispatch(
+                    DeleteCommentEvent(
+                      id: id,
+                      slug: state.article.slug,
+                    ),
+                  );
+                },
+              );
+            },
           );
         } else {
           child = Center(
@@ -62,11 +91,17 @@ class _ArticleScreenState extends State<ArticleScreen> {
 }
 
 class ArticlePage extends StatelessWidget {
+  final User user;
   final Article article;
   final List<Comment> comments;
+  final Function(String comment) postComment;
+  final Function(int id) removeComment;
   const ArticlePage({
+    this.user,
     this.article,
     this.comments,
+    this.postComment,
+    this.removeComment,
   });
   @override
   Widget build(BuildContext context) {
@@ -102,14 +137,18 @@ class ArticlePage extends StatelessWidget {
                 const SizedBox(height: 24),
                 const Divider(),
                 const SizedBox(height: 24),
-                ArticleForm(
-                  // ok now actually need to know the logged in user
-                  avatar: null,
-                  onSubmit: _postComment,
-                ),
+                user != null
+                    ? ArticleForm(
+                        avatar: null,
+                        onSubmit: postComment,
+                      )
+                    : Container(
+                        child: const Text('Please login'),
+                      ),
                 ArticleComments(
+                  user: user,
                   comments: comments,
-                  onRemove: _removeComment,
+                  onRemove: removeComment,
                 ),
               ],
             ),
@@ -118,19 +157,23 @@ class ArticlePage extends StatelessWidget {
       ),
     );
   }
-
-  void _removeComment(String id) {}
-  void _postComment() {}
 }
 
-class ArticleForm extends StatelessWidget {
+class ArticleForm extends StatefulWidget {
   final String avatar;
-  final VoidCallback onSubmit;
+  final Function(String comment) onSubmit;
   ArticleForm({
     Key key,
     this.avatar,
     this.onSubmit,
   }) : super(key: key);
+
+  @override
+  _ArticleFormState createState() => _ArticleFormState();
+}
+
+class _ArticleFormState extends State<ArticleForm> {
+  String _comment;
 
   @override
   Widget build(BuildContext context) {
@@ -145,13 +188,17 @@ class ArticleForm extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             child: TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Write a comment...',
-                contentPadding: const EdgeInsets.all(14),
-              ),
-              minLines: 2,
-              maxLines: 10,
-            ),
+                decoration: InputDecoration(
+                  hintText: 'Write a comment...',
+                  contentPadding: const EdgeInsets.all(14),
+                ),
+                minLines: 2,
+                maxLines: 10,
+                onChanged: (String value) {
+                  setState(() {
+                    _comment = value;
+                  });
+                }),
           ),
           Container(
               padding: const EdgeInsets.all(8),
@@ -160,11 +207,11 @@ class ArticleForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   ArticleMeta(
-                    avatar: avatar,
+                    avatar: widget.avatar,
                   ),
                   RoundedButton(
                     text: 'Post Comment',
-                    onPressed: onSubmit,
+                    onPressed: _comment != null ? _onSubmit : null,
                   )
                 ],
               ))
@@ -172,11 +219,17 @@ class ArticleForm extends StatelessWidget {
       ),
     );
   }
+
+  void _onSubmit() {
+    if (widget.onSubmit != null) {
+      widget.onSubmit(_comment);
+    }
+  }
 }
 
 class ArticleComment extends StatelessWidget {
   final Comment comment;
-  final Function(String id) onRemove;
+  final Function(int id) onRemove;
   ArticleComment({
     Key key,
     this.comment,
@@ -223,11 +276,13 @@ class ArticleComment extends StatelessWidget {
 
 @immutable
 class ArticleComments extends StatelessWidget {
+  final User user;
   final List<Comment> comments;
-  final Function(String id) onRemove;
+  final Function(int id) onRemove;
 
   ArticleComments({
     Key key,
+    this.user,
     this.comments,
     this.onRemove,
   }) : super(key: key);
@@ -235,14 +290,16 @@ class ArticleComments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: comments.map((Comment comment) {
-      return Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: ArticleComment(
-          comment: comment,
-          onRemove: onRemove,
-        ),
-      );
-    }).toList());
+        children: comments.map(
+      (Comment comment) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: ArticleComment(
+            comment: comment,
+            onRemove: onRemove,
+          ),
+        );
+      },
+    ).toList());
   }
 }

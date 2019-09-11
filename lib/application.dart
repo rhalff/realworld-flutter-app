@@ -51,14 +51,22 @@ class Application {
 
     setupRepositories();
 
-    // final accessToken = await authRepository.getAccessToken();
+    final accessToken = await userRepository.getAccessToken();
 
     var isAuthenticated = false;
-    // if (accessToken != null) {
-    //   _api.setOAuthToken('customer', accessToken);
-    //
-    //   isAuthenticated = true;
-    // }
+    if (accessToken != null) {
+      try {
+        await userRepository.getCurrentUser();
+
+        _api
+          ..setOAuthToken('Token', accessToken)
+          ..setApiKey('Token', accessToken);
+
+        isAuthenticated = true;
+      } catch (_) {
+        await userRepository.removeAccessToken();
+      }
+    }
 
     setupBlocs(
       isAuthenticated: isAuthenticated,
@@ -96,6 +104,11 @@ class Application {
       userRepository: userRepository,
     );
 
+    userBloc = UserBloc(
+      userRepository: userRepository,
+      authBloc: authBloc,
+    );
+
     articlesBloc = ArticlesBloc(
       articlesRepository: articlesRepository,
     );
@@ -106,7 +119,7 @@ class Application {
   }
 
   Future<void> init() async {
-    articlesBloc.dispatch(LoadArticles());
+    articlesBloc.dispatch(LoadArticlesEvent());
 
     if (await userRepository.isAuthenticated()) {
       userBloc.dispatch(LoadUserEvent());

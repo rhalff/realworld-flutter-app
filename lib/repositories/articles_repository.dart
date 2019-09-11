@@ -49,6 +49,15 @@ class ArticlesRepository {
     return result;
   }
 
+  Future<MultipleArticlesResponse> getArticlesFeed({
+    int limit,
+    int offset,
+  }) async {
+    final result = articlesApi.getArticlesFeed(limit, offset);
+
+    return result;
+  }
+
   Future<Article> createArticle(NewArticle article) async {
     final result = await articlesApi.createArticle(
       NewArticleRequest(article: article),
@@ -68,15 +77,6 @@ class ArticlesRepository {
 
   Future<void> deleteArticle(String slug) async {
     await articlesApi.deleteArticle(slug);
-  }
-
-  Future<MultipleArticlesResponse> getArticlesFeed({
-    int limit,
-    int offset,
-  }) async {
-    final result = articlesApi.getArticlesFeed(limit, offset);
-
-    return result;
   }
 
   Future<List<Comment>> getComments(String slug) async {

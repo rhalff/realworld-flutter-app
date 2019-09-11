@@ -9,6 +9,9 @@ Widget createTextField({
   int maxLines,
   EdgeInsetsGeometry contentPadding,
   FocusNode focusNode,
+  bool obscureText = false,
+  TextInputType keyboardType,
+  TextInputAction textInputAction,
 }) {
   return TextFormField(
     focusNode: focusNode,
@@ -17,6 +20,9 @@ Widget createTextField({
     onSaved: onSaved,
     onChanged: onChanged,
     maxLines: maxLines ?? 1,
+    obscureText: obscureText,
+    keyboardType: keyboardType,
+    textInputAction: textInputAction,
     decoration: InputDecoration(
       hintText: hintText,
       contentPadding: contentPadding ?? const EdgeInsets.all(14),

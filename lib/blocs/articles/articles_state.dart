@@ -2,6 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:realworld_flutter/model/article.dart';
 
+enum FeedType {
+  globalFeed,
+  userFeed,
+}
+
 @immutable
 abstract class ArticlesState extends Equatable {
   ArticlesState([List props = const []]) : super(props);
@@ -18,19 +23,23 @@ class ArticlesLoading extends ArticlesState {
 }
 
 class ArticlesLoaded extends ArticlesState {
+  final FeedType feedType;
   final List<Article> articles;
   final bool hasReachedMax;
 
   ArticlesLoaded(
+    this.feedType,
     this.articles,
     this.hasReachedMax,
-  ) : super([articles, hasReachedMax]);
+  ) : super([feedType, articles, hasReachedMax]);
 
   ArticlesLoaded copyWith({
+    FeedType feedType,
     List<Article> articles,
     bool hasReachedMax,
   }) {
     return ArticlesLoaded(
+      feedType ?? this.feedType,
       articles ?? this.articles,
       hasReachedMax ?? this.hasReachedMax,
     );
