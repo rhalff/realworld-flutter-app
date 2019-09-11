@@ -13,6 +13,7 @@ import 'blocs/article/article_bloc.dart';
 import 'blocs/articles/articles_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
 import 'blocs/user/blocs.dart';
+import 'blocs/user_profile/blocs.dart';
 
 RouteFactory routes({
   @required Application application,
@@ -62,9 +63,23 @@ RouteFactory routes({
         screen = SignInScreen();
         break;
       case SettingsScreen.route:
-        screen = RepositoryProvider.value(
-          value: application.userRepository,
-          child: SettingsScreen(),
+        screen = MultiBlocProvider(
+          providers: [
+            BlocProvider<ArticlesBloc>.value(
+              value: application.articlesBloc,
+            ),
+            BlocProvider<UserProfileBloc>(
+              builder: (context) => UserProfileBloc(
+                articlesBloc: BlocProvider.of<ArticlesBloc>(context),
+                userBloc: BlocProvider.of<UserBloc>(context),
+                userRepository: application.userRepository,
+              ),
+            ),
+          ],
+          child: RepositoryProvider.value(
+            value: application.userRepository,
+            child: SettingsScreen(),
+          ),
         );
         break;
       default:

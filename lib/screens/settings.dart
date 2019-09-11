@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
-import 'package:realworld_flutter/blocs/articles/articles_bloc.dart';
 import 'package:realworld_flutter/blocs/auth/auth_bloc.dart';
 import 'package:realworld_flutter/blocs/auth/auth_events.dart';
-import 'package:realworld_flutter/blocs/user/blocs.dart';
 import 'package:realworld_flutter/blocs/user_profile/blocs.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/settings.dart';
-import 'package:realworld_flutter/repositories/user_repository.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -27,12 +24,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
 
     _authBloc = BlocProvider.of<AuthBloc>(context);
-
-    _userProfileBloc = UserProfileBloc(
-      articlesBloc: BlocProvider.of<ArticlesBloc>(context),
-      userBloc: BlocProvider.of<UserBloc>(context),
-      userRepository: RepositoryProvider.of<UserRepository>(context),
-    )..dispatch(LoadUserProfileEvent());
+    _userProfileBloc = BlocProvider.of<UserProfileBloc>(context)
+      ..dispatch(LoadUserProfileEvent());
   }
 
   @override
