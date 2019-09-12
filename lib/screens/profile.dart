@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/profile/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/profile/profile_page.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String route = '/profile';
+  final User user;
 
   final String username;
   ProfileScreen({
+    this.user,
     this.username,
   });
 
@@ -43,14 +46,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         } else if (state is ProfileLoaded) {
           actions.addAll(
             <Widget>[
-              IconButton(
-                icon: state.profile.following
-                    ? Icon(Icons.star)
-                    : Icon(Icons.star_border),
-                onPressed: () => _profileBloc.dispatch(
-                  ToggleFollowUserEvent(username: state.profile.username),
+              if (widget.user.username != state.profile.username)
+                IconButton(
+                  icon: state.profile.following
+                      ? Icon(Icons.star)
+                      : Icon(Icons.star_border),
+                  onPressed: () => _profileBloc.dispatch(
+                    ToggleFollowUserEvent(username: state.profile.username),
+                  ),
                 ),
-              ),
             ],
           );
 

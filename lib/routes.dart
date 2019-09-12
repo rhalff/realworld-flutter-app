@@ -13,12 +13,12 @@ import 'package:realworld_flutter/widgets/error_container.dart';
 import 'application.dart';
 import 'blocs/article/bloc.dart';
 import 'blocs/articles/bloc.dart';
-import 'blocs/auth/bloc.dart';
 import 'blocs/profile/bloc.dart';
-import 'blocs/user/bloc.dart';
 import 'blocs/user_profile/bloc.dart';
+import 'model/user.dart';
 
 RouteFactory routes({
+  User user,
   @required Application application,
 }) {
   return (RouteSettings settings) {
@@ -43,6 +43,7 @@ RouteFactory routes({
             userRepository: application.userRepository,
           ),
           child: ProfileScreen(
+            user: user,
             username: arguments['username'] as String,
           ),
         );
@@ -109,17 +110,7 @@ RouteFactory routes({
     }
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {
-      return MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>.value(
-            value: application.authBloc,
-          ),
-          BlocProvider<UserBloc>.value(
-            value: application.userBloc,
-          ),
-        ],
-        child: screen,
-      );
+      return screen;
     }, transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
       return FadeTransition(opacity: animation, child: child);
     });
