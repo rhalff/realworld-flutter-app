@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
 
-import '../utils.dart';
+import '../../utils.dart';
 
 class ArticleMeta extends StatelessWidget {
   final String avatar;
   final String author;
   final DateTime date;
   final Color color;
-  final VoidCallback onTap;
   ArticleMeta({
     this.avatar = '',
     this.author,
     this.date,
     this.color,
-    this.onTap,
   });
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return InkWell(
-      onTap: onTap,
+      onTap: () => Navigator.of(context).pushNamed(
+        ProfileScreen.route,
+        arguments: {
+          'username': author,
+        },
+      ),
       child: Row(
         children: <Widget>[
           UserAvatar(avatar: avatar),

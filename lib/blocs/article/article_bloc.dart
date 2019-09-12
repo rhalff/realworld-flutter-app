@@ -20,10 +20,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       yield* _createArticle(event);
     } else if (event is DeleteArticleEvent) {
       yield* _deleteArticle(event);
-    } else if (event is CreateCommentEvent) {
-      yield* _createComment(event);
-    } else if (event is DeleteCommentEvent) {
-      yield* _deleteComment(event);
+    } else if (event is ToggleFavoriteEvent) {
+      yield* _toggleFavorite(event);
     }
   }
 
@@ -67,33 +65,22 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     }
   }
 
-  Stream<ArticleState> _createComment(CreateCommentEvent event) async* {
+  Stream<ArticleState> _toggleFavorite(ToggleFavoriteEvent event) async* {
     try {
-      yield ArticleLoading();
-      await articlesRepository.createComment(event.slug, event.comment);
+      if (currentState is ArticleLoaded) {
+        Article article;
 
-      dispatch(
-        LoadArticleEvent(
-          slug: event.slug,
-        ),
-      );
+        if ((currentState as ArticleLoaded).article.favorited) {
+          article = await articlesRepository.deleteArticleFavorite(event.slug);
+        } else {
+          article = await articlesRepository.createFavorite(event.slug);
+        }
+
+        yield ArticleLoaded(article: article);
+      }
     } catch (error) {
-      yield ArticleError(error);
-    }
-  }
-
-  Stream<ArticleState> _deleteComment(DeleteCommentEvent event) async* {
-    try {
-      yield ArticleLoading();
-      await articlesRepository.deleteComment(event.slug, event.id);
-
-      dispatch(
-        LoadArticleEvent(
-          slug: event.slug,
-        ),
-      );
-    } catch (error) {
-      yield ArticleError(error);
+      print(error);
+      yield ArticleError('Failed to favorite article');
     }
   }
 }

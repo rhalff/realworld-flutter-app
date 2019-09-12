@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:realworld_flutter/widgets/favorite_button.dart';
 
-import 'article_meta.dart';
-import 'favorite_button.dart';
+import '../article/article_meta.dart';
 
 class PreviewPost extends StatelessWidget {
   final String avatar;

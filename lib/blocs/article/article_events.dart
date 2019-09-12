@@ -47,25 +47,11 @@ class DeleteArticleEvent extends ArticleEvent {
 }
 
 @immutable
-class CreateCommentEvent extends ArticleEvent {
+class ToggleFavoriteEvent extends ArticleEvent {
   final String slug;
-  final NewComment comment;
-  const CreateCommentEvent({
+  ToggleFavoriteEvent({
     this.slug,
-    this.comment,
-  });
+  }); // : super([slug]);
   @override
-  String toString() => 'CreateCommentEvent[slug: $slug, comment: $comment]';
-}
-
-@immutable
-class DeleteCommentEvent extends ArticleEvent {
-  final String slug;
-  final int id;
-  const DeleteCommentEvent({
-    this.slug,
-    this.id,
-  });
-  @override
-  String toString() => 'DeleteCommentEvent[slug: $slug, id: $id]';
+  String toString() => 'ToggleFavoriteEvent[slug: $slug]';
 }

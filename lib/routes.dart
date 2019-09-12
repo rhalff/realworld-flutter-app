@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/new_post.dart';
+import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
@@ -12,6 +14,7 @@ import 'application.dart';
 import 'blocs/article/bloc.dart';
 import 'blocs/articles/bloc.dart';
 import 'blocs/auth/bloc.dart';
+import 'blocs/profile/bloc.dart';
 import 'blocs/user/bloc.dart';
 import 'blocs/user_profile/bloc.dart';
 
@@ -34,6 +37,16 @@ RouteFactory routes({
           child: HomeScreen(),
         );
         break;
+      case ProfileScreen.route:
+        screen = BlocProvider(
+          builder: (context) => ProfileBloc(
+            userRepository: application.userRepository,
+          ),
+          child: ProfileScreen(
+            username: arguments['username'] as String,
+          ),
+        );
+        break;
       case ArticleScreen.route:
         screen = MultiBlocProvider(
           providers: [
@@ -44,8 +57,15 @@ RouteFactory routes({
               value: application.articlesBloc,
             ),
           ],
-          child: ArticleScreen(
-            slug: arguments['slug'] as String,
+          child: MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider<ArticlesRepository>.value(
+                value: application.articlesRepository,
+              ),
+            ],
+            child: ArticleScreen(
+              slug: arguments['slug'] as String,
+            ),
           ),
         );
         break;

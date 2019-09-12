@@ -42,22 +42,23 @@ class Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: crossAxisAlignment,
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 48,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Titilliumweb',
-              shadows: [
-                const Shadow(
-                  blurRadius: 3.0,
-                  color: Color(0X48000000),
-                  offset: Offset(0, 1.0),
-                ),
-              ],
+          if (title != null)
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 48,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Titilliumweb',
+                shadows: [
+                  const Shadow(
+                    blurRadius: 3.0,
+                    color: Color(0X48000000),
+                    offset: Offset(0, 1.0),
+                  ),
+                ],
+              ),
             ),
-          ),
           if (subtitle != null)
             Text(
               subtitle,
