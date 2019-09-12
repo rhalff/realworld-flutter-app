@@ -1,4 +1,4 @@
-part of user.profile.blocs;
+part of blocs.user.profile;
 
 @immutable
 abstract class UserProfileState extends Equatable {

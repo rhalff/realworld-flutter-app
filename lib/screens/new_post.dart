@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/new_article.dart';
-import 'package:realworld_flutter/blocs/article/article_bloc.dart';
-import 'package:realworld_flutter/blocs/article/article_events.dart';
-import 'package:realworld_flutter/blocs/article/article_state.dart';
+import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/new_post.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';

@@ -1,10 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
-import 'package:rxdart/rxdart.dart';
-
-import 'articles_events.dart';
-import 'articles_state.dart';
+part of blocs.articles;
 
 const _itemsPerRequest = 20;
 

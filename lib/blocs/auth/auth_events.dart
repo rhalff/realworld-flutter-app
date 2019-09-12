@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+part of blocs.auth;
 
 @immutable
 abstract class AuthEvent {}

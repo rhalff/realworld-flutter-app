@@ -1,4 +1,4 @@
-part of user.blocs;
+part of blocs.user;
 
 @immutable
 abstract class UserEvent extends Equatable {

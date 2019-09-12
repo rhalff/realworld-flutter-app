@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:realworld_flutter/api/model/new_comment.dart';
-import 'package:realworld_flutter/blocs/article/article_bloc.dart';
-import 'package:realworld_flutter/blocs/article/article_events.dart';
-import 'package:realworld_flutter/blocs/article/article_state.dart';
-import 'package:realworld_flutter/blocs/user/blocs.dart';
+import 'package:realworld_flutter/blocs/article/bloc.dart';
+import 'package:realworld_flutter/blocs/articles/bloc.dart';
+import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
@@ -30,12 +29,14 @@ class ArticleScreen extends StatefulWidget {
 
 class _ArticleScreenState extends State<ArticleScreen> {
   ArticleBloc _articleBloc;
+  ArticlesBloc _articlesBloc;
   UserBloc _userBloc;
 
   @override
   void initState() {
     super.initState();
     _userBloc = BlocProvider.of<UserBloc>(context);
+    _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
     _articleBloc = BlocProvider.of<ArticleBloc>(context)
       ..dispatch(LoadArticleEvent(slug: widget.slug));
   }
@@ -44,6 +45,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<ArticleBloc, ArticleState>(
       builder: (context, state) {
+        final actions = <Widget>[];
         Widget child;
         if (state is ArticleError) {
           child = ErrorContainer(
@@ -55,6 +57,24 @@ class _ArticleScreenState extends State<ArticleScreen> {
             builder: (BuildContext context, UserState userState) {
               final user = userState is UserLoaded ? userState.user : null;
 
+              actions.addAll(
+                <Widget>[
+                  IconButton(
+                    icon: state.article.favorited
+                        ? Icon(Icons.star)
+                        : Icon(Icons.star_border),
+                    onPressed: () => _toggleFavorited(state.article.slug),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share),
+                    onPressed: _shareArticle,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: _search,
+                  ),
+                ],
+              );
               return ArticlePage(
                 user: user,
                 article: state.article,
@@ -84,10 +104,29 @@ class _ArticleScreenState extends State<ArticleScreen> {
           );
         }
 
-        return Layout(child: child);
+        return Layout(
+          child: child,
+          bottomNavigationBar: BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            notchMargin: 4.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: actions,
+            ),
+          ),
+        );
       },
     );
   }
+
+  void _toggleFavorited(String slug) {
+    _articlesBloc.dispatch(ToggleFavoriteEvent(slug: slug));
+  }
+
+  void _shareArticle() {}
+
+  void _search() {}
 }
 
 class ArticlePage extends StatelessWidget {

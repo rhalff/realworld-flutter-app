@@ -1,9 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/repositories/user_repository.dart';
-
-import 'auth_events.dart';
-import 'auth_state.dart';
+part of blocs.auth;
 
 class AuthException implements Exception {}
 

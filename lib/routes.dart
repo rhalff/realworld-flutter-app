@@ -9,11 +9,11 @@ import 'package:realworld_flutter/screens/sign_up.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
 import 'application.dart';
-import 'blocs/article/article_bloc.dart';
-import 'blocs/articles/articles_bloc.dart';
-import 'blocs/auth/auth_bloc.dart';
-import 'blocs/user/blocs.dart';
-import 'blocs/user_profile/blocs.dart';
+import 'blocs/article/bloc.dart';
+import 'blocs/articles/bloc.dart';
+import 'blocs/auth/bloc.dart';
+import 'blocs/user/bloc.dart';
+import 'blocs/user_profile/bloc.dart';
 
 RouteFactory routes({
   @required Application application,
@@ -39,6 +39,9 @@ RouteFactory routes({
           providers: [
             BlocProvider<ArticleBloc>.value(
               value: application.articleBloc,
+            ),
+            BlocProvider<ArticlesBloc>.value(
+              value: application.articlesBloc,
             ),
           ],
           child: ArticleScreen(

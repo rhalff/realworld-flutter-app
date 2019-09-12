@@ -1,9 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
-
-import 'article_events.dart';
-import 'article_state.dart';
+part of blocs.article;
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final ArticlesRepository articlesRepository;

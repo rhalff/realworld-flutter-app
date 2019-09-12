@@ -1,4 +1,4 @@
-part of user.blocs;
+part of blocs.user;
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;

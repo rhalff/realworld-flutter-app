@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+part of blocs.auth;
 
 @immutable
 abstract class AuthState extends Equatable {

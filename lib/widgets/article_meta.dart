@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/widgets/user_avatar.dart';
 
-import '../image_cache_manager.dart';
 import '../utils.dart';
 
 class ArticleMeta extends StatelessWidget {
@@ -25,23 +24,7 @@ class ArticleMeta extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: <Widget>[
-          avatar != null && avatar.isNotEmpty
-              ? CachedNetworkImage(
-                  cacheManager: ImageCacheManager(),
-                  imageUrl: avatar,
-                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                    radius: 14,
-                    backgroundImage: imageProvider,
-                  ),
-                  placeholder: (context, url) => const CircleAvatar(
-                    radius: 14,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1.0,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                )
-              : const CircleAvatar(radius: 14),
+          UserAvatar(avatar: avatar),
           const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

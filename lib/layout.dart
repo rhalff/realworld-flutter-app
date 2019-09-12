@@ -5,12 +5,15 @@ import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
-import 'blocs/auth/auth_bloc.dart';
-import 'blocs/auth/auth_state.dart';
+import 'blocs/auth/bloc.dart';
 
 class Layout extends StatefulWidget {
+  final Widget bottomNavigationBar;
   final Widget child;
+  final Drawer drawer;
   Layout({
+    this.bottomNavigationBar,
+    this.drawer,
     this.child,
   });
 
@@ -35,6 +38,7 @@ class _LayoutState extends State<Layout> {
       bloc: _authBloc,
       builder: (BuildContext context, AuthState state) {
         return Scaffold(
+          drawer: widget.drawer,
           appBar: AppBar(
             backgroundColor: Colors.white,
             actions: <Widget>[
@@ -86,6 +90,7 @@ class _LayoutState extends State<Layout> {
             ),
           ),
           body: widget.child,
+          bottomNavigationBar: widget.bottomNavigationBar,
         );
       },
     );

@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/model/article.dart';
-import 'package:realworld_flutter/model/comment.dart';
+part of blocs.article;
 
 @immutable
 abstract class ArticleState extends Equatable {

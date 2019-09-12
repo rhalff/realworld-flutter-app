@@ -1,15 +1,13 @@
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:jaguar_cache/jaguar_cache.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:realworld_flutter/blocs/articles/articles_events.dart';
 import 'package:realworld_flutter/repositories/user_repository.dart';
 
 import 'api.dart';
-import 'blocs/article/article_bloc.dart';
-import 'blocs/articles/articles_bloc.dart';
-import 'blocs/auth/auth_bloc.dart';
-import 'blocs/auth/auth_state.dart';
-import 'blocs/user/blocs.dart';
+import 'blocs/article/bloc.dart';
+import 'blocs/articles/bloc.dart';
+import 'blocs/auth/bloc.dart';
+import 'blocs/user/bloc.dart';
 import 'repositories/articles_repository.dart';
 
 class Config {}

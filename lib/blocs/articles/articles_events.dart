@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+part of blocs.articles;
 
 abstract class ArticlesEvent {}
 

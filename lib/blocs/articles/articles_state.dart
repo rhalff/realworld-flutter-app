@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/model/article.dart';
+part of blocs.articles;
 
 enum FeedType {
   globalFeed,

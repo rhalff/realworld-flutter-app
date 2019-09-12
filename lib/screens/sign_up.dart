@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Banner;
+import 'package:flutter/material.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/signup_form.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
-import 'package:realworld_flutter/blocs/auth/auth_bloc.dart';
-import 'package:realworld_flutter/blocs/auth/auth_events.dart';
-import 'package:realworld_flutter/blocs/user_profile/blocs.dart';
+import 'package:realworld_flutter/blocs/auth/bloc.dart';
+import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/settings.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';

@@ -1,4 +1,4 @@
-part of user.profile.blocs;
+part of blocs.user.profile;
 
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   final UserRepository userRepository;

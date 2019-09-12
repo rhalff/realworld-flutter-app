@@ -1,8 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
-import 'package:realworld_flutter/api/model/new_article.dart';
-import 'package:realworld_flutter/api/model/new_comment.dart';
-import 'package:realworld_flutter/api/model/update_article.dart';
+part of blocs.article;
 
 @immutable
 abstract class ArticleEvent extends Equatable {
