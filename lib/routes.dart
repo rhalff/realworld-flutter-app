@@ -70,16 +70,13 @@ RouteFactory routes({
             ),
             BlocProvider<UserProfileBloc>(
               builder: (context) => UserProfileBloc(
-                articlesBloc: BlocProvider.of<ArticlesBloc>(context),
-                userBloc: BlocProvider.of<UserBloc>(context),
+                articlesBloc: application.articlesBloc,
+                userBloc: application.userBloc,
                 userRepository: application.userRepository,
               ),
             ),
           ],
-          child: RepositoryProvider.value(
-            value: application.userRepository,
-            child: SettingsScreen(),
-          ),
+          child: SettingsScreen(),
         );
         break;
       default:
