@@ -92,11 +92,6 @@ class _HomeScreenState extends State<HomeScreen>
                           )
                         ],
                       ),
-                      /*
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                      ),
-                       */
                     ),
                   );
                 }
@@ -113,9 +108,6 @@ class _HomeScreenState extends State<HomeScreen>
             ListTile(
               title: const Text('Favorited'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
@@ -123,18 +115,12 @@ class _HomeScreenState extends State<HomeScreen>
             ListTile(
               title: const Text('New Article'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Articles'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),

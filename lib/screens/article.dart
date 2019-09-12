@@ -44,41 +44,43 @@ class _ArticleScreenState extends State<ArticleScreen> {
             error: 'failed to load article',
           );
         } else if (state is ArticleLoaded) {
+          actions.addAll(
+            <Widget>[
+              IconButton(
+                icon: state.article.favorited
+                    ? Icon(Icons.star)
+                    : Icon(Icons.star_border),
+                onPressed: () => _toggleFavorited(state.article.slug),
+              ),
+              IconButton(
+                icon: Icon(Icons.share),
+                onPressed: _shareArticle,
+              ),
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: _search,
+              ),
+            ],
+          );
+
           child = BlocBuilder<UserBloc, UserState>(
             bloc: _userBloc,
             builder: (BuildContext context, UserState userState) {
               final user = userState is UserLoaded ? userState.user : null;
-
-              actions.addAll(
-                <Widget>[
-                  IconButton(
-                    icon: state.article.favorited
-                        ? Icon(Icons.star)
-                        : Icon(Icons.star_border),
-                    onPressed: () => _toggleFavorited(state.article.slug),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.share),
-                    onPressed: _shareArticle,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: _search,
-                  ),
-                ],
-              );
               return MultiBlocProvider(
                 child: ArticlePage(
                   user: user,
                   article: state.article,
                 ),
                 providers: <BlocProvider>[
-                  BlocProvider<CommentsBloc>(builder: (BuildContext context) {
-                    return CommentsBloc(
-                      articlesRepository:
-                          RepositoryProvider.of<ArticlesRepository>(context),
-                    );
-                  }),
+                  BlocProvider<CommentsBloc>(
+                    builder: (BuildContext context) {
+                      return CommentsBloc(
+                        articlesRepository:
+                            RepositoryProvider.of<ArticlesRepository>(context),
+                      );
+                    },
+                  ),
                 ],
               );
             },
