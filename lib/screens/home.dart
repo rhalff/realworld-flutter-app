@@ -4,6 +4,7 @@ import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/articles/articles_list.dart';
+import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
 
@@ -51,11 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Layout(
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
             BlocBuilder<UserBloc, UserState>(
@@ -85,7 +82,13 @@ class _HomeScreenState extends State<HomeScreen>
                               minHeight: 36.0,
                             ),
                             child: const Text('View Profile'),
-                            onPressed: () {},
+                            onPressed: () =>
+                                Navigator.of(context).popAndPushNamed(
+                              ProfileScreen.route,
+                              arguments: {
+                                'username': state.user.username,
+                              },
+                            ),
                           )
                         ],
                       ),
@@ -162,47 +165,48 @@ class _HomeScreenState extends State<HomeScreen>
           SizedBox(
             height: 300,
             child: AnimatedBuilder(
-                animation: _tabController.animation,
-                builder: (BuildContext context, snapshot) {
-                  print(_tabController.animation.value);
-                  return TabBarView(
-                    controller: _tabController,
-                    children: [
-                      Opacity(
-                        opacity: _tabController.index == 0
-                            ? 1 - _tabController.animation.value
-                            : 1,
-                        child: ArticlesList(
-                          onFavorited: _onFavorited,
-                          onLoadMore: () {
-                            _articlesBloc.dispatch(LoadArticlesEvent());
-                          },
-                          onRefresh: () async {
-                            _articlesBloc.dispatch(
-                              LoadArticlesEvent(refresh: true),
-                            );
-                          },
-                        ),
+              animation: _tabController.animation,
+              builder: (BuildContext context, snapshot) {
+                print(_tabController.animation.value);
+                return TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Opacity(
+                      opacity: _tabController.index == 0
+                          ? 1 - _tabController.animation.value
+                          : 1,
+                      child: ArticlesList(
+                        onFavorited: _onFavorited,
+                        onLoadMore: () {
+                          _articlesBloc.dispatch(LoadArticlesEvent());
+                        },
+                        onRefresh: () async {
+                          _articlesBloc.dispatch(
+                            LoadArticlesEvent(refresh: true),
+                          );
+                        },
                       ),
-                      Opacity(
-                        opacity: _tabController.index == 1
-                            ? _tabController.animation.value
-                            : 1,
-                        child: ArticlesList(
-                          onFavorited: _onFavorited,
-                          onLoadMore: () {
-                            _articlesBloc.dispatch(LoadArticlesFeedEvent());
-                          },
-                          onRefresh: () async {
-                            _articlesBloc.dispatch(
-                              LoadArticlesFeedEvent(refresh: true),
-                            );
-                          },
-                        ),
+                    ),
+                    Opacity(
+                      opacity: _tabController.index == 1
+                          ? _tabController.animation.value
+                          : 1,
+                      child: ArticlesList(
+                        onFavorited: _onFavorited,
+                        onLoadMore: () {
+                          _articlesBloc.dispatch(LoadArticlesFeedEvent());
+                        },
+                        onRefresh: () async {
+                          _articlesBloc.dispatch(
+                            LoadArticlesFeedEvent(refresh: true),
+                          );
+                        },
                       ),
-                    ],
-                  );
-                }),
+                    ),
+                  ],
+                );
+              },
+            ),
           )
         ],
       ),
