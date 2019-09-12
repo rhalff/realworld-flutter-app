@@ -26,16 +26,19 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Create a comment for an article
   ///
   /// Create a comment for an article. Auth is required
-  @PostReq(path: '/articles/:slug/comments', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @PostReq(
+    path: '/articles/:slug/comments',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleCommentResponse> createArticleComment(
     @PathParam('slug') String slug,
@@ -47,16 +50,19 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   /// Delete a comment for an article
   ///
   /// Delete a comment for an article. Auth is required
-  @DeleteReq(path: '/articles/:slug/comments/:id', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @DeleteReq(
+    path: '/articles/:slug/comments/:id',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<void> deleteArticleComment(
     @PathParam('slug') String slug,

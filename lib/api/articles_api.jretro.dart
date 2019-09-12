@@ -46,6 +46,16 @@ abstract class _$ArticlesApiClient implements ApiClient {
 
   Future<SingleArticleResponse> getArticle(String slug) async {
     var req = base.get
+        .metadata({
+          "auth": [
+            {
+              "type": "apiKey",
+              "name": "Token",
+              "keyName": "Authorization",
+              "where": "header",
+            }
+          ],
+        })
         .path(basePath)
         .path("/articles/:slug")
         .pathParams("slug", slug);

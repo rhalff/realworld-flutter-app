@@ -27,16 +27,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Create an article
   ///
   /// Create an article. Auth is required
-  @PostReq(path: '/articles', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @PostReq(
+    path: '/articles',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleArticleResponse> createArticle(
     @AsJson() NewArticleRequest article,
@@ -47,16 +50,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Delete an article
   ///
   /// Delete an article. Auth is required
-  @DeleteReq(path: '/articles/:slug', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @DeleteReq(
+    path: '/articles/:slug',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<void> deleteArticle(@PathParam('slug') String slug) {
     return super.deleteArticle(slug).timeout(timeout);
@@ -65,7 +71,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Get an article
   ///
   /// Get an article. Auth not required
-  @GetReq(path: '/articles/:slug')
+  @GetReq(
+    path: '/articles/:slug',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleArticleResponse> getArticle(@PathParam('slug') String slug) {
     return super.getArticle(slug).timeout(timeout);
@@ -91,16 +109,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Get recent articles from users you follow
   ///
   /// Get most recent articles from users you follow. Use query parameters to limit. Auth is required
-  @GetReq(path: '/articles/feed', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @GetReq(
+    path: '/articles/feed',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<MultipleArticlesResponse> getArticlesFeed(
     @QueryParam('limit') int limit,
@@ -112,16 +133,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Update an article
   ///
   /// Update an article. Auth is required
-  @PutReq(path: '/articles/:slug', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @PutReq(
+    path: '/articles/:slug',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleArticleResponse> updateArticle(
     @PathParam('slug') String slug,

@@ -24,16 +24,19 @@ class ProfileApi extends ApiClient with _$ProfileApiClient {
   /// Follow a user
   ///
   /// Follow a user by username
-  @PostReq(path: '/profiles/:username/follow', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @PostReq(
+    path: '/profiles/:username/follow',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<ProfileResponse> followUserByUsername(
     @PathParam('username') String username,
@@ -55,16 +58,19 @@ class ProfileApi extends ApiClient with _$ProfileApiClient {
   /// Unfollow a user
   ///
   /// Unfollow a user by username
-  @DeleteReq(path: '/profiles/:username/follow', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @DeleteReq(
+    path: '/profiles/:username/follow',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<ProfileResponse> unfollowUserByUsername(
     @PathParam('username') String username,

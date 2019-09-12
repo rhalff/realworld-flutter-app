@@ -24,16 +24,19 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
   /// Favorite an article
   ///
   /// Favorite an article. Auth is required
-  @PostReq(path: '/articles/:slug/favorite', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @PostReq(
+    path: '/articles/:slug/favorite',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleArticleResponse> createArticleFavorite(
     @PathParam('slug') String slug,
@@ -45,16 +48,19 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
   ///
   /// Unfavorite an article. Auth is required
   @override
-  @DeleteReq(path: '/articles/:slug/favorite', metadata: {
-    'auth': [
-      {
-        'type': 'apiKey',
-        'name': 'Token',
-        'keyName': 'Authorization',
-        'where': 'header'
-      }
-    ]
-  })
+  @DeleteReq(
+    path: '/articles/:slug/favorite',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<SingleArticleResponse> deleteArticleFavorite(
     @PathParam('slug') String slug,
