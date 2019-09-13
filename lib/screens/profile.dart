@@ -59,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
 
           child = ProfilePage(
+            user: widget.user,
             profile: state.profile,
           );
         } else {

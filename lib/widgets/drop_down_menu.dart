@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MenuItem {
+  final String id;
   final String label;
   final IconData icon;
 
   MenuItem({
-    this.label,
+    @required this.id,
+    @required this.label,
     this.icon,
   });
 }
@@ -43,7 +45,7 @@ class DropdownMenuState extends State<DropdownMenu> {
             value: item,
             child: Row(
               children: <Widget>[
-                Icon(item.icon),
+                if (item.icon != null) Icon(item.icon),
                 const SizedBox(width: 10),
                 Text(item.label),
               ],
@@ -60,14 +62,17 @@ class DropdownMenuState extends State<DropdownMenu> {
 
     return Container(
       child: DropdownButton(
-        icon: Icon(
-          Icons.more_vert,
-          color: iconColor,
-        ),
-        underline: Container(),
-        items: _dropDownMenuItems,
-        onChanged: (MenuItem item) => setState(() => widget.onSelect(item)),
-      ),
+          icon: Icon(
+            Icons.more_vert,
+            color: iconColor,
+          ),
+          underline: Container(),
+          items: _dropDownMenuItems,
+          onChanged: (MenuItem item) {
+            setState(() {
+              widget.onSelect(item);
+            });
+          }),
     );
   }
 }
