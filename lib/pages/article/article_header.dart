@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide DropdownMenu;
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 

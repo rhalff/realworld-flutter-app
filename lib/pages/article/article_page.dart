@@ -5,6 +5,7 @@ import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/user.dart';
+import 'package:realworld_flutter/widgets/drop_down_menu.dart';
 
 import 'article_comment_form.dart';
 import 'article_comments.dart';
@@ -38,7 +39,24 @@ class _ArticlePageState extends State<ArticlePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        ArticleHeader(article: widget.article),
+        Stack(
+          children: <Widget>[
+            ArticleHeader(article: widget.article),
+            if (widget.article.author.username == widget.user.username)
+              Positioned(
+                top: 10,
+                right: 10,
+                child: DropdownMenu(
+                  items: [
+                    MenuItem(
+                      label: 'Edit article',
+                      icon: Icons.edit,
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
         Container(
           padding: const EdgeInsets.all(8),
           child: Column(
