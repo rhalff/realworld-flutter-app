@@ -8,7 +8,8 @@ part of 'articles_api.dart';
 
 abstract class _$ArticlesApiClient implements ApiClient {
   final String basePath = "";
-  Future<SingleArticleResponse> createArticle(NewArticleRequest article) async {
+  Future<SingleArticleResponse> createArticle(
+      ArticleSubmissionRequest article) async {
     var req = base.post
         .metadata({
           "auth": [
@@ -96,7 +97,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
   }
 
   Future<SingleArticleResponse> updateArticle(
-      String slug, UpdateArticleRequest article) async {
+      String slug, ArticleSubmissionRequest article) async {
     var req = base.put
         .metadata({
           "auth": [

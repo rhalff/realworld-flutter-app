@@ -1,10 +1,10 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:validations/validations.dart';
 
-part 'new_article.g.dart';
-part 'new_article.jser.dart';
+part 'article_submission.g.dart';
+part 'article_submission.jser.dart';
 
-class NewArticle {
+class ArticleSubmission {
   @Alias('title', isNullable: false)
   @Size(
     min: 2,
@@ -25,10 +25,9 @@ class NewArticle {
   String body;
 
   @Alias('tagList', isNullable: false)
-  @NotEmpty()
   List<String> tagList;
 
-  NewArticle({
+  ArticleSubmission({
     this.title,
     this.description,
     this.body,
@@ -37,14 +36,14 @@ class NewArticle {
 
   @override
   String toString() {
-    return 'NewArticle[title=$title, description=$description, body=$body, tagList=$tagList]';
+    return 'ArticleSubmission[title=$title, description=$description, body=$body, tagList=$tagList]';
   }
 }
 
 @GenSerializer(nullableFields: true)
-class NewArticleSerializer extends Serializer<NewArticle>
-    with _$NewArticleSerializer {}
+class ArticleSubmissionSerializer extends Serializer<ArticleSubmission>
+    with _$ArticleSubmissionSerializer {}
 
 @GenValidator()
-class NewArticleValidator extends Validator<NewArticle>
-    with _$NewArticleValidator {}
+class ArticleSubmissionValidator extends Validator<ArticleSubmission>
+    with _$ArticleSubmissionValidator {}

@@ -5,6 +5,7 @@ import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/user.dart';
+import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/widgets/drop_down_menu.dart';
 
 import 'article_comment_form.dart';
@@ -54,6 +55,16 @@ class _ArticlePageState extends State<ArticlePage> {
                       icon: Icons.edit,
                     ),
                   ],
+                  onSelect: (MenuItem item) {
+                    if (item.id == 'edit-article') {
+                      Navigator.of(context).pushNamed(
+                        ArticleEditorScreen.route,
+                        arguments: {
+                          'slug': widget.article.slug,
+                        },
+                      );
+                    }
+                  },
                 ),
               ),
           ],

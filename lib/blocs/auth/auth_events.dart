@@ -6,7 +6,7 @@ abstract class AuthEvent {}
 class SignedInEvent extends AuthEvent {
   final String accessToken;
   SignedInEvent({
-    this.accessToken,
+    @required this.accessToken,
   });
 }
 

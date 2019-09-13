@@ -9,14 +9,14 @@ abstract class ArticleEvent extends Equatable {
 class LoadArticleEvent extends ArticleEvent {
   final String slug;
   const LoadArticleEvent({
-    this.slug,
+    @required this.slug,
   });
   @override
   String toString() => 'LoadArticleEvent[$slug]';
 }
 
 class CreateArticleEvent extends ArticleEvent {
-  final NewArticle article;
+  final ArticleSubmission article;
   CreateArticleEvent({
     this.article,
   });
@@ -27,10 +27,10 @@ class CreateArticleEvent extends ArticleEvent {
 @immutable
 class UpdateArticleEvent extends ArticleEvent {
   final String slug;
-  final UpdateArticle article;
+  final ArticleSubmission article;
   const UpdateArticleEvent({
-    this.slug,
-    this.article,
+    @required this.slug,
+    @required this.article,
   });
   @override
   String toString() => 'UpdateArticleEvent[slug: $slug, article: $article]';
@@ -40,7 +40,7 @@ class UpdateArticleEvent extends ArticleEvent {
 class DeleteArticleEvent extends ArticleEvent {
   final String slug;
   const DeleteArticleEvent({
-    this.slug,
+    @required this.slug,
   });
   @override
   String toString() => 'DeleteArticleEvent[slug: $slug]';
@@ -50,7 +50,7 @@ class DeleteArticleEvent extends ArticleEvent {
 class ToggleFavoriteEvent extends ArticleEvent {
   final String slug;
   ToggleFavoriteEvent({
-    this.slug,
+    @required this.slug,
   }); // : super([slug]);
   @override
   String toString() => 'ToggleFavoriteEvent[slug: $slug]';

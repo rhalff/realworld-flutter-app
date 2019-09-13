@@ -8,7 +8,7 @@ abstract class CommentsEvent extends Equatable {
 class LoadCommentsEvent extends CommentsEvent {
   final String slug;
   LoadCommentsEvent({
-    this.slug,
+    @required this.slug,
   }) : super([slug]);
   @override
   String toString() => 'LoadComments[slug: $slug]';
@@ -19,8 +19,8 @@ class CreateCommentEvent extends CommentsEvent {
   final String slug;
   final NewComment comment;
   CreateCommentEvent({
-    this.slug,
-    this.comment,
+    @required this.slug,
+    @required this.comment,
   });
   @override
   String toString() => 'CreateCommentEvent[slug: $slug, comment: $comment]';
@@ -31,8 +31,8 @@ class DeleteCommentEvent extends CommentsEvent {
   final String slug;
   final int id;
   DeleteCommentEvent({
-    this.slug,
-    this.id,
+    @required this.slug,
+    @required this.id,
   });
   @override
   String toString() => 'DeleteCommentEvent[slug: $slug, id: $id]';

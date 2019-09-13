@@ -7,8 +7,8 @@ class UpdateFavoriteEvent extends FavoriteEvent {
   final String slug;
   final bool favorited;
   UpdateFavoriteEvent({
-    this.slug,
-    this.favorited,
+    @required this.slug,
+    @required this.favorited,
   }); // : super([slug]);
   @override
   String toString() =>

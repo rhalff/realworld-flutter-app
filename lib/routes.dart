@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/screens/article.dart';
+import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/screens/home.dart';
-import 'package:realworld_flutter/screens/new_article.dart';
 import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
@@ -70,14 +70,16 @@ RouteFactory routes({
           ),
         );
         break;
-      case NewArticleScreen.route:
+      case ArticleEditorScreen.route:
         screen = MultiBlocProvider(
           providers: [
             BlocProvider<ArticleBloc>.value(
               value: application.articleBloc,
             ),
           ],
-          child: NewArticleScreen(),
+          child: ArticleEditorScreen(
+            slug: arguments['slug'] as String,
+          ),
         );
         break;
       case SignUpScreen.route:

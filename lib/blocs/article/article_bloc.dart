@@ -18,6 +18,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       yield* _loadArticle(event);
     } else if (event is CreateArticleEvent) {
       yield* _createArticle(event);
+    } else if (event is UpdateArticleEvent) {
+      yield* _updateArticle(event);
     } else if (event is DeleteArticleEvent) {
       yield* _deleteArticle(event);
     } else if (event is ToggleFavoriteEvent) {
@@ -45,7 +47,25 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       yield ArticleLoading();
       final article = await articlesRepository.createArticle(event.article);
 
-      yield ArticleLoaded(
+      yield ArticleSaved(
+        article: article,
+      );
+    } catch (error) {
+      print(error);
+      yield ArticleError(error);
+    }
+  }
+
+  Stream<ArticleState> _updateArticle(UpdateArticleEvent event) async* {
+    try {
+      yield ArticleLoading();
+
+      final article = await articlesRepository.updateArticle(
+        event.slug,
+        event.article,
+      );
+
+      yield ArticleSaved(
         article: article,
       );
     } catch (error) {

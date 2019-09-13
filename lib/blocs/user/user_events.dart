@@ -13,7 +13,9 @@ class LoadUserEvent extends UserEvent {
 class UpdateUserEvent extends UserEvent {
   final UpdateUser user;
 
-  UpdateUserEvent(this.user) : super([user]);
+  UpdateUserEvent(
+    this.user,
+  ) : super([user]);
 
   @override
   String toString() => 'UpdateUserEvent: [user: $user]';

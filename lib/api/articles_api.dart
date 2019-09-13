@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:realworld_flutter/api/model/request/new_article_request.dart';
-import 'package:realworld_flutter/api/model/request/update_article_request.dart';
+import 'package:realworld_flutter/api/model/request/article_submission_request.dart';
 import 'package:realworld_flutter/api/model/response/multiple_articles_response.dart';
 import 'package:realworld_flutter/api/model/response/single_article_response.dart';
 
@@ -42,7 +41,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   )
   @override
   Future<SingleArticleResponse> createArticle(
-    @AsJson() NewArticleRequest article,
+    @AsJson() ArticleSubmissionRequest article,
   ) {
     return super.createArticle(article).timeout(timeout);
   }
@@ -149,7 +148,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @override
   Future<SingleArticleResponse> updateArticle(
     @PathParam('slug') String slug,
-    @AsJson() UpdateArticleRequest article,
+    @AsJson() ArticleSubmissionRequest article,
   ) {
     return super.updateArticle(slug, article).timeout(timeout);
   }

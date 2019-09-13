@@ -15,6 +15,15 @@ class ArticleLoading extends ArticleState {
   String toString() => 'ArticleLoading';
 }
 
+class ArticleSaved extends ArticleState {
+  final Article article;
+  ArticleSaved({
+    this.article,
+  });
+  @override
+  String toString() => 'ArticleSaved(article: $article)';
+}
+
 class ArticleLoaded extends ArticleState {
   final Article article;
   final List<Comment> comments;

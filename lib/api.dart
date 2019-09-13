@@ -7,17 +7,15 @@ import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:realworld_flutter/api/articles_api.dart';
 import 'package:realworld_flutter/api/comments_api.dart';
 import 'package:realworld_flutter/api/favorites_api.dart';
+import 'package:realworld_flutter/api/model/article_submission.dart';
 import 'package:realworld_flutter/api/model/generic_error_model.dart';
 import 'package:realworld_flutter/api/model/generic_error_model_errors.dart';
 import 'package:realworld_flutter/api/model/login_user.dart';
-import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
 import 'package:realworld_flutter/api/model/request/login_user_request.dart';
-import 'package:realworld_flutter/api/model/request/new_article_request.dart';
 import 'package:realworld_flutter/api/model/request/new_comment_request.dart';
 import 'package:realworld_flutter/api/model/request/new_user_request.dart';
-import 'package:realworld_flutter/api/model/request/update_article_request.dart';
 import 'package:realworld_flutter/api/model/request/update_user_request.dart';
 import 'package:realworld_flutter/api/model/response/multiple_articles_response.dart';
 import 'package:realworld_flutter/api/model/response/multiple_comments_response.dart';
@@ -26,7 +24,6 @@ import 'package:realworld_flutter/api/model/response/single_article_response.dar
 import 'package:realworld_flutter/api/model/response/single_comment_response.dart';
 import 'package:realworld_flutter/api/model/response/tags_response.dart';
 import 'package:realworld_flutter/api/model/response/user_response.dart';
-import 'package:realworld_flutter/api/model/update_article.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/tags_api.dart';
@@ -39,6 +36,8 @@ import 'package:realworld_flutter/model/comment.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
 
+import 'api/model/request/article_submission_request.dart';
+
 final _jsonJaguarRepo = JsonRepo()
   ..add(ArticleSerializer())
   ..add(CommentSerializer())
@@ -48,8 +47,6 @@ final _jsonJaguarRepo = JsonRepo()
   ..add(LoginUserRequestSerializer())
   ..add(MultipleArticlesResponseSerializer())
   ..add(MultipleCommentsResponseSerializer())
-  ..add(NewArticleSerializer())
-  ..add(NewArticleRequestSerializer())
   ..add(NewCommentSerializer())
   ..add(NewCommentRequestSerializer())
   ..add(NewUserSerializer())
@@ -59,8 +56,8 @@ final _jsonJaguarRepo = JsonRepo()
   ..add(SingleArticleResponseSerializer())
   ..add(SingleCommentResponseSerializer())
   ..add(TagsResponseSerializer())
-  ..add(UpdateArticleSerializer())
-  ..add(UpdateArticleRequestSerializer())
+  ..add(ArticleSubmissionSerializer())
+  ..add(ArticleSubmissionRequestSerializer())
   ..add(UpdateUserSerializer())
   ..add(UpdateUserRequestSerializer())
   ..add(UserSerializer())

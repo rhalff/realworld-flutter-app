@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:realworld_flutter/api/model/new_article.dart';
+import 'package:realworld_flutter/api/model/article_submission.dart';
 import 'package:realworld_flutter/helpers/form.dart';
+import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
-class NewArticleForm extends StatefulWidget {
+class ArticleForm extends StatefulWidget {
   final String error;
-  final Function(NewArticle article) onSave;
-  NewArticleForm({
+  final Function(ArticleSubmission article) onSave;
+  final Article article;
+  ArticleForm({
+    this.article,
     this.error,
     this.onSave,
   });
   @override
-  _NewArticleFormState createState() => _NewArticleFormState();
+  _ArticleFormState createState() => _ArticleFormState();
 }
 
-class _NewArticleFormState extends State<NewArticleForm> {
+class _ArticleFormState extends State<ArticleForm> {
   final _formKey = GlobalKey<FormState>();
-  final _data = NewArticle();
-  NewArticleValidator _validator;
+  final _data = ArticleSubmission();
+  ArticleSubmissionValidator _validator;
 
   @override
   void initState() {
     super.initState();
 
-    _validator = NewArticleValidator();
+    _validator = ArticleSubmissionValidator();
   }
 
   @override
@@ -39,6 +42,7 @@ class _NewArticleFormState extends State<NewArticleForm> {
             ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.article?.title,
             hintText: 'Title',
             // focusNode: _emailFocus,
             validator: _validator.validateTitle,
@@ -50,6 +54,7 @@ class _NewArticleFormState extends State<NewArticleForm> {
           ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.article?.description,
             hintText: 'What\'s this article about?',
             // focusNode: _emailFocus,
             validator: _validator.validateDescription,
@@ -61,6 +66,7 @@ class _NewArticleFormState extends State<NewArticleForm> {
           ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.article?.body,
             hintText: 'Write your post (in markdown)',
             maxLines: 8,
             // focusNode: _emailFocus,
@@ -73,20 +79,22 @@ class _NewArticleFormState extends State<NewArticleForm> {
           ),
           const SizedBox(height: 16),
           createTextField(
+            initialValue: widget.article?.tagList?.join(' '),
             hintText: 'Enter tags',
             autovalidate: false,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
               _data.tagList = value?.split(' ') ?? [];
             },
-            validator: _validator.validateTagList,
+            // validator: _validator.validateTagList,
           ),
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
-              text: 'Create article',
-              onPressed: _updateNewArticle,
+              text:
+                  widget.article == null ? 'Create article' : 'Update article',
+              onPressed: _saveArticle,
             ),
           ),
         ],
@@ -94,12 +102,12 @@ class _NewArticleFormState extends State<NewArticleForm> {
     );
   }
 
-  void _updateNewArticle() {
+  void _saveArticle() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
       widget?.onSave(
-        NewArticle(
+        ArticleSubmission(
           title: _data.title,
           description: _data.description,
           body: _data.body,

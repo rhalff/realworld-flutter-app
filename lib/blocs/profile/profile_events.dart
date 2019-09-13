@@ -8,7 +8,7 @@ abstract class ProfileEvent extends Equatable {
 class LoadProfileEvent extends ProfileEvent {
   final String username;
   LoadProfileEvent({
-    this.username,
+    @required this.username,
   }) : super([username]);
   @override
   String toString() => 'LoadProfileEvent(username: username)';
@@ -17,7 +17,7 @@ class LoadProfileEvent extends ProfileEvent {
 class ToggleFollowUserEvent extends ProfileEvent {
   final String username;
   ToggleFollowUserEvent({
-    this.username,
+    @required this.username,
   }) : super([username]);
   @override
   String toString() => 'FollowUserEvent(username: $username)';

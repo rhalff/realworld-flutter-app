@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'new_article.dart';
+part of 'article_submission.dart';
 
 // **************************************************************************
 // ValidatorGenerator
 // **************************************************************************
 
-abstract class _$NewArticleValidator implements Validator<NewArticle> {
+abstract class _$ArticleSubmissionValidator
+    implements Validator<ArticleSubmission> {
   @override
   List<FieldValidator> getFieldValidators() {
     return [
@@ -15,23 +16,19 @@ abstract class _$NewArticleValidator implements Validator<NewArticle> {
       FieldValidator<String>(
           name: 'description',
           validators: [NotEmptyValidator(), SizeValidator(min: 1, max: 500)]),
-      FieldValidator<String>(name: 'body', validators: [NotEmptyValidator()]),
-      FieldValidator<List<String>>(
-          name: 'tagList', validators: [NotEmptyValidator()])
+      FieldValidator<String>(name: 'body', validators: [NotEmptyValidator()])
     ];
   }
 
   String validateTitle(Object value) => errorCheck('title', value);
   String validateDescription(Object value) => errorCheck('description', value);
   String validateBody(Object value) => errorCheck('body', value);
-  String validateTagList(Object value) => errorCheck('tagList', value);
   @override
-  PropertyMap<NewArticle> props(NewArticle instance) {
-    return PropertyMap<NewArticle>({
+  PropertyMap<ArticleSubmission> props(ArticleSubmission instance) {
+    return PropertyMap<ArticleSubmission>({
       'title': instance.title,
       'description': instance.description,
-      'body': instance.body,
-      'tagList': instance.tagList
+      'body': instance.body
     });
   }
 }

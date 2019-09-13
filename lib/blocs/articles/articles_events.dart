@@ -33,7 +33,7 @@ class LoadArticlesFeedEvent extends ArticlesEvent {
 class ToggleFavoriteEvent extends ArticlesEvent {
   final String slug;
   ToggleFavoriteEvent({
-    this.slug,
+    @required this.slug,
   }); // : super([slug]);
   @override
   String toString() => 'ToggleFavoriteEvent[slug: $slug]';
