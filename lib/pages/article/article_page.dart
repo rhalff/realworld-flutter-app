@@ -49,6 +49,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 child: DropdownMenu(
                   items: [
                     MenuItem(
+                      id: 'edit-article',
                       label: 'Edit article',
                       icon: Icons.edit,
                     ),

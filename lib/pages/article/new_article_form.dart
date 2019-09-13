@@ -3,58 +3,28 @@ import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
-import 'package:validations/validations.dart';
 
-part 'new_post.g.dart';
-
-class PostData {
-  @Size(
-    min: 2,
-    max: 255,
-  )
-  String title;
-
-  @NotEmpty()
-  @Size(
-    min: 1,
-    max: 500,
-  )
-  String description;
-
-  @NotEmpty()
-  String body;
-
-  @NotEmpty()
-  List<String> tags;
-}
-
-@GenValidator(fields: {})
-class PostDataValidator extends Validator<PostData> with _$PostDataValidator {}
-
-class NewPostForm extends StatefulWidget {
+class NewArticleForm extends StatefulWidget {
   final String error;
   final Function(NewArticle article) onSave;
-  NewPostForm({
+  NewArticleForm({
     this.error,
     this.onSave,
   });
   @override
-  _NewPostFormState createState() => _NewPostFormState();
+  _NewArticleFormState createState() => _NewArticleFormState();
 }
 
-class _NewPostFormState extends State<NewPostForm> {
+class _NewArticleFormState extends State<NewArticleForm> {
   final _formKey = GlobalKey<FormState>();
-  final _data = PostData();
-  // ArticleBloc _articleBloc;
-  PostDataValidator _validator;
+  final _data = NewArticle();
+  NewArticleValidator _validator;
 
   @override
   void initState() {
     super.initState();
 
-    _validator = PostDataValidator();
-
-    // _articleBloc = BlocProvider.of<ArticleBloc>(context);
+    _validator = NewArticleValidator();
   }
 
   @override
@@ -107,16 +77,16 @@ class _NewPostFormState extends State<NewPostForm> {
             autovalidate: false,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
-              _data.tags = value?.split(' ') ?? [];
+              _data.tagList = value?.split(' ') ?? [];
             },
-            validator: _validator.validateTags,
+            validator: _validator.validateTagList,
           ),
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
-              text: 'Create Post',
-              onPressed: _updateNewPost,
+              text: 'Create article',
+              onPressed: _updateNewArticle,
             ),
           ),
         ],
@@ -124,7 +94,7 @@ class _NewPostFormState extends State<NewPostForm> {
     );
   }
 
-  void _updateNewPost() {
+  void _updateNewArticle() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -133,7 +103,7 @@ class _NewPostFormState extends State<NewPostForm> {
           title: _data.title,
           description: _data.description,
           body: _data.body,
-          tagList: _data.tags,
+          tagList: _data.tagList,
         ),
       );
     }

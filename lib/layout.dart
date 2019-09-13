@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realworld_flutter/screens/new_post.dart';
+import 'package:realworld_flutter/screens/new_article.dart';
 import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
@@ -48,7 +48,7 @@ class _LayoutState extends State<Layout> {
                   constraints:
                       const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
                   padding: const EdgeInsets.all(3),
-                  onPressed: _navigateTo(context, NewPostScreen.route),
+                  onPressed: _navigateTo(context, NewArticleScreen.route),
                 ),
               if (state is! Authenticated)
                 RawMaterialButton(

@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/new_article.dart';
 import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
-import 'package:realworld_flutter/pages/new_post.dart';
+import 'package:realworld_flutter/pages/article/new_article_form.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 import 'article.dart';
 
-class NewPostScreen extends StatefulWidget {
+class NewArticleScreen extends StatefulWidget {
   static const String route = '/new_post';
 
   @override
-  _NewPostScreenState createState() => _NewPostScreenState();
+  _NewArticleScreenState createState() => _NewArticleScreenState();
 }
 
-class _NewPostScreenState extends State<NewPostScreen> {
+class _NewArticleScreenState extends State<NewArticleScreen> {
   ArticleBloc _articleBloc;
 
   @override
@@ -55,7 +55,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 }
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: NewPostForm(
+                  child: NewArticleForm(
                     onSave: _saveForm,
                     error: error.toString(),
                   ),

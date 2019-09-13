@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'new_post.dart';
+part of 'new_article.dart';
 
 // **************************************************************************
 // ValidatorGenerator
 // **************************************************************************
 
-abstract class _$PostDataValidator implements Validator<PostData> {
+abstract class _$NewArticleValidator implements Validator<NewArticle> {
   @override
   List<FieldValidator> getFieldValidators() {
     return [
@@ -17,21 +17,21 @@ abstract class _$PostDataValidator implements Validator<PostData> {
           validators: [NotEmptyValidator(), SizeValidator(min: 1, max: 500)]),
       FieldValidator<String>(name: 'body', validators: [NotEmptyValidator()]),
       FieldValidator<List<String>>(
-          name: 'tags', validators: [NotEmptyValidator()])
+          name: 'tagList', validators: [NotEmptyValidator()])
     ];
   }
 
   String validateTitle(Object value) => errorCheck('title', value);
   String validateDescription(Object value) => errorCheck('description', value);
   String validateBody(Object value) => errorCheck('body', value);
-  String validateTags(Object value) => errorCheck('tags', value);
+  String validateTagList(Object value) => errorCheck('tagList', value);
   @override
-  PropertyMap<PostData> props(PostData instance) {
-    return PropertyMap<PostData>({
+  PropertyMap<NewArticle> props(NewArticle instance) {
+    return PropertyMap<NewArticle>({
       'title': instance.title,
       'description': instance.description,
       'body': instance.body,
-      'tags': instance.tags
+      'tagList': instance.tagList
     });
   }
 }

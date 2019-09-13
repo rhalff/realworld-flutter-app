@@ -1,19 +1,32 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
+import 'package:validations/validations.dart';
 
+part 'new_article.g.dart';
 part 'new_article.jser.dart';
 
 class NewArticle {
   @Alias('title', isNullable: false)
-  final String title;
+  @Size(
+    min: 2,
+    max: 255,
+  )
+  String title;
 
   @Alias('description', isNullable: false)
-  final String description;
+  @NotEmpty()
+  @Size(
+    min: 1,
+    max: 500,
+  )
+  String description;
 
   @Alias('body', isNullable: false)
-  final String body;
+  @NotEmpty()
+  String body;
 
   @Alias('tagList', isNullable: false)
-  final List<String> tagList;
+  @NotEmpty()
+  List<String> tagList;
 
   NewArticle({
     this.title,
@@ -31,3 +44,7 @@ class NewArticle {
 @GenSerializer(nullableFields: true)
 class NewArticleSerializer extends Serializer<NewArticle>
     with _$NewArticleSerializer {}
+
+@GenValidator()
+class NewArticleValidator extends Validator<NewArticle>
+    with _$NewArticleValidator {}
