@@ -83,7 +83,7 @@ class _ArticlePageState extends State<ArticlePage> {
               const SizedBox(height: 24),
               widget.user != null
                   ? ArticleCommentForm(
-                      avatar: widget.user.image,
+                      user: widget.user,
                       onSubmit: (String comment) {
                         _commentsBloc.dispatch(
                           CreateCommentEvent(

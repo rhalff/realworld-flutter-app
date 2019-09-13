@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
 import 'article_meta.dart';
 
+final _formKey = GlobalKey<FormState>();
+
 class ArticleCommentForm extends StatefulWidget {
-  final String avatar;
+  final User user;
   final Function(String comment) onSubmit;
   ArticleCommentForm({
     Key key,
-    this.avatar,
+    this.user,
     this.onSubmit,
   }) : super(key: key);
 
@@ -26,48 +29,58 @@ class _ArticleCommentFormState extends State<ArticleCommentForm> {
         border: Border.all(color: const Color(0XFFE5E5E5)),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Write a comment...',
-                  contentPadding: const EdgeInsets.all(14),
-                ),
-                minLines: 2,
-                maxLines: 10,
-                onChanged: (String value) {
-                  setState(() {
-                    _comment = value;
-                  });
-                }),
-          ),
-          Container(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
               padding: const EdgeInsets.all(8),
-              color: const Color(0XFFF5F5F5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  ArticleMeta(
-                    avatar: widget.avatar,
+              child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Write a comment...',
+                    contentPadding: const EdgeInsets.all(14),
                   ),
-                  if (_comment != null && _comment.isNotEmpty)
-                    RoundedButton(
-                      text: 'Post Comment',
-                      onPressed: _onSubmit,
+                  minLines: 2,
+                  maxLines: 10,
+                  onChanged: (String value) {
+                    setState(() {
+                      _comment = value;
+                    });
+                  }),
+            ),
+            Container(
+                padding: const EdgeInsets.all(8),
+                color: const Color(0XFFF5F5F5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ArticleMeta(
+                      author: widget.user.username,
+                      avatar: widget.user.image,
                     ),
-                ],
-              ))
-        ],
+                    if (_comment != null && _comment.isNotEmpty)
+                      RoundedButton(
+                        text: 'Post Comment',
+                        onPressed: _onSubmit,
+                      ),
+                  ],
+                ))
+          ],
+        ),
       ),
     );
   }
 
   void _onSubmit() {
-    if (widget.onSubmit != null) {
+    if (_formKey.currentState.validate()) {
       widget.onSubmit(_comment);
+
+      _formKey.currentState.reset();
+
+      setState(() {
+        _comment = null;
+      });
     }
   }
 }
