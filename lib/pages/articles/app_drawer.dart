@@ -57,7 +57,13 @@ class AppDrawer extends StatelessWidget {
         ListTile(
           title: const Text('Favorited'),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).popAndPushNamed(
+              ProfileScreen.route,
+              arguments: {
+                'username': user.username,
+                'feed': 'favorited-posts',
+              },
+            );
           },
         ),
         const Divider(),

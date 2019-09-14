@@ -6,6 +6,7 @@ import 'package:realworld_flutter/widgets/error_container.dart';
 import 'article_widget.dart';
 
 class Feed extends StatefulWidget {
+  final String id;
   final String label;
   final Function(ArticlesBloc bloc) onRefresh;
   final Function(ArticlesBloc bloc) onLoad;
@@ -13,6 +14,7 @@ class Feed extends StatefulWidget {
   final Function(ArticlesBloc bloc, String slug) onFavorited;
   final double scrollThreshold;
   Feed({
+    @required this.id,
     @required this.label,
     @required this.onRefresh,
     @required this.onLoad,

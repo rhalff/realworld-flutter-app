@@ -9,6 +9,7 @@ import 'package:realworld_flutter/widgets/header.dart';
 
 final feeds = [
   Feed(
+    id: 'your-feed',
     label: 'Your Feed',
     onFavorited: (ArticlesBloc bloc, String slug) {
       bloc.dispatch(
@@ -30,6 +31,7 @@ final feeds = [
     },
   ),
   Feed(
+    id: 'global-feed',
     label: 'Global Feed',
     onFavorited: (ArticlesBloc bloc, String slug) {
       bloc.dispatch(

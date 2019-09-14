@@ -13,9 +13,11 @@ import 'package:realworld_flutter/widgets/drop_down_menu.dart';
 class ProfilePage extends StatefulWidget {
   final Profile profile;
   final User user;
+  final String initialFeed;
   const ProfilePage({
     this.profile,
     this.user,
+    this.initialFeed,
   });
 
   @override
@@ -27,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     final feeds = [
       Feed(
+        id: 'my-posts',
         label: 'My Posts',
         onFavorited: (ArticlesBloc bloc, String slug) {
           bloc.dispatch(
@@ -60,6 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       ),
       Feed(
+        id: 'favorited-posts',
         label: 'Favorited Posts',
         onFavorited: (ArticlesBloc bloc, String slug) {
           bloc.dispatch(
@@ -135,7 +139,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                child: Feeds(feeds: feeds),
+                child: Feeds(
+                  feeds: feeds,
+                  initialFeed: widget.initialFeed,
+                ),
               )
             ],
           );

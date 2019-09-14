@@ -7,9 +7,13 @@ import 'feed.dart';
 
 class Feeds extends StatefulWidget {
   final List<Feed> feeds;
+  final String initialFeed;
+
   Feeds({
     @required this.feeds,
-  });
+    this.initialFeed,
+  }) : assert(feeds.isNotEmpty);
+
   @override
   _FeedsState createState() => _FeedsState();
 }
@@ -21,10 +25,14 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    final initialIndex = widget.initialFeed != null
+        ? widget.feeds.indexWhere((Feed feed) => feed.id == widget.initialFeed)
+        : 0;
+
     super.initState();
     _tabController = TabController(
       length: 2,
-      initialIndex: 0,
+      initialIndex: initialIndex == -1 ? 0 : initialIndex,
       vsync: this,
     );
   }

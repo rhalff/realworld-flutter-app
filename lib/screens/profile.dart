@@ -10,11 +10,13 @@ import 'package:realworld_flutter/widgets/scroll_page.dart';
 class ProfileScreen extends StatefulWidget {
   static const String route = '/profile';
   final UserBloc userBloc;
+  final String feed;
 
   final String username;
   ProfileScreen({
     this.userBloc,
     this.username,
+    this.feed,
   });
 
   @override
@@ -63,6 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child = ProfilePage(
             user: user,
             profile: state.profile,
+            initialFeed: widget.feed,
           );
         } else {
           child = Center(

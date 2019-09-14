@@ -61,6 +61,7 @@ RouteFactory routes({
               child: ProfileScreen(
                 userBloc: application.userBloc,
                 username: arguments['username'] as String,
+                feed: arguments['feed'] as String,
               ),
             ));
         break;
