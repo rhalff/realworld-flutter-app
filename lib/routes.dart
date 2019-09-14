@@ -51,7 +51,8 @@ RouteFactory routes({
         screen = BlocProvider(
             builder: (context) => ProfileBloc(
                   userRepository: application.userRepository,
-                ),
+                )..dispatch(LoadProfileEvent(
+                    username: arguments['username'] as String)),
             child: MultiRepositoryProvider(
               providers: [
                 RepositoryProvider<ArticlesRepository>.value(
@@ -60,7 +61,6 @@ RouteFactory routes({
               ],
               child: ProfileScreen(
                 userBloc: application.userBloc,
-                username: arguments['username'] as String,
                 feed: arguments['feed'] as String,
               ),
             ));

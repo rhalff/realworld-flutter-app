@@ -55,14 +55,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       : Icon(Icons.star_border),
                   onPressed: () => _toggleFavorited(state.article.slug),
                 ),
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: _shareArticle,
-              ),
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: _search,
-              ),
             ],
           );
 
@@ -97,7 +89,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
             notchMargin: 4.0,
             child: Row(
               mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: actions,
             ),
           ),
@@ -109,8 +101,4 @@ class _ArticleScreenState extends State<ArticleScreen> {
   void _toggleFavorited(String slug) {
     _articleBloc.dispatch(ToggleFavoriteEvent(slug: slug));
   }
-
-  void _shareArticle() {}
-
-  void _search() {}
 }

@@ -12,10 +12,8 @@ class ProfileScreen extends StatefulWidget {
   final UserBloc userBloc;
   final String feed;
 
-  final String username;
   ProfileScreen({
     this.userBloc,
-    this.username,
     this.feed,
   });
 
@@ -29,8 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _profileBloc = BlocProvider.of<ProfileBloc>(context)
-      ..dispatch(LoadProfileEvent(username: widget.username));
+    _profileBloc = BlocProvider.of<ProfileBloc>(context);
   }
 
   @override
