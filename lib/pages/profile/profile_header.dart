@@ -27,10 +27,12 @@ class ProfileHeader extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 10),
           if (profile.bio != null)
-            Text(
-              profile.bio,
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                profile.bio,
+              ),
             )
         ],
       ),
