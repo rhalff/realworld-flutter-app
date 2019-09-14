@@ -26,6 +26,10 @@ class ProfileHeader extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            profile.bio,
           )
         ],
       ),
