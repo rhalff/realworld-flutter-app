@@ -28,9 +28,10 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            profile.bio,
-          )
+          if (profile.bio != null)
+            Text(
+              profile.bio,
+            )
         ],
       ),
     );
