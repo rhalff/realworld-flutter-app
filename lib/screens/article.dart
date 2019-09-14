@@ -4,7 +4,6 @@ import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
-import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/article/article_page.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
@@ -14,10 +13,10 @@ class ArticleScreen extends StatefulWidget {
   static const String route = '/article';
 
   final String slug;
-  final User user;
+  final UserBloc userBloc;
   ArticleScreen({
     this.slug,
-    this.user,
+    this.userBloc,
   });
 
   @override
@@ -26,18 +25,18 @@ class ArticleScreen extends StatefulWidget {
 
 class _ArticleScreenState extends State<ArticleScreen> {
   ArticleBloc _articleBloc;
-  UserBloc _userBloc;
 
   @override
   void initState() {
     super.initState();
-    _userBloc = BlocProvider.of<UserBloc>(context);
     _articleBloc = BlocProvider.of<ArticleBloc>(context)
       ..dispatch(LoadArticleEvent(slug: widget.slug));
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = widget.userBloc.getCurrentUser();
+
     return BlocBuilder<ArticleBloc, ArticleState>(
       builder: (context, state) {
         final actions = <Widget>[];
@@ -49,7 +48,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
         } else if (state is ArticleLoaded) {
           actions.addAll(
             <Widget>[
-              if (widget.user != null)
+              if (user != null)
                 IconButton(
                   icon: state.article.favorited
                       ? Icon(Icons.star)
@@ -79,7 +78,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
               ),
             ],
             child: ArticlePage(
-              user: widget.user,
+              user: user,
               article: state.article,
             ),
           );

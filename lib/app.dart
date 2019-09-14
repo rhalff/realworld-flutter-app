@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'application.dart';
 import 'blocs/user/bloc.dart';
-import 'model/user.dart';
 import 'routes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -18,12 +17,6 @@ class RealWorldApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (BuildContext context, UserState state) {
-        User user;
-
-        if (state is UserLoaded) {
-          user = state.user;
-        }
-
         return MaterialApp(
           title: 'RealWorld App',
           color: Colors.green,
@@ -33,7 +26,6 @@ class RealWorldApp extends StatelessWidget {
           ),
           // navigatorKey: navigatorKey,
           onGenerateRoute: routes(
-            user: user,
             application: application,
           ),
         );

@@ -43,6 +43,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+  User getCurrentUser() {
+    if (currentState is UserLoaded) {
+      return (currentState as UserLoaded).user;
+    }
+
+    return null;
+  }
+
   Stream<UserState> _loadUser(LoadUserEvent event) async* {
     try {
       yield UserLoading();

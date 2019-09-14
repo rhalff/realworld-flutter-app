@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/profile/bloc.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
+import 'package:realworld_flutter/pages/articles/feed.dart';
+import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/pages/profile/profile_header.dart';
 import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/widgets/drop_down_menu.dart';
@@ -22,6 +25,75 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final feeds = [
+      Feed(
+        label: 'My Posts',
+        onFavorited: (ArticlesBloc bloc, String slug) {
+          bloc.dispatch(
+            ToggleFavoriteEvent(
+              slug: slug,
+            ),
+          );
+        },
+        onLoad: (ArticlesBloc bloc) {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+              refresh: true,
+            ),
+          );
+        },
+        onLoadMore: (ArticlesBloc bloc) {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+            ),
+          );
+        },
+        onRefresh: (ArticlesBloc bloc) async {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+              refresh: true,
+            ),
+          );
+        },
+      ),
+      Feed(
+        label: 'Favorited Posts',
+        onFavorited: (ArticlesBloc bloc, String slug) {
+          bloc.dispatch(
+            ToggleFavoriteEvent(
+              slug: slug,
+            ),
+          );
+        },
+        onLoad: (ArticlesBloc bloc) {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+              refresh: true,
+            ),
+          );
+        },
+        onLoadMore: (ArticlesBloc bloc) {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+            ),
+          );
+        },
+        onRefresh: (ArticlesBloc bloc) async {
+          bloc.dispatch(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+              refresh: true,
+            ),
+          );
+        },
+      ),
+    ];
+
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (
         BuildContext context,
@@ -63,6 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
+                child: Feeds(feeds: feeds),
               )
             ],
           );

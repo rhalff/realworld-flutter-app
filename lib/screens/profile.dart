@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/profile/bloc.dart';
+import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
-import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/profile/profile_page.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String route = '/profile';
-  final User user;
+  final UserBloc userBloc;
 
   final String username;
   ProfileScreen({
-    this.user,
+    this.userBloc,
     this.username,
   });
 
@@ -33,6 +33,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = widget.userBloc.getCurrentUser();
+
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         final actions = <Widget>[];
@@ -46,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         } else if (state is ProfileLoaded) {
           actions.addAll(
             <Widget>[
-              if (widget.user.username != state.profile.username)
+              if (user?.username != state.profile.username)
                 IconButton(
                   icon: state.profile.following
                       ? Icon(Icons.star)
@@ -59,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
 
           child = ProfilePage(
-            user: widget.user,
+            user: user,
             profile: state.profile,
           );
         } else {

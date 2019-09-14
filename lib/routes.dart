@@ -16,13 +16,11 @@ import 'blocs/article/bloc.dart';
 import 'blocs/articles/bloc.dart';
 import 'blocs/profile/bloc.dart';
 import 'blocs/user_profile/bloc.dart';
-import 'model/user.dart';
 import 'screens/hero_splash.dart';
 
 var bootStage = 1;
 
 RouteFactory routes({
-  User user,
   @required Application application,
 }) {
   return (RouteSettings settings) {
@@ -34,30 +32,37 @@ RouteFactory routes({
         pageBuilder: (_, __, ___) => HeroSplash(),
       );
     }
-
     final arguments = settings.arguments as Map<String, dynamic> ?? {};
 
     switch (settings.name) {
       case HomeScreen.route:
-        screen = MultiBlocProvider(
+        screen = MultiRepositoryProvider(
           providers: [
-            BlocProvider<ArticlesBloc>.value(
-              value: application.articlesBloc,
+            RepositoryProvider<ArticlesRepository>.value(
+              value: application.articlesRepository,
             ),
           ],
-          child: HomeScreen(),
+          child: HomeScreen(
+            userBloc: application.userBloc,
+          ),
         );
         break;
       case ProfileScreen.route:
         screen = BlocProvider(
-          builder: (context) => ProfileBloc(
-            userRepository: application.userRepository,
-          ),
-          child: ProfileScreen(
-            user: user,
-            username: arguments['username'] as String,
-          ),
-        );
+            builder: (context) => ProfileBloc(
+                  userRepository: application.userRepository,
+                ),
+            child: MultiRepositoryProvider(
+              providers: [
+                RepositoryProvider<ArticlesRepository>.value(
+                  value: application.articlesRepository,
+                ),
+              ],
+              child: ProfileScreen(
+                userBloc: application.userBloc,
+                username: arguments['username'] as String,
+              ),
+            ));
         break;
       case ArticleScreen.route:
         screen = MultiBlocProvider(
@@ -76,7 +81,7 @@ RouteFactory routes({
               ),
             ],
             child: ArticleScreen(
-              user: user,
+              userBloc: application.userBloc,
               slug: arguments['slug'] as String,
             ),
           ),

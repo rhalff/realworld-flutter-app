@@ -27,14 +27,12 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   @override
   Stream<ArticlesState> mapEventToState(ArticlesEvent event) async* {
-    if (!_hasReachedMax()) {
-      if (event is LoadArticlesEvent) {
-        yield* _loadArticles(event);
-      } else if (event is LoadArticlesFeedEvent) {
-        yield* _loadArticlesFeed(event);
-      } else if (event is ToggleFavoriteEvent) {
-        yield* _toggleFavorite(event);
-      }
+    if (event is LoadArticlesEvent && !_hasReachedMax()) {
+      yield* _loadArticles(event);
+    } else if (event is LoadArticlesFeedEvent && !_hasReachedMax()) {
+      yield* _loadArticlesFeed(event);
+    } else if (event is ToggleFavoriteEvent) {
+      yield* _toggleFavorite(event);
     }
   }
 
