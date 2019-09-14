@@ -4,6 +4,7 @@ import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/articles/articles_list.dart';
+import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
@@ -115,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen>
             ListTile(
               title: const Text('New Article'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context)
+                    .popAndPushNamed(ArticleEditorScreen.route);
               },
             ),
             ListTile(
@@ -130,10 +132,13 @@ class _HomeScreenState extends State<HomeScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const Header(
-            title: 'conduit',
-            subtitle: 'A place to share your knowledge.',
-            padding: EdgeInsets.only(top: 8, bottom: 26),
+          Hero(
+            tag: 'header',
+            child: const Header(
+              title: 'conduit',
+              subtitle: 'A place to share your knowledge.',
+              padding: EdgeInsets.only(top: 8, bottom: 26),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),

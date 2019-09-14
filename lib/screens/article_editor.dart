@@ -5,6 +5,7 @@ import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/pages/article/article_form.dart';
+import 'package:realworld_flutter/widgets/rounded_button.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 import 'article.dart';
@@ -40,7 +41,8 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   Widget build(BuildContext context) {
     return BlocListener(
       bloc: _articleBloc,
-      listener: (BuildContext context, ArticleState state) {
+      listener: (_, __) => {},
+      condition: (_, ArticleState state) {
         if (state is ArticleSaved) {
           Navigator.of(context).popAndPushNamed(
             ArticleScreen.route,
@@ -48,7 +50,11 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
               'slug': state.article.slug,
             },
           );
+
+          return false;
         }
+
+        return true;
       },
       child: Layout(
         child: ScrollPage(
@@ -72,10 +78,23 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: ArticleForm(
-                      article: article,
-                      onSave: _saveForm,
-                      error: error?.toString(),
+                    child: Column(
+                      children: <Widget>[
+                        ArticleForm(
+                          article: article,
+                          onSave: _saveForm,
+                          error: error?.toString(),
+                        ),
+                        if (widget.slug != null)
+                          RoundedButton(
+                            text: 'Remove article',
+                            onPressed: () => _articleBloc.dispatch(
+                              DeleteArticleEvent(
+                                slug: widget.slug,
+                              ),
+                            ),
+                          )
+                      ],
                     ),
                   );
                 },
@@ -91,9 +110,9 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
     if (widget.slug != null) {
       _articleBloc.dispatch(
         UpdateArticleEvent(
-          slug: widget.slug,
-          article: article,
-        ),
+            slug: widget.slug,
+            article: article,
+            onComplete: () => _onComplete(context, widget.slug)),
       );
     } else {
       _articleBloc.dispatch(
@@ -105,5 +124,14 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
 
     Scaffold.of(context)
         .showSnackBar(SnackBar(content: const Text('Saving Article')));
+  }
+
+  void _onComplete(BuildContext context, String slug) {
+    Navigator.of(context).popAndPushNamed(
+      ArticleScreen.route,
+      arguments: {
+        'slug': slug,
+      },
+    );
   }
 }

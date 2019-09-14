@@ -60,14 +60,14 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     try {
       yield ArticleLoading();
 
-      final article = await articlesRepository.updateArticle(
+      await articlesRepository.updateArticle(
         event.slug,
         event.article,
       );
 
-      yield ArticleSaved(
-        article: article,
-      );
+      if (event.onComplete != null) {
+        event.onComplete();
+      }
     } catch (error) {
       print(error);
       yield ArticleError(error);

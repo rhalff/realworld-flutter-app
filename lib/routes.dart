@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/screens/article_editor.dart';
+import 'package:realworld_flutter/screens/hero_splash.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/screens/settings.dart';
@@ -16,6 +17,9 @@ import 'blocs/articles/bloc.dart';
 import 'blocs/profile/bloc.dart';
 import 'blocs/user_profile/bloc.dart';
 import 'model/user.dart';
+import 'screens/hero_splash.dart';
+
+var bootStage = 1;
 
 RouteFactory routes({
   User user,
@@ -23,6 +27,13 @@ RouteFactory routes({
 }) {
   return (RouteSettings settings) {
     Widget screen;
+    if (bootStage == 1) {
+      bootStage = 2;
+
+      return PageRouteBuilder(
+        pageBuilder: (_, __, ___) => HeroSplash(),
+      );
+    }
 
     final arguments = settings.arguments as Map<String, dynamic> ?? {};
 
@@ -73,8 +84,10 @@ RouteFactory routes({
       case ArticleEditorScreen.route:
         screen = MultiBlocProvider(
           providers: [
-            BlocProvider<ArticleBloc>.value(
-              value: application.articleBloc,
+            BlocProvider<ArticleBloc>(
+              builder: (_) => ArticleBloc(
+                articlesRepository: application.articlesRepository,
+              ),
             ),
           ],
           child: ArticleEditorScreen(
@@ -109,6 +122,17 @@ RouteFactory routes({
         screen = ErrorContainer(
           title: 'Route ${settings.name} not found',
         );
+    }
+
+    if (bootStage == 2) {
+      bootStage = 3;
+
+      return PageRouteBuilder(
+        pageBuilder: (BuildContext context, _, __) {
+          return screen;
+        },
+        transitionDuration: const Duration(milliseconds: 500),
+      );
     }
 
     return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {

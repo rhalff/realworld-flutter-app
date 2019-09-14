@@ -72,7 +72,7 @@ class _SignUpFormState extends State<SignUpForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             // focusNode: _emailFocus,
             hintText: 'Email',
@@ -84,7 +84,7 @@ class _SignUpFormState extends State<SignUpForm> {
               });
             },
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           createTextField(
             hintText: 'Password',
             autovalidate: false,
@@ -94,7 +94,7 @@ class _SignUpFormState extends State<SignUpForm> {
             },
             validator: _validator.validatePassword,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(

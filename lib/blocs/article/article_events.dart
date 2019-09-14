@@ -28,9 +28,11 @@ class CreateArticleEvent extends ArticleEvent {
 class UpdateArticleEvent extends ArticleEvent {
   final String slug;
   final ArticleSubmission article;
+  final Function() onComplete;
   const UpdateArticleEvent({
     @required this.slug,
     @required this.article,
+    @required this.onComplete,
   });
   @override
   String toString() => 'UpdateArticleEvent[slug: $slug, article: $article]';

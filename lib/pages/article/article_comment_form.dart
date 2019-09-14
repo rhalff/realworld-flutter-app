@@ -4,8 +4,6 @@ import 'package:realworld_flutter/widgets/rounded_button.dart';
 
 import 'article_meta.dart';
 
-final _formKey = GlobalKey<FormState>();
-
 class ArticleCommentForm extends StatefulWidget {
   final User user;
   final Function(String comment) onSubmit;
@@ -20,6 +18,8 @@ class ArticleCommentForm extends StatefulWidget {
 }
 
 class _ArticleCommentFormState extends State<ArticleCommentForm> {
+  final _formKey = GlobalKey<FormState>();
+
   String _comment;
 
   @override

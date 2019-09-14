@@ -26,6 +26,7 @@ class RealWorldApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'RealWorld App',
+          color: Colors.green,
           theme: ThemeData(
             fontFamily: 'SourceSansPro',
             primaryColor: const Color(0xFF5CB85C),

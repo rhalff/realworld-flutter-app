@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
@@ -41,14 +40,6 @@ class _LayoutState extends State<Layout> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             actions: <Widget>[
-              if (state is Authenticated)
-                RawMaterialButton(
-                  child: const Text('New Post'),
-                  constraints:
-                      const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
-                  padding: const EdgeInsets.all(3),
-                  onPressed: _navigateTo(context, ArticleEditorScreen.route),
-                ),
               if (state is! Authenticated)
                 RawMaterialButton(
                   child: const Text('Sign in'),

@@ -7,6 +7,7 @@ import 'blocs/auth/bloc.dart';
 import 'blocs/user/bloc.dart';
 
 void main() async {
+  // timeDilation = 3.0;
   WidgetsFlutterBinding.ensureInitialized();
 
   final application = Application();
