@@ -76,6 +76,7 @@ RouteFactory routes({
               ),
             ],
             child: ArticleScreen(
+              user: user,
               slug: arguments['slug'] as String,
             ),
           ),

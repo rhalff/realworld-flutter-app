@@ -43,7 +43,7 @@ class _ArticlePageState extends State<ArticlePage> {
         Stack(
           children: <Widget>[
             ArticleHeader(article: widget.article),
-            if (widget.article.author.username == widget.user.username)
+            if (widget.article.author.username == widget.user?.username)
               Positioned(
                 top: 10,
                 right: 10,
@@ -80,21 +80,25 @@ class _ArticlePageState extends State<ArticlePage> {
               ),
               const SizedBox(height: 24),
               const Divider(),
-              const SizedBox(height: 24),
               widget.user != null
-                  ? ArticleCommentForm(
-                      user: widget.user,
-                      onSubmit: (String comment) {
-                        _commentsBloc.dispatch(
-                          CreateCommentEvent(
-                            slug: widget.article.slug,
-                            comment: NewComment(body: comment),
-                          ),
-                        );
-                      },
-                    )
-                  : Container(
-                      child: const Text('Please login'),
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: ArticleCommentForm(
+                        user: widget.user,
+                        onSubmit: (String comment) {
+                          _commentsBloc.dispatch(
+                            CreateCommentEvent(
+                              slug: widget.article.slug,
+                              comment: NewComment(body: comment),
+                            ),
+                          );
+                        },
+                      ))
+                  : Center(
+                      child: const Text(
+                        'Sign in or sign up to add comments on this article.',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
               BlocBuilder<CommentsBloc, CommentsState>(
                 builder: (

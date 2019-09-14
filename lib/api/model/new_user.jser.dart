@@ -20,10 +20,12 @@ abstract class _$NewUserSerializer implements Serializer<NewUser> {
   @override
   NewUser fromMap(Map map) {
     if (map == null) return null;
-    final obj = NewUser(
-        username: map['username'] as String ?? getJserDefault('username'),
-        email: map['email'] as String ?? getJserDefault('email'),
-        password: map['password'] as String ?? getJserDefault('password'));
+    final obj = NewUser();
+    obj.username =
+        map['username'] as String ?? getJserDefault('username') ?? obj.username;
+    obj.email = map['email'] as String ?? getJserDefault('email') ?? obj.email;
+    obj.password =
+        map['password'] as String ?? getJserDefault('password') ?? obj.password;
     return obj;
   }
 }

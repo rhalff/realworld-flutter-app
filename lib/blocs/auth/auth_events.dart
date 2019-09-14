@@ -10,4 +10,9 @@ class SignedInEvent extends AuthEvent {
   });
 }
 
-class SignOutEvent extends AuthEvent {}
+class SignOutEvent extends AuthEvent {
+  final Function() onComplete;
+  SignOutEvent({
+    this.onComplete,
+  });
+}

@@ -4,6 +4,7 @@ import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/article/article_page.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
@@ -13,8 +14,10 @@ class ArticleScreen extends StatefulWidget {
   static const String route = '/article';
 
   final String slug;
+  final User user;
   ArticleScreen({
     this.slug,
+    this.user,
   });
 
   @override
@@ -46,12 +49,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
         } else if (state is ArticleLoaded) {
           actions.addAll(
             <Widget>[
-              IconButton(
-                icon: state.article.favorited
-                    ? Icon(Icons.star)
-                    : Icon(Icons.star_border),
-                onPressed: () => _toggleFavorited(state.article.slug),
-              ),
+              if (widget.user != null)
+                IconButton(
+                  icon: state.article.favorited
+                      ? Icon(Icons.star)
+                      : Icon(Icons.star_border),
+                  onPressed: () => _toggleFavorited(state.article.slug),
+                ),
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: _shareArticle,
@@ -63,27 +67,21 @@ class _ArticleScreenState extends State<ArticleScreen> {
             ],
           );
 
-          child = BlocBuilder<UserBloc, UserState>(
-            bloc: _userBloc,
-            builder: (BuildContext context, UserState userState) {
-              final user = userState is UserLoaded ? userState.user : null;
-              return MultiBlocProvider(
-                child: ArticlePage(
-                  user: user,
-                  article: state.article,
-                ),
-                providers: <BlocProvider>[
-                  BlocProvider<CommentsBloc>(
-                    builder: (BuildContext context) {
-                      return CommentsBloc(
-                        articlesRepository:
-                            RepositoryProvider.of<ArticlesRepository>(context),
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
+          child = MultiBlocProvider(
+            providers: <BlocProvider>[
+              BlocProvider<CommentsBloc>(
+                builder: (BuildContext context) {
+                  return CommentsBloc(
+                    articlesRepository:
+                        RepositoryProvider.of<ArticlesRepository>(context),
+                  );
+                },
+              ),
+            ],
+            child: ArticlePage(
+              user: widget.user,
+              article: state.article,
+            ),
           );
         } else {
           child = Center(

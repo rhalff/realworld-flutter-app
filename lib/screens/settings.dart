@@ -5,6 +5,7 @@ import 'package:realworld_flutter/blocs/auth/bloc.dart';
 import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/settings.dart';
+import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -74,7 +75,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _onLogout() {
-    _authBloc.dispatch(SignOutEvent());
+    _authBloc.dispatch(
+      SignOutEvent(
+        onComplete: () =>
+            Navigator.of(context).pushReplacementNamed(HomeScreen.route),
+      ),
+    );
   }
 
   void _onSave(UpdateUser user) {

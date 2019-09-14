@@ -26,7 +26,7 @@ class ArticleComments extends StatelessWidget {
           child: ArticleComment(
             comment: comment,
             onRemove:
-                comment.author.username == user.username ? onRemove : null,
+                comment.author.username == user?.username ? onRemove : null,
           ),
         );
       },

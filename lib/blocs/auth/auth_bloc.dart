@@ -38,5 +38,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await userRepository.removeAccessToken();
 
     yield NotAuthenticated();
+
+    if (event.onComplete != null) {
+      event.onComplete();
+    }
   }
 }

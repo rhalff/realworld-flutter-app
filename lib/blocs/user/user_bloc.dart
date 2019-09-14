@@ -13,7 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     assert(authBloc != null);
 
     _authBlocSubscription = authBloc.state.listen((state) {
-      if (state is SignOutEvent) {
+      if (state is NotAuthenticated) {
         dispatch(ClearUserDataEvent());
       }
     });

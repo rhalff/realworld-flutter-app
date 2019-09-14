@@ -104,7 +104,9 @@ class UserRepository {
   }
 
   Future<void> removeAccessToken() async {
-    api.setOAuthToken('Token', null);
+    api
+      ..setOAuthToken('Token', null)
+      ..setApiKey('Token', null);
 
     return secureStorage.delete(key: _authKey);
   }

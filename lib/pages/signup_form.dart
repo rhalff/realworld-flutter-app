@@ -1,34 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/api/model/new_user.dart';
+import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
-import 'package:validations/validations.dart';
-
-part 'signup_form.g.dart';
-
-class SignUpData {
-  @Size(
-    min: 2,
-    max: 255,
-  )
-  String name;
-
-  @Email()
-  @NotEmpty()
-  String email;
-
-  @NotEmpty()
-  @Size(
-    min: 2,
-    max: 20,
-    message: r'password length must be between $min and $max',
-  )
-  String password;
-}
-
-@GenValidator()
-class SignUpDataValidator extends Validator<SignUpData>
-    with _$SignUpDataValidator {}
 
 class SignUpForm extends StatefulWidget {
   final String error;
@@ -39,17 +15,17 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  final _data = SignUpData();
-  // CustomerBloc _customerBloc;
-  SignUpDataValidator _validator;
+  final _newUser = NewUser();
+  UserBloc _userBloc;
+  NewUserValidator _validator;
 
   @override
   void initState() {
     super.initState();
 
-    _validator = SignUpDataValidator();
+    _validator = NewUserValidator();
 
-    // _customerBloc = BlocProvider.of<CustomerBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
   }
 
   @override
@@ -65,10 +41,10 @@ class _SignUpFormState extends State<SignUpForm> {
           createTextField(
             hintText: 'Your Name',
             // focusNode: _emailFocus,
-            validator: _validator.validateName,
+            validator: _validator.validateUsername,
             onSaved: (String value) {
               setState(() {
-                _data.name = value;
+                _newUser.username = value;
               });
             },
           ),
@@ -77,10 +53,11 @@ class _SignUpFormState extends State<SignUpForm> {
             // focusNode: _emailFocus,
             hintText: 'Email',
             autovalidate: false,
+            keyboardType: TextInputType.emailAddress,
             validator: _validator.validateEmail,
             onSaved: (String value) {
               setState(() {
-                _data.email = value;
+                _newUser.email = value;
               });
             },
           ),
@@ -88,9 +65,10 @@ class _SignUpFormState extends State<SignUpForm> {
           createTextField(
             hintText: 'Password',
             autovalidate: false,
+            obscureText: true,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
-              _data.password = value;
+              _newUser.password = value;
             },
             validator: _validator.validatePassword,
           ),
@@ -111,18 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      /*
-      _customerBloc.dispatch(
-        SignUp(
-          name: _data.name,
-          email: _data.email,
-          password: _data.password,
-        ),
-      );
-       */
-
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: const Text('Processing Data')));
+      _userBloc.dispatch(SignUpEvent(_newUser));
     }
   }
 }
