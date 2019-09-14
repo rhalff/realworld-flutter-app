@@ -41,8 +41,10 @@ class UpdateArticleEvent extends ArticleEvent {
 @immutable
 class DeleteArticleEvent extends ArticleEvent {
   final String slug;
+  final Function() onComplete;
   const DeleteArticleEvent({
     @required this.slug,
+    @required this.onComplete,
   });
   @override
   String toString() => 'DeleteArticleEvent[slug: $slug]';

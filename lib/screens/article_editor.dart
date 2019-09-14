@@ -2,9 +2,11 @@ import 'package:flutter/material.dart' hide Banner;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/article_submission.dart';
 import 'package:realworld_flutter/blocs/article/bloc.dart';
+import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/pages/article/article_form.dart';
+import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
@@ -14,9 +16,11 @@ class ArticleEditorScreen extends StatefulWidget {
   static const String route = '/article_editor';
 
   final String slug;
+  final UserBloc userBloc;
 
   ArticleEditorScreen({
-    this.slug,
+    @required this.slug,
+    @required this.userBloc,
   });
 
   @override
@@ -39,6 +43,8 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = widget.userBloc.getCurrentUser();
+
     return BlocListener(
       bloc: _articleBloc,
       listener: (_, __) => {},
@@ -71,7 +77,9 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
                     error = state.error;
                   } else if (state is ArticleLoading ||
                       (state is ArticleUninitialized && widget.slug != null)) {
-                    return const CircularProgressIndicator();
+                    return Center(
+                      child: const CircularProgressIndicator(),
+                    );
                   } else if (state is ArticleLoaded) {
                     article = state.article;
                   }
@@ -91,6 +99,14 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
                             onPressed: () => _articleBloc.dispatch(
                               DeleteArticleEvent(
                                 slug: widget.slug,
+                                onComplete: () {
+                                  Navigator.of(context).pushReplacementNamed(
+                                    ProfileScreen.route,
+                                    arguments: {
+                                      'username': user.username,
+                                    },
+                                  );
+                                },
                               ),
                             ),
                           )

@@ -99,6 +99,7 @@ RouteFactory routes({
           ],
           child: ArticleEditorScreen(
             slug: arguments['slug'] as String,
+            userBloc: application.userBloc,
           ),
         );
         break;

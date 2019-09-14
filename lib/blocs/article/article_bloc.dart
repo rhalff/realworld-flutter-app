@@ -79,6 +79,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       yield ArticleLoading();
       await articlesRepository.deleteArticle(event.slug);
 
+      event.onComplete();
+
       yield ArticleUninitialized();
     } catch (error) {
       yield ArticleError(error);
