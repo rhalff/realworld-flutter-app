@@ -4,7 +4,6 @@ import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
 import 'article_widget.dart';
-import 'bottom_loader.dart';
 
 class Feed extends StatefulWidget {
   final String label;
@@ -58,24 +57,19 @@ class _FeedState extends State<Feed> {
             );
           }
 
-          final itemCount =
-              state.hasReachedMax ? articles.length : articles.length + 1;
-
           return RefreshIndicator(
             onRefresh: _onRefresh,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return index >= articles.length
-                    ? BottomLoader()
-                    : ArticleWidget(
-                        article: articles[index],
-                        onFavorited: () => widget.onFavorited(
-                          _articlesBloc,
-                          articles[index].slug,
-                        ),
-                      );
+                return ArticleWidget(
+                  article: articles[index],
+                  onFavorited: () => widget.onFavorited(
+                    _articlesBloc,
+                    articles[index].slug,
+                  ),
+                );
               },
-              itemCount: itemCount,
+              itemCount: articles.length,
               controller: _scrollController,
             ),
           );
