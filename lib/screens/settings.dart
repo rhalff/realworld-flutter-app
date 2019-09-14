@@ -54,20 +54,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: BlocBuilder<UserProfileBloc, UserProfileState>(
-                  builder: (BuildContext context, UserProfileState state) {
-                if (state is UserProfileLoaded) {
-                  return SettingsForm(
-                    user: state.user,
-                    onSave: _onSave,
-                    onLogout: _onLogout,
-                  );
-                }
-
-                return const CircularProgressIndicator();
-              }),
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: SettingsForm(
+                  onSave: _onSave,
+                  onLogout: _onLogout,
+                )),
           ],
         ),
       ),

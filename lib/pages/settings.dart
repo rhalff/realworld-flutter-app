@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
+import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/helpers/form.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
 class SettingsForm extends StatefulWidget {
   final String error;
-  final UpdateUser user;
   final Function(UpdateUser user) onSave;
   final VoidCallback onLogout;
   SettingsForm({
-    this.user,
     this.error,
     this.onSave,
     this.onLogout,
@@ -33,82 +33,93 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          if (widget.error != null)
-            ErrorContainer(
-              error: widget.error,
+    return BlocBuilder<UserProfileBloc, UserProfileState>(
+      builder: (BuildContext context, UserProfileState state) {
+        if (state is UserProfileLoaded) {
+          final user = state.user;
+          return Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                if (widget.error != null)
+                  ErrorContainer(
+                    error: widget.error,
+                  ),
+                createTextField(
+                  initialValue: user.image,
+                  hintText: 'URL of profile picture',
+                  contentPadding: const EdgeInsets.all(8),
+                  // focusNode: _emailFocus,
+                  validator: _validator.validateImage,
+                  onSaved: (String value) {
+                    setState(() {
+                      _updateUser.image = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                createTextField(
+                  initialValue: user.username,
+                  hintText: 'Your Name',
+                  // focusNode: _emailFocus,
+                  validator: _validator.validateUsername,
+                  onSaved: (String value) {
+                    setState(() {
+                      _updateUser.username = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                createTextField(
+                  initialValue: user.bio,
+                  hintText: 'Short bio about you',
+                  maxLines: 8,
+                  // focusNode: _emailFocus,
+                  validator: _validator.validateBio,
+                  onSaved: (String value) {
+                    setState(() {
+                      _updateUser.bio = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                createTextField(
+                  // focusNode: _emailFocus,
+                  initialValue: user.email,
+                  hintText: 'Email',
+                  autovalidate: false,
+                  validator: _validator.validateEmail,
+                  onSaved: (String value) {
+                    setState(() {
+                      _updateUser.email = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: RoundedButton(
+                    text: 'Update Settings',
+                    onPressed: _onSave,
+                  ),
+                ),
+                const Divider(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: RoundedButton(
+                    text: 'Or click here to logout.',
+                    onPressed: widget.onLogout,
+                  ),
+                ),
+              ],
             ),
-          createTextField(
-            initialValue: widget.user.image,
-            hintText: 'URL of profile picture',
-            contentPadding: const EdgeInsets.all(8),
-            // focusNode: _emailFocus,
-            validator: _validator.validateImage,
-            onSaved: (String value) {
-              setState(() {
-                _updateUser.image = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          createTextField(
-            initialValue: widget.user.username,
-            hintText: 'Your Name',
-            // focusNode: _emailFocus,
-            validator: _validator.validateUsername,
-            onSaved: (String value) {
-              setState(() {
-                _updateUser.username = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          createTextField(
-            initialValue: widget.user.bio,
-            hintText: 'Short bio about you',
-            maxLines: 8,
-            // focusNode: _emailFocus,
-            validator: _validator.validateBio,
-            onSaved: (String value) {
-              setState(() {
-                _updateUser.bio = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          createTextField(
-            // focusNode: _emailFocus,
-            initialValue: widget.user.email,
-            hintText: 'Email',
-            autovalidate: false,
-            validator: _validator.validateEmail,
-            onSaved: (String value) {
-              setState(() {
-                _updateUser.email = value;
-              });
-            },
-          ),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerRight,
-            child: RoundedButton(
-              text: 'Update Settings',
-              onPressed: _onSave,
-            ),
-          ),
-          const Divider(),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: RoundedButton(
-              text: 'Or click here to logout.',
-              onPressed: widget.onLogout,
-            ),
-          ),
-        ],
-      ),
+          );
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 

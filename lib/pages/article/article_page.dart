@@ -94,8 +94,8 @@ class _ArticlePageState extends State<ArticlePage> {
                           );
                         },
                       ))
-                  : Center(
-                      child: const Text(
+                  : const Center(
+                      child: Text(
                         'Sign in or sign up to add comments on this article.',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -120,7 +120,12 @@ class _ArticlePageState extends State<ArticlePage> {
                     );
                   }
 
-                  return const CircularProgressIndicator();
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(18.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                 },
               )
             ],

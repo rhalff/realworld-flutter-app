@@ -13,9 +13,11 @@ Widget createTextField({
   bool obscureText = false,
   TextInputType keyboardType,
   TextInputAction textInputAction,
+  bool enabled = true,
 }) {
   return TextFormField(
     initialValue: initialValue,
+    enabled: enabled,
     focusNode: focusNode,
     autovalidate: autovalidate ?? false,
     validator: validator,

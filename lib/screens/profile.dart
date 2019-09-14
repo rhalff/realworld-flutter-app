@@ -44,8 +44,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Widget child;
 
         if (state is ProfileError) {
-          child = ErrorContainer(
-            error: 'failed to load profile',
+          child = Layout(
+            child: ErrorContainer(
+              error: 'failed to load profile',
+            ),
           );
         } else if (state is ProfileLoaded) {
           actions.addAll(
