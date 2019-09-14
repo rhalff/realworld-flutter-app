@@ -76,7 +76,13 @@ class AppDrawer extends StatelessWidget {
         ListTile(
           title: const Text('Articles'),
           onTap: () {
-            Navigator.pop(context);
+            Navigator.of(context).popAndPushNamed(
+              ProfileScreen.route,
+              arguments: {
+                'username': user.username,
+                'feed': 'my-posts',
+              },
+            );
           },
         ),
       ],
