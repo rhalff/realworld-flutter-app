@@ -54,8 +54,8 @@ class _FeedState extends State<Feed> {
         if (state is ArticlesLoaded) {
           final articles = state.articles;
           if (articles.isEmpty) {
-            return Center(
-              child: const Text('no articles'),
+            return const Center(
+              child: Text('no articles'),
             );
           }
 
@@ -76,8 +76,8 @@ class _FeedState extends State<Feed> {
             ),
           );
         }
-        return Center(
-          child: const CircularProgressIndicator(),
+        return const Center(
+          child: CircularProgressIndicator(),
         );
       },
     );

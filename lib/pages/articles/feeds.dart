@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
+import 'package:realworld_flutter/utils.dart';
 
 import 'feed.dart';
 
@@ -67,39 +68,17 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
             builder: (BuildContext context, snapshot) {
               return TabBarView(
                 controller: _tabController,
-                children: widget.feeds.map((feed) {
+                children: mapWithIndex(widget.feeds, (Feed feed, int index) {
                   return BlocProvider<ArticlesBloc>.value(
                     value: getArticlesBloc(feed),
                     child: Opacity(
-                      // how to calculate this correctly for multiple tabs?
-                      // need to know the current index.
-                      /*
-                      opacity: _tabController.index == 0
+                      opacity: index % 2 == 0
                           ? 1 - _tabController.animation.value
-                          : 1,
-                       */
-                      opacity: 1,
+                          : _tabController.animation.value,
                       child: feed,
                     ),
                   );
-                }).toList(),
-                /*
-                [
-                  Opacity(
-                    // how to calculate this correctly for multiple tabs?
-                    opacity: _tabController.index == 0
-                        ? 1 - _tabController.animation.value
-                        : 1,
-                    child: widget.feeds[0],
-                  ),
-                  Opacity(
-                    opacity: _tabController.index == 1
-                        ? _tabController.animation.value
-                        : 1,
-                    child: widget.feeds[1],
-                  ),
-                ],
-                */
+                }),
               );
             },
           ),

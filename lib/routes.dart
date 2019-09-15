@@ -54,10 +54,11 @@ RouteFactory routes({
         screen = BlocProvider<ArticleBloc>(
           builder: (context) => ArticleBloc(
             articlesRepository: application.articlesRepository,
-          ),
+          )..dispatch(
+              LoadArticleEvent(slug: arguments['slug'] as String),
+            ),
           child: ArticleScreen(
             userBloc: application.userBloc,
-            slug: arguments['slug'] as String,
           ),
         );
         break;

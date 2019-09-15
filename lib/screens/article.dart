@@ -12,10 +12,8 @@ import 'package:realworld_flutter/widgets/scroll_page.dart';
 class ArticleScreen extends StatefulWidget {
   static const String route = '/article';
 
-  final String slug;
   final UserBloc userBloc;
   ArticleScreen({
-    this.slug,
     this.userBloc,
   });
 
@@ -29,8 +27,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   void initState() {
     super.initState();
-    _articleBloc = BlocProvider.of<ArticleBloc>(context)
-      ..dispatch(LoadArticleEvent(slug: widget.slug));
+    _articleBloc = BlocProvider.of<ArticleBloc>(context);
   }
 
   @override
