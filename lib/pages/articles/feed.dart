@@ -37,7 +37,7 @@ class _FeedState extends State<Feed> {
     _scrollController.addListener(_onScroll);
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
 
-    if (_articlesBloc is! ArticlesLoaded) {
+    if (_articlesBloc.currentState is! ArticlesLoaded) {
       widget.onLoad(_articlesBloc);
     }
   }
