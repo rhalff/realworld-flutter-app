@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/screens/hero_splash.dart';
@@ -35,49 +34,30 @@ RouteFactory routes({
 
     switch (settings.name) {
       case HomeScreen.route:
-        screen = MultiRepositoryProvider(
-          providers: [
-            RepositoryProvider<ArticlesRepository>.value(
-              value: application.articlesRepository,
-            ),
-          ],
-          child: HomeScreen(
-            userBloc: application.userBloc,
-          ),
+        screen = HomeScreen(
+          userBloc: application.userBloc,
         );
         break;
       case ProfileScreen.route:
         screen = BlocProvider(
             builder: (context) => ProfileBloc(
                   userRepository: application.userRepository,
-                )..dispatch(LoadProfileEvent(
-                    username: arguments['username'] as String)),
-            child: MultiRepositoryProvider(
-              providers: [
-                RepositoryProvider<ArticlesRepository>.value(
-                  value: application.articlesRepository,
-                ),
-              ],
-              child: ProfileScreen(
-                userBloc: application.userBloc,
-                feed: arguments['feed'] as String,
-              ),
+                )..dispatch(
+                    LoadProfileEvent(username: arguments['username'] as String),
+                  ),
+            child: ProfileScreen(
+              userBloc: application.userBloc,
+              feed: arguments['feed'] as String,
             ));
         break;
       case ArticleScreen.route:
         screen = BlocProvider<ArticleBloc>(
-          builder: (context) =>
-              ArticleBloc(articlesRepository: application.articlesRepository),
-          child: MultiRepositoryProvider(
-            providers: [
-              RepositoryProvider<ArticlesRepository>.value(
-                value: application.articlesRepository,
-              ),
-            ],
-            child: ArticleScreen(
-              userBloc: application.userBloc,
-              slug: arguments['slug'] as String,
-            ),
+          builder: (context) => ArticleBloc(
+            articlesRepository: application.articlesRepository,
+          ),
+          child: ArticleScreen(
+            userBloc: application.userBloc,
+            slug: arguments['slug'] as String,
           ),
         );
         break;
