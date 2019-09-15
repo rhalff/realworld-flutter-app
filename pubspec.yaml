@@ -21,9 +21,10 @@ dependencies:
   cached_network_image: ^1.1.1
 
   pedantic: 1.8.0+1
-  flutter_secure_storage: ^3.2.1+1
+  flutter_secure_storage: 3.2.1
+  shared_preferences: 0.5.3+4
 
-  intl: ^0.15.0
+  intl: ^0.16.0
   bloc: ^0.15.0
   validations: ^0.8.5+1
   flutter_bloc: ^0.21.0
@@ -39,7 +40,7 @@ dev_dependencies:
   validations_generator: ^0.8.4
   jaguar_retrofit_gen: ^2.8.10
   jaguar_serializer_cli: ^2.2.8
-  build_runner: ^1.6.7
+  build_runner: ^1.7.0
 
 
 

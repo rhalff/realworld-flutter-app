@@ -13,7 +13,6 @@ import 'package:realworld_flutter/widgets/error_container.dart';
 
 import 'application.dart';
 import 'blocs/article/bloc.dart';
-import 'blocs/articles/bloc.dart';
 import 'blocs/profile/bloc.dart';
 import 'blocs/user_profile/bloc.dart';
 import 'screens/hero_splash.dart';
@@ -66,15 +65,9 @@ RouteFactory routes({
             ));
         break;
       case ArticleScreen.route:
-        screen = MultiBlocProvider(
-          providers: [
-            BlocProvider<ArticleBloc>.value(
-              value: application.articleBloc,
-            ),
-            BlocProvider<ArticlesBloc>.value(
-              value: application.articlesBloc,
-            ),
-          ],
+        screen = BlocProvider<ArticleBloc>(
+          builder: (context) =>
+              ArticleBloc(articlesRepository: application.articlesRepository),
           child: MultiRepositoryProvider(
             providers: [
               RepositoryProvider<ArticlesRepository>.value(
@@ -112,12 +105,8 @@ RouteFactory routes({
       case SettingsScreen.route:
         screen = MultiBlocProvider(
           providers: [
-            BlocProvider<ArticlesBloc>.value(
-              value: application.articlesBloc,
-            ),
             BlocProvider<UserProfileBloc>(
               builder: (context) => UserProfileBloc(
-                articlesBloc: application.articlesBloc,
                 userBloc: application.userBloc,
                 userRepository: application.userRepository,
               ),

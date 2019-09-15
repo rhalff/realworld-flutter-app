@@ -3,12 +3,10 @@ part of blocs.user.profile;
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
   final UserRepository userRepository;
   final UserBloc userBloc;
-  final ArticlesBloc articlesBloc;
 
   UserProfileBloc({
     @required this.userRepository,
     @required this.userBloc,
-    @required this.articlesBloc,
   }) {
     assert(userRepository != null);
     assert(userBloc != null);
@@ -56,7 +54,6 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
 
       // reload user
       userBloc.dispatch(LoadUserEvent());
-      articlesBloc.dispatch(LoadArticlesEvent(refresh: true));
 
       yield UserProfileLoaded(
         UpdateUser(

@@ -1,4 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:realworld_flutter/api.dart';
 import 'package:realworld_flutter/api/model/login_user.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
@@ -10,6 +9,7 @@ import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
+import 'package:realworld_flutter/repositories/key_value_repository/key_value_repository.dart';
 import 'package:realworld_flutter/repositories/parse_jwt.dart';
 
 final _authKey = 'auth';
@@ -18,7 +18,7 @@ class UserRepository {
   final RealWorldApi api;
   final ProfileApi profileApi;
   final UserAndAuthenticationApi usersApi;
-  final FlutterSecureStorage secureStorage;
+  final KeyValueRepository secureStorage;
   UserRepository({
     this.api,
     this.profileApi,

@@ -1,11 +1,11 @@
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:jaguar_cache/jaguar_cache.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:realworld_flutter/repositories/key_value_repository/key_value_repository.dart';
+import 'package:realworld_flutter/repositories/key_value_repository/key_value_shared_preferences_repository.dart';
 import 'package:realworld_flutter/repositories/user_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
-import 'blocs/article/bloc.dart';
-import 'blocs/articles/bloc.dart';
 import 'blocs/auth/bloc.dart';
 import 'blocs/user/bloc.dart';
 import 'repositories/articles_repository.dart';
@@ -13,8 +13,7 @@ import 'repositories/articles_repository.dart';
 class Config {}
 
 class Application {
-  // SharedPreferences sharedPreferences;
-  FlutterSecureStorage secureStorage;
+  KeyValueRepository secureStorage;
   Config config;
   // Cache cache;
   RealWorldApi _api;
@@ -23,17 +22,18 @@ class Application {
 
   AuthBloc authBloc;
   UserBloc userBloc;
-  ArticlesBloc articlesBloc;
-  ArticleBloc articleBloc;
 
   Application({
     this.config,
   });
 
   Future<void> setup() async {
-    // sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferences = await SharedPreferences.getInstance();
 
-    secureStorage = FlutterSecureStorage();
+    // Plugin is broken at the moment...
+    // secureStorage = KeyValueSecureStorageRepository(
+    secureStorage = KeyValueSharedPreferencesRepository(
+        sharedPreferences: sharedPreferences);
 
     // cache = InMemoryCache(
     //   const Duration(
@@ -106,26 +106,15 @@ class Application {
       userRepository: userRepository,
       authBloc: authBloc,
     );
-
-    articlesBloc = ArticlesBloc(
-      articlesRepository: articlesRepository,
-    );
-
-    articleBloc = ArticleBloc(
-      articlesRepository: articlesRepository,
-    );
   }
 
   Future<void> init() async {
-    articlesBloc.dispatch(LoadArticlesEvent());
-
     if (await userRepository.isAuthenticated()) {
       userBloc.dispatch(LoadUserEvent());
     }
   }
 
   void dispose() {
-    articlesBloc.dispose();
     authBloc.dispose();
   }
 }

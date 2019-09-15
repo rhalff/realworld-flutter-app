@@ -70,7 +70,7 @@ packages:
       name: build_daemon
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   build_resolvers:
     dependency: transitive
     description:
@@ -84,14 +84,14 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.7"
+    version: "1.7.0"
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.9"
+    version: "4.0.0"
   built_collection:
     dependency: transitive
     description:
@@ -243,7 +243,7 @@ packages:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.1+1"
+    version: "3.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -311,7 +311,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.8"
+    version: "0.16.0"
   io:
     dependency: transitive
     description:
@@ -515,6 +515,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.22.2"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3+4"
   shelf:
     dependency: transitive
     description:
@@ -683,4 +690,4 @@ packages:
     version: "2.1.16"
 sdks:
   dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.2.1 <2.0.0"
+  flutter: ">=1.5.0 <2.0.0"

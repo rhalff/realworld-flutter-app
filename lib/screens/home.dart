@@ -75,9 +75,9 @@ class _HomeScreenState extends State<HomeScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Hero(
+          const Hero(
             tag: 'header',
-            child: const Header(
+            child: Header(
               title: 'conduit',
               subtitle: 'A place to share your knowledge.',
               padding: EdgeInsets.only(top: 8, bottom: 26),
