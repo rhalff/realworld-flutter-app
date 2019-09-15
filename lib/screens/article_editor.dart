@@ -137,9 +137,6 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
         ),
       );
     }
-
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: const Text('Saving Article')));
   }
 
   void _onComplete(BuildContext context, String slug) {

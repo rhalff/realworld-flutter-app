@@ -7,7 +7,7 @@ class OAuthInterceptor extends AuthInterceptor {
   Map<String, String> tokens = {};
 
   @override
-  FutureOr<void> before(RouteBase route) {
+  FutureOr<void> before(RouteBase route) async {
     final authInfo = getAuthInfo(route, 'oauth');
     for (var info in authInfo) {
       final token = tokens[info['name']];
@@ -16,7 +16,7 @@ class OAuthInterceptor extends AuthInterceptor {
         break;
       }
     }
-    return super.before(route);
+    super.before(route);
   }
 
   @override

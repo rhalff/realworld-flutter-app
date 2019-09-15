@@ -75,8 +75,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
             ),
           );
         } else {
-          child = Center(
-            child: const CircularProgressIndicator(),
+          child = const Center(
+            child: CircularProgressIndicator(),
           );
         }
 
