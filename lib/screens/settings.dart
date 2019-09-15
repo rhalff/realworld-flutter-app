@@ -76,8 +76,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _onSave(UpdateUser user) {
     _userProfileBloc.dispatch(UpdateUserProfileEvent(user));
-
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: const Text('Saving User')));
   }
 }

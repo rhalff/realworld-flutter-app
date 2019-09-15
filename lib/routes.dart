@@ -22,7 +22,9 @@ RouteFactory routes({
   @required Application application,
 }) {
   return (RouteSettings settings) {
+    var fullScreen = false;
     Widget screen;
+
     if (bootStage == 1) {
       bootStage = 2;
 
@@ -63,6 +65,7 @@ RouteFactory routes({
         );
         break;
       case ArticleEditorScreen.route:
+        fullScreen = true;
         screen = MultiBlocProvider(
           providers: [
             BlocProvider<ArticleBloc>(
@@ -78,12 +81,15 @@ RouteFactory routes({
         );
         break;
       case SignUpScreen.route:
+        fullScreen = true;
         screen = SignUpScreen();
         break;
       case SignInScreen.route:
+        fullScreen = true;
         screen = SignInScreen();
         break;
       case SettingsScreen.route:
+        fullScreen = true;
         screen = MultiBlocProvider(
           providers: [
             BlocProvider<UserProfileBloc>(
@@ -113,10 +119,20 @@ RouteFactory routes({
       );
     }
 
-    return PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {
-      return screen;
-    }, transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-      return FadeTransition(opacity: animation, child: child);
-    });
+    if (fullScreen) {
+      return MaterialPageRoute(
+        builder: (_) => screen,
+        fullscreenDialog: true,
+      );
+    }
+
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) {
+        return screen;
+      },
+      transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    );
   };
 }
