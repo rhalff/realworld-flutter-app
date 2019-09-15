@@ -26,16 +26,14 @@ class ArticleSaved extends ArticleState {
 
 class ArticleLoaded extends ArticleState {
   final Article article;
-  final List<Comment> comments;
 
   ArticleLoaded({
     this.article,
-    this.comments,
-  }) : super([article, comments]);
+  }) : super([article]);
 
   @override
   String toString() {
-    return 'ArticleLoaded[article: $article, comments: $comments]';
+    return 'ArticleLoaded[article: $article]';
   }
 }
 

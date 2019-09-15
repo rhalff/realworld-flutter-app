@@ -31,11 +31,9 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     try {
       yield ArticleLoading();
       final article = articlesRepository.getArticle(event.slug);
-      final comments = articlesRepository.getComments(event.slug);
 
       yield ArticleLoaded(
         article: await article,
-        comments: await comments,
       );
     } catch (error) {
       yield ArticleError(error);
