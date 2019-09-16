@@ -4,7 +4,6 @@ import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
 import 'blocs/user/bloc.dart';
-import 'model/user.dart';
 
 class Layout extends StatefulWidget {
   final Widget bottomNavigationBar;
@@ -36,11 +35,6 @@ class _LayoutState extends State<Layout> {
     return BlocBuilder(
       bloc: _userBloc,
       builder: (BuildContext context, UserState state) {
-        User user;
-
-        if (state is UserLoaded) {
-          user = state.user;
-        }
         return Scaffold(
           drawer: widget.drawer,
           appBar: AppBar(
