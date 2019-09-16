@@ -20,6 +20,9 @@ class LoadArticlesEvent extends ArticlesEvent {
 }
 
 @immutable
+class ReloadArticlesEvent extends ArticlesEvent {}
+
+@immutable
 class LoadArticlesFeedEvent extends ArticlesEvent {
   final bool refresh;
   LoadArticlesFeedEvent({

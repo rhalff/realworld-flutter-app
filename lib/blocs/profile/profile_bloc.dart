@@ -7,6 +7,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     @required this.userRepository,
   }) {
     assert(userRepository != null);
+
+    userRepository.addListener(_reloadHandler);
+  }
+
+  void _reloadHandler() {
+    if (currentState is ProfileLoaded) {
+      dispatch(
+        LoadProfileEvent(
+          username: (currentState as ProfileLoaded).profile.username,
+        ),
+      );
+    }
   }
 
   @override
@@ -65,5 +77,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
 
     return error.toString();
+  }
+
+  @override
+  void dispose() {
+    userRepository.removeListener(_reloadHandler);
+    super.dispose();
   }
 }

@@ -24,6 +24,8 @@ class CreateArticleEvent extends ArticleEvent {
   String toString() => 'CreateArticleEvent[article: $article]';
 }
 
+class ArticleUpdatedEvent extends ArticleEvent {}
+
 @immutable
 class UpdateArticleEvent extends ArticleEvent {
   final String slug;

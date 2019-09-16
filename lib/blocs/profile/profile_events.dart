@@ -14,6 +14,11 @@ class LoadProfileEvent extends ProfileEvent {
   String toString() => 'LoadProfileEvent(username: username)';
 }
 
+class ReloadProfileEvent extends ProfileEvent {
+  @override
+  String toString() => 'ReloadProfileEvent()';
+}
+
 class ToggleFollowUserEvent extends ProfileEvent {
   final String username;
   ToggleFollowUserEvent({

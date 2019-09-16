@@ -18,7 +18,7 @@ class ArticleLoading extends ArticleState {
 class ArticleSaved extends ArticleState {
   final Article article;
   ArticleSaved({
-    this.article,
+    @required this.article,
   });
   @override
   String toString() => 'ArticleSaved(article: $article)';
@@ -28,7 +28,7 @@ class ArticleLoaded extends ArticleState {
   final Article article;
 
   ArticleLoaded({
-    this.article,
+    @required this.article,
   }) : super([article]);
 
   @override

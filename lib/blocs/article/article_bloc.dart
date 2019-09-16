@@ -7,6 +7,16 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     @required this.articlesRepository,
   }) {
     assert(articlesRepository != null);
+
+    articlesRepository.addListener(_reloadHandler);
+  }
+
+  void _reloadHandler() {
+    if (currentState is ArticleLoaded) {
+      dispatch(
+        LoadArticleEvent(slug: (currentState as ArticleLoaded).article.slug),
+      );
+    }
   }
 
   @override
@@ -66,6 +76,14 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       if (event.onComplete != null) {
         event.onComplete();
       }
+
+      /*
+      yield ArticleSaved(
+        article: article,
+      );
+
+      dispatch(ArticleUpdatedEvent());
+       */
     } catch (error) {
       print(error);
       yield ArticleError(error);
@@ -102,5 +120,11 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       print(error);
       yield ArticleError('Failed to favorite article');
     }
+  }
+
+  @override
+  void dispose() {
+    articlesRepository.removeListener(_reloadHandler);
+    super.dispose();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:realworld_flutter/api/articles_api.dart';
 import 'package:realworld_flutter/api/comments_api.dart';
 import 'package:realworld_flutter/api/favorites_api.dart';
@@ -10,7 +11,7 @@ import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
 
-class ArticlesRepository {
+class ArticlesRepository extends ChangeNotifier {
   ArticlesApi articlesApi;
   CommentsApi commentsApi;
   TagsApi tagsApi;
@@ -61,6 +62,8 @@ class ArticlesRepository {
       ArticleSubmissionRequest(article: article),
     );
 
+    notifyListeners();
+
     return result.article;
   }
 
@@ -70,11 +73,15 @@ class ArticlesRepository {
       ArticleSubmissionRequest(article: article),
     );
 
+    notifyListeners();
+
     return result.article;
   }
 
   Future<void> deleteArticle(String slug) async {
     await articlesApi.deleteArticle(slug);
+
+    notifyListeners();
   }
 
   Future<List<Comment>> getComments(String slug) async {
@@ -92,11 +99,15 @@ class ArticlesRepository {
       NewCommentRequest(comment: comment),
     );
 
+    notifyListeners();
+
     return result.comment;
   }
 
   Future<void> deleteComment(String slug, int id) async {
     await commentsApi.deleteArticleComment(slug, id);
+
+    notifyListeners();
   }
 
   Future<List<String>> getTags() async {
@@ -108,11 +119,15 @@ class ArticlesRepository {
   Future<Article> createFavorite(String slug) async {
     final result = await favoritesApi.createArticleFavorite(slug);
 
+    notifyListeners();
+
     return result.article;
   }
 
   Future<Article> deleteArticleFavorite(String slug) async {
     final result = await favoritesApi.deleteArticleFavorite(slug);
+
+    notifyListeners();
 
     return result.article;
   }

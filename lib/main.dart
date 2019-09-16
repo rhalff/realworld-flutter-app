@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'application.dart';
@@ -8,6 +9,7 @@ import 'blocs/user/bloc.dart';
 
 void main() async {
   // timeDilation = 3.0;
+  Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
 
   final application = Application();

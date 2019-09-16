@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:realworld_flutter/api.dart';
 import 'package:realworld_flutter/api/model/login_user.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
@@ -14,7 +15,7 @@ import 'package:realworld_flutter/repositories/parse_jwt.dart';
 
 final _authKey = 'auth';
 
-class UserRepository {
+class UserRepository extends ChangeNotifier {
   final RealWorldApi api;
   final ProfileApi profileApi;
   final UserAndAuthenticationApi usersApi;
@@ -29,6 +30,8 @@ class UserRepository {
   Future<User> signUp(NewUser user) async {
     final result = await usersApi.createUser(NewUserRequest(user: user));
 
+    notifyListeners();
+
     return result.user;
   }
 
@@ -41,6 +44,8 @@ class UserRepository {
   Future<User> login(LoginUser user) async {
     final result = await usersApi.login(LoginUserRequest(user: user));
 
+    notifyListeners();
+
     return result.user;
   }
 
@@ -48,6 +53,8 @@ class UserRepository {
     final result = await usersApi.updateCurrentUser(
       UpdateUserRequest(user: user),
     );
+
+    notifyListeners();
 
     return result.user;
   }
@@ -61,11 +68,15 @@ class UserRepository {
   Future<Profile> followUser(String username) async {
     final result = await profileApi.followUserByUsername(username);
 
+    notifyListeners();
+
     return result.profile;
   }
 
   Future<Profile> unFollowUser(String username) async {
     final result = await profileApi.unfollowUserByUsername(username);
+
+    notifyListeners();
 
     return result.profile;
   }

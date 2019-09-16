@@ -4,10 +4,21 @@ const _itemsPerRequest = 20;
 
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   final ArticlesRepository articlesRepository;
+  ArticlesEvent _eventForReload;
 
   ArticlesBloc({
     @required this.articlesRepository,
-  }) : assert(articlesRepository != null);
+  }) {
+    assert(articlesRepository != null);
+
+    articlesRepository.addListener(_reloadHandler);
+  }
+
+  void _reloadHandler() {
+    if (currentState is ArticlesLoaded) {
+      dispatch(ReloadArticlesEvent());
+    }
+  }
 
   @override
   Stream<ArticlesState> transformEvents(
@@ -16,7 +27,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   ) {
     return super.transformEvents(
       (events as Observable<ArticlesEvent>).debounceTime(
-        Duration(milliseconds: 500),
+        const Duration(milliseconds: 500),
       ),
       next,
     );
@@ -31,6 +42,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       yield* _loadArticles(event);
     } else if (event is LoadArticlesFeedEvent && !_hasReachedMax()) {
       yield* _loadArticlesFeed(event);
+    } else if (event is ReloadArticlesEvent) {
+      yield* _reloadArticles(event);
     } else if (event is ToggleFavoriteEvent) {
       yield* _toggleFavorite(event);
     }
@@ -62,11 +75,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           result.articles,
           false,
         );
-
-        return;
-      }
-
-      if (currentState is ArticlesLoaded) {
+      } else if (currentState is ArticlesLoaded) {
         final loadedArticles = currentState as ArticlesLoaded;
 
         final result = await articlesRepository.getArticles(
@@ -87,6 +96,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           );
         }
       }
+
+      _eventForReload = event;
     } catch (error) {
       print(error);
       yield ArticlesError('Failed to load articles');
@@ -110,11 +121,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           result.articles,
           false,
         );
-
-        return;
-      }
-
-      if (currentState is ArticlesLoaded) {
+      } else if (currentState is ArticlesLoaded) {
         final loadedArticles = currentState as ArticlesLoaded;
 
         final result = await articlesRepository.getArticlesFeed(
@@ -132,9 +139,19 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           );
         }
       }
+
+      _eventForReload = event;
     } catch (error) {
       print(error);
       yield ArticlesError('Failed to load articles');
+    }
+  }
+
+  Stream<ArticlesState> _reloadArticles(ReloadArticlesEvent event) async* {
+    if (_eventForReload != null) {
+      yield ArticlesUninitialized();
+
+      dispatch(_eventForReload);
     }
   }
 
@@ -174,5 +191,11 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       print(error);
       yield ArticlesError('Failed to load articles');
     }
+  }
+
+  @override
+  void dispose() {
+    articlesRepository.removeListener(_reloadHandler);
+    super.dispose();
   }
 }

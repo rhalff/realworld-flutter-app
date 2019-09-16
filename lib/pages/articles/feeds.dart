@@ -41,8 +41,8 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
-    for (var bloc in _blocs.values) {
-      bloc.dispose();
+    for (var cachedBloc in _blocs.values) {
+      cachedBloc.dispose();
     }
     _blocs.clear();
     super.dispose();

@@ -77,8 +77,8 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
                     error = state.error;
                   } else if (state is ArticleLoading ||
                       (state is ArticleUninitialized && widget.slug != null)) {
-                    return Center(
-                      child: const CircularProgressIndicator(),
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   } else if (state is ArticleLoaded) {
                     article = state.article;
@@ -140,11 +140,6 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
   }
 
   void _onComplete(BuildContext context, String slug) {
-    Navigator.of(context).popAndPushNamed(
-      ArticleScreen.route,
-      arguments: {
-        'slug': slug,
-      },
-    );
+    Navigator.of(context).pop();
   }
 }
