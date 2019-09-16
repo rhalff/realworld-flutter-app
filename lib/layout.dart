@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realworld_flutter/pages/articles/app_drawer.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
@@ -43,9 +42,7 @@ class _LayoutState extends State<Layout> {
           user = state.user;
         }
         return Scaffold(
-          drawer: widget.drawer != null
-              ? widget.drawer
-              : (user != null ? Drawer(child: AppDrawer(user: user)) : null),
+          drawer: widget.drawer,
           appBar: AppBar(
             backgroundColor: Colors.white,
             actions: <Widget>[
