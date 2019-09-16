@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/pages/articles/app_drawer.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
-import 'blocs/auth/bloc.dart';
+import 'blocs/user/bloc.dart';
+import 'model/user.dart';
 
 class Layout extends StatefulWidget {
   final Widget bottomNavigationBar;
@@ -20,11 +22,11 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
-  AuthBloc _authBloc;
+  UserBloc _userBloc;
 
   @override
   void initState() {
-    _authBloc = BlocProvider.of<AuthBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
 
     super.initState();
   }
@@ -33,14 +35,21 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocBuilder(
-      bloc: _authBloc,
-      builder: (BuildContext context, AuthState state) {
+      bloc: _userBloc,
+      builder: (BuildContext context, UserState state) {
+        User user;
+
+        if (state is UserLoaded) {
+          user = state.user;
+        }
         return Scaffold(
-          drawer: widget.drawer,
+          drawer: widget.drawer != null
+              ? widget.drawer
+              : (user != null ? Drawer(child: AppDrawer(user: user)) : null),
           appBar: AppBar(
             backgroundColor: Colors.white,
             actions: <Widget>[
-              if (state is! Authenticated)
+              if (state is! UserLoaded)
                 RawMaterialButton(
                   child: const Text('Sign in'),
                   constraints:
@@ -48,7 +57,7 @@ class _LayoutState extends State<Layout> {
                   padding: const EdgeInsets.all(3),
                   onPressed: _navigateTo(context, SignInScreen.route),
                 ),
-              if (state is! Authenticated)
+              if (state is! UserLoaded)
                 RawMaterialButton(
                   child: const Text('Sign up'),
                   constraints:

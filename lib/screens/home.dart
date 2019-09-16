@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
-import 'package:realworld_flutter/pages/articles/app_drawer.dart';
 import 'package:realworld_flutter/pages/articles/feed.dart';
 import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/widgets/header.dart';
@@ -68,10 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final user = widget.userBloc.getCurrentUser();
-
     return Layout(
-      drawer: user != null ? Drawer(child: AppDrawer(user: user)) : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

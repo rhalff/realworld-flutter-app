@@ -28,10 +28,10 @@ class _HeroSplashState extends State<HeroSplash> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Center(
+          const Center(
             child: Hero(
               tag: 'header',
-              child: const Header(
+              child: Header(
                 title: 'conduit',
                 subtitle: 'A place to share your knowledge.',
                 padding: EdgeInsets.only(top: 8, bottom: 26),
