@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/blocs/favorite/bloc.dart';
+import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/widgets/favorite_button.dart';
 
 import '../article/article_meta.dart';
 
 class PreviewPost extends StatelessWidget {
+  final String slug;
   final String avatar;
   final String author;
   final DateTime date;
@@ -13,27 +17,30 @@ class PreviewPost extends StatelessWidget {
   final bool favorited;
   final int favorites;
   final VoidCallback onTap;
-  final VoidCallback onFavorited;
   PreviewPost({
-    this.avatar,
-    this.author,
-    this.date,
-    this.title,
-    this.text,
-    this.favorited,
-    this.favorites,
-    this.onTap,
-    this.onFavorited,
+    @required this.slug,
+    @required this.avatar,
+    @required this.author,
+    @required this.date,
+    @required this.title,
+    @required this.text,
+    @required this.favorited,
+    @required this.favorites,
+    @required this.onTap,
   });
   @override
   Widget build(BuildContext context) {
+    final favoriteBloc = FavoriteBloc(
+      articlesRepository: RepositoryProvider.of<ArticlesRepository>(context),
+    );
+
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        border: Border(
+        border: const Border(
           top: BorderSide(
             width: 1.0,
-            color: const Color(0X16000000),
+            color: Color(0X16000000),
           ),
         ),
         color: Colors.white,
@@ -48,10 +55,13 @@ class PreviewPost extends StatelessWidget {
                 author: author,
                 date: date,
               ),
-              FavoriteButton(
-                favorites: favorites,
-                favorited: favorited,
-                onTap: onFavorited,
+              BlocProvider(
+                builder: (context) => favoriteBloc,
+                child: FavoriteButton(
+                  slug: slug,
+                  favorites: favorites,
+                  favorited: favorited,
+                ),
               ),
             ],
           ),
@@ -73,7 +83,7 @@ class PreviewPost extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'SourceSerifPro',
                     fontSize: 14,
                   ),

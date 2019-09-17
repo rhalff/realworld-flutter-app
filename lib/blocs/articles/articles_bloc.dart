@@ -5,18 +5,44 @@ const _itemsPerRequest = 20;
 class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   final ArticlesRepository articlesRepository;
   ArticlesEvent _eventForReload;
+  StreamSubscription _articlesRepositorySubscription;
 
   ArticlesBloc({
     @required this.articlesRepository,
   }) {
     assert(articlesRepository != null);
 
-    articlesRepository.addListener(_reloadHandler);
+    _articlesRepositorySubscription =
+        articlesRepository.on<ArticleRepositoryEvent>().listen(_reloadHandler);
   }
 
-  void _reloadHandler() {
+  void _reloadHandler(ArticleRepositoryEvent event) {
     if (currentState is ArticlesLoaded) {
-      dispatch(ReloadArticlesEvent());
+      final state = currentState as ArticlesLoaded;
+
+      if (event is ArticleCreatedEvent ||
+          event is ArticleDeletedEvent ||
+          event is ArticleUpdatedEvent) {
+        dispatch(ReloadArticlesEvent());
+      }
+
+      if (event is FavoriteCreatedEvent) {
+        _updateIfArticleInList(state.articles, event.article);
+      } else if (event is FavoriteDeletedEvent) {
+        _updateIfArticleInList(state.articles, event.article);
+      }
+    }
+  }
+
+  void _updateIfArticleInList(List<Article> articles, Article article) {
+    for (var _article in articles) {
+      if (_article.slug == article.slug) {
+        dispatch(
+          UpdateArticleInListEvent(
+            article: article,
+          ),
+        );
+      }
     }
   }
 
@@ -46,6 +72,58 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       yield* _reloadArticles(event);
     } else if (event is ToggleFavoriteEvent) {
       yield* _toggleFavorite(event);
+    } else if (event is UpdateArticleInListEvent) {
+      yield* _updateArticleInList(event);
+    }
+  }
+
+  Stream<ArticlesState> _updateArticleInList(
+      UpdateArticleInListEvent event) async* {
+    if (currentState is ArticlesLoaded) {
+      final state = currentState as ArticlesLoaded;
+      final reloadEvent = _eventForReload as LoadArticlesEvent;
+
+      final articles = <Article>[];
+
+      if (state.feedType == FeedType.globalFeed &&
+          reloadEvent.favorited != null) {
+        var exists = false;
+        for (var article in state.articles) {
+          if (article.slug != event.article.slug) {
+            articles.add(article);
+          } else {
+            if (event.article.favorited) {
+              articles.add(event.article);
+            }
+            exists = true;
+          }
+        }
+
+        if (!exists) {
+          if (event.article.favorited) {
+            articles.add(event.article);
+          }
+        }
+      } else {
+        for (var article in state.articles) {
+          if (article.slug == event.article.slug) {
+            articles.add(
+              article.copyWith(
+                favorited: event.article.favorited,
+                favoritesCount: event.article.favoritesCount,
+              ),
+            );
+          } else {
+            articles.add(article);
+          }
+        }
+      }
+
+      yield ArticlesLoaded(
+        state.feedType,
+        articles,
+        state.hasReachedMax,
+      );
     }
   }
 
@@ -195,7 +273,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   @override
   void dispose() {
-    articlesRepository.removeListener(_reloadHandler);
+    _articlesRepositorySubscription.cancel();
     super.dispose();
   }
 }

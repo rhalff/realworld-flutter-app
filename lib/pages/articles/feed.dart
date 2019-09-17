@@ -11,7 +11,6 @@ class Feed extends StatefulWidget {
   final Function(ArticlesBloc bloc) onRefresh;
   final Function(ArticlesBloc bloc) onLoad;
   final Function(ArticlesBloc bloc) onLoadMore;
-  final Function(ArticlesBloc bloc, String slug) onFavorited;
   final double scrollThreshold;
   Feed({
     @required this.id,
@@ -19,7 +18,6 @@ class Feed extends StatefulWidget {
     @required this.onRefresh,
     @required this.onLoad,
     @required this.onLoadMore,
-    @required this.onFavorited,
     this.scrollThreshold = 400.0,
   });
   @override
@@ -65,10 +63,6 @@ class _FeedState extends State<Feed> {
               itemBuilder: (BuildContext context, int index) {
                 return ArticleWidget(
                   article: articles[index],
-                  onFavorited: () => widget.onFavorited(
-                    _articlesBloc,
-                    articles[index].slug,
-                  ),
                 );
               },
               itemCount: articles.length,

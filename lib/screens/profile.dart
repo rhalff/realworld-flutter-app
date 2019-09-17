@@ -67,8 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             initialFeed: widget.feed,
           );
         } else {
-          child = Center(
-            child: const CircularProgressIndicator(),
+          child = const Center(
+            child: CircularProgressIndicator(),
           );
         }
 

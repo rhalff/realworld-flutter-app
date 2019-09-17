@@ -2,20 +2,28 @@ part of blocs.article;
 
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final ArticlesRepository articlesRepository;
+  StreamSubscription _articlesRepositorySubscription;
 
   ArticleBloc({
     @required this.articlesRepository,
   }) {
     assert(articlesRepository != null);
 
-    articlesRepository.addListener(_reloadHandler);
+    _articlesRepositorySubscription =
+        articlesRepository.on<ArticleRepositoryEvent>().listen(_reloadHandler);
   }
 
-  void _reloadHandler() {
+  void _reloadHandler(ArticleRepositoryEvent event) {
     if (currentState is ArticleLoaded) {
-      dispatch(
-        LoadArticleEvent(slug: (currentState as ArticleLoaded).article.slug),
-      );
+      if (event is ArticleUpdatedEvent) {
+        if (event.article.slug ==
+            (currentState as ArticleLoaded).article.slug) {
+          dispatch(
+            LoadArticleEvent(
+                slug: (currentState as ArticleLoaded).article.slug),
+          );
+        }
+      }
     }
   }
 
@@ -124,7 +132,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
   @override
   void dispose() {
-    articlesRepository.removeListener(_reloadHandler);
+    _articlesRepositorySubscription.cancel();
     super.dispose();
   }
 }

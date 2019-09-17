@@ -19,9 +19,10 @@ abstract class _$LoginUserSerializer implements Serializer<LoginUser> {
   @override
   LoginUser fromMap(Map map) {
     if (map == null) return null;
-    final obj = LoginUser(
-        email: map['email'] as String ?? getJserDefault('email'),
-        password: map['password'] as String ?? getJserDefault('password'));
+    final obj = LoginUser();
+    obj.email = map['email'] as String ?? getJserDefault('email') ?? obj.email;
+    obj.password =
+        map['password'] as String ?? getJserDefault('password') ?? obj.password;
     return obj;
   }
 }

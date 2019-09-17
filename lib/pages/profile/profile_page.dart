@@ -31,13 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
       Feed(
         id: 'my-posts',
         label: 'My Posts',
-        onFavorited: (ArticlesBloc bloc, String slug) {
-          bloc.dispatch(
-            ToggleFavoriteEvent(
-              slug: slug,
-            ),
-          );
-        },
         onLoad: (ArticlesBloc bloc) {
           bloc.dispatch(
             LoadArticlesEvent(
@@ -65,13 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
       Feed(
         id: 'favorited-posts',
         label: 'Favorited Posts',
-        onFavorited: (ArticlesBloc bloc, String slug) {
-          bloc.dispatch(
-            ToggleFavoriteEvent(
-              slug: slug,
-            ),
-          );
-        },
         onLoad: (ArticlesBloc bloc) {
           bloc.dispatch(
             LoadArticlesEvent(

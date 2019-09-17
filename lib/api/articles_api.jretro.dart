@@ -66,6 +66,16 @@ abstract class _$ArticlesApiClient implements ApiClient {
   Future<MultipleArticlesResponse> getArticles(String tag, String author,
       String favorited, int limit, int offset) async {
     var req = base.get
+        .metadata({
+          "auth": [
+            {
+              "type": "apiKey",
+              "name": "Token",
+              "keyName": "Authorization",
+              "where": "header",
+            }
+          ],
+        })
         .path(basePath)
         .path("/articles")
         .query("tag", tag)

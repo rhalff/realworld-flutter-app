@@ -14,7 +14,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   ) {
     return super.transformEvents(
       (events as Observable<FavoriteEvent>).debounceTime(
-        Duration(milliseconds: 500),
+        const Duration(milliseconds: 500),
       ),
       next,
     );

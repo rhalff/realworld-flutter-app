@@ -91,7 +91,19 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   /// Get recent articles globally
   ///
   /// Get most recent articles globally. Use query parameters to filter results. Auth is optional
-  @GetReq(path: '/articles')
+  @GetReq(
+    path: '/articles',
+    metadata: {
+      'auth': [
+        {
+          'type': 'apiKey',
+          'name': 'Token',
+          'keyName': 'Authorization',
+          'where': 'header'
+        }
+      ]
+    },
+  )
   @override
   Future<MultipleArticlesResponse> getArticles(
     @QueryParam('tag') String tag,

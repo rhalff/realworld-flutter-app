@@ -13,13 +13,6 @@ final feeds = [
   Feed(
     id: 'your-feed',
     label: 'Your Feed',
-    onFavorited: (ArticlesBloc bloc, String slug) {
-      bloc.dispatch(
-        ToggleFavoriteEvent(
-          slug: slug,
-        ),
-      );
-    },
     onLoad: (ArticlesBloc bloc) {
       bloc.dispatch(LoadArticlesEvent(refresh: true));
     },
@@ -35,13 +28,6 @@ final feeds = [
   Feed(
     id: 'global-feed',
     label: 'Global Feed',
-    onFavorited: (ArticlesBloc bloc, String slug) {
-      bloc.dispatch(
-        ToggleFavoriteEvent(
-          slug: slug,
-        ),
-      );
-    },
     onLoad: (ArticlesBloc bloc) {
       bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
     },

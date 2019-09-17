@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:realworld_flutter/api/articles_api.dart';
 import 'package:realworld_flutter/api/comments_api.dart';
 import 'package:realworld_flutter/api/favorites_api.dart';
@@ -8,10 +7,52 @@ import 'package:realworld_flutter/api/model/request/article_submission_request.d
 import 'package:realworld_flutter/api/model/request/new_comment_request.dart';
 import 'package:realworld_flutter/api/model/response/multiple_articles_response.dart';
 import 'package:realworld_flutter/api/tags_api.dart';
+import 'package:realworld_flutter/event_emitter.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
 
-class ArticlesRepository extends ChangeNotifier {
+abstract class ArticleRepositoryEvent {}
+
+class ArticleCreatedEvent extends ArticleRepositoryEvent {
+  final Article article;
+  ArticleCreatedEvent({this.article});
+}
+
+class ArticleUpdatedEvent extends ArticleRepositoryEvent {
+  final Article article;
+  ArticleUpdatedEvent({this.article});
+}
+
+class ArticleDeletedEvent extends ArticleRepositoryEvent {
+  final String slug;
+  ArticleDeletedEvent({this.slug});
+}
+
+class CommentCreatedEvent extends ArticleRepositoryEvent {
+  final String slug;
+  final Comment comment;
+  CommentCreatedEvent({this.slug, this.comment});
+}
+
+class CommentDeletedEvent extends ArticleRepositoryEvent {
+  final String slug;
+  final int id;
+  CommentDeletedEvent({this.slug, this.id});
+}
+
+class FavoriteCreatedEvent extends ArticleRepositoryEvent {
+  final String slug;
+  final Article article;
+  FavoriteCreatedEvent({this.slug, this.article});
+}
+
+class FavoriteDeletedEvent extends ArticleRepositoryEvent {
+  final String slug;
+  final Article article;
+  FavoriteDeletedEvent({this.slug, this.article});
+}
+
+class ArticlesRepository extends EventEmitter {
   ArticlesApi articlesApi;
   CommentsApi commentsApi;
   TagsApi tagsApi;
@@ -62,7 +103,7 @@ class ArticlesRepository extends ChangeNotifier {
       ArticleSubmissionRequest(article: article),
     );
 
-    notifyListeners();
+    fire(ArticleCreatedEvent(article: result.article));
 
     return result.article;
   }
@@ -73,7 +114,7 @@ class ArticlesRepository extends ChangeNotifier {
       ArticleSubmissionRequest(article: article),
     );
 
-    notifyListeners();
+    fire(ArticleUpdatedEvent(article: result.article));
 
     return result.article;
   }
@@ -81,7 +122,7 @@ class ArticlesRepository extends ChangeNotifier {
   Future<void> deleteArticle(String slug) async {
     await articlesApi.deleteArticle(slug);
 
-    notifyListeners();
+    fire(ArticleDeletedEvent(slug: slug));
   }
 
   Future<List<Comment>> getComments(String slug) async {
@@ -99,7 +140,7 @@ class ArticlesRepository extends ChangeNotifier {
       NewCommentRequest(comment: comment),
     );
 
-    notifyListeners();
+    fire(CommentCreatedEvent(slug: slug, comment: result.comment));
 
     return result.comment;
   }
@@ -107,7 +148,7 @@ class ArticlesRepository extends ChangeNotifier {
   Future<void> deleteComment(String slug, int id) async {
     await commentsApi.deleteArticleComment(slug, id);
 
-    notifyListeners();
+    fire(CommentDeletedEvent(slug: slug, id: id));
   }
 
   Future<List<String>> getTags() async {
@@ -119,7 +160,7 @@ class ArticlesRepository extends ChangeNotifier {
   Future<Article> createFavorite(String slug) async {
     final result = await favoritesApi.createArticleFavorite(slug);
 
-    notifyListeners();
+    fire(FavoriteCreatedEvent(slug: slug, article: result.article));
 
     return result.article;
   }
@@ -127,7 +168,7 @@ class ArticlesRepository extends ChangeNotifier {
   Future<Article> deleteArticleFavorite(String slug) async {
     final result = await favoritesApi.deleteArticleFavorite(slug);
 
-    notifyListeners();
+    fire(FavoriteDeletedEvent(slug: slug, article: result.article));
 
     return result.article;
   }

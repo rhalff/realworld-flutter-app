@@ -24,6 +24,8 @@ dependencies:
   flutter_secure_storage: 3.2.1
   shared_preferences: 0.5.3+4
 
+  event_bus: ^1.1.0
+
   intl: ^0.16.0
   bloc: ^0.15.0
   validations: ^0.8.5+1

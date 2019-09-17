@@ -20,6 +20,16 @@ class LoadArticlesEvent extends ArticlesEvent {
 }
 
 @immutable
+class UpdateArticleInListEvent extends ArticlesEvent {
+  final Article article;
+  UpdateArticleInListEvent({
+    this.article,
+  });
+  @override
+  String toString() => 'UpdateArticleInListEvent[article: $article]';
+}
+
+@immutable
 class ReloadArticlesEvent extends ArticlesEvent {}
 
 @immutable
