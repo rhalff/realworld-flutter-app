@@ -21,7 +21,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   }
 
   @override
-  FavoriteState get initialState => FavoriteIdle();
+  FavoriteState get initialState => FavoriteUninitialized();
 
   @override
   Stream<FavoriteState> mapEventToState(FavoriteEvent event) async* {
@@ -32,15 +32,22 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
 
   Stream<FavoriteState> _updateFavorite(UpdateFavoriteEvent event) async* {
     try {
-      yield FavoriteUpdating();
+      yield FavoriteUpdate(
+        value: !event.favorited,
+        isUpdating: true,
+      );
 
+      Article article;
       if (event.favorited) {
-        await articlesRepository.createFavorite(event.slug);
+        article = await articlesRepository.createFavorite(event.slug);
       } else {
-        await articlesRepository.deleteArticleFavorite(event.slug);
+        article = await articlesRepository.deleteArticleFavorite(event.slug);
       }
 
-      yield FavoriteIdle();
+      yield FavoriteUpdate(
+        value: article.favorited,
+        isUpdating: false,
+      );
     } catch (error) {
       print(error);
       yield FavoriteError('Failed to update favorite');

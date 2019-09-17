@@ -5,14 +5,20 @@ abstract class FavoriteState extends Equatable {
   FavoriteState([List props = const []]) : super(props);
 }
 
-class FavoriteIdle extends FavoriteState {
+class FavoriteUninitialized extends FavoriteState {
   @override
-  String toString() => 'FavoriteIdle';
+  String toString() => 'FavoriteUninitialized';
 }
 
-class FavoriteUpdating extends FavoriteState {
+class FavoriteUpdate extends FavoriteState {
+  final bool value;
+  final bool isUpdating;
+  FavoriteUpdate({
+    this.value,
+    this.isUpdating = false,
+  }) : super([value, isUpdating]);
   @override
-  String toString() => 'FavoriteUpdating';
+  String toString() => 'FavoriteUpdate(value: $value, isUpdating: $isUpdating';
 }
 
 class FavoriteError extends FavoriteState {

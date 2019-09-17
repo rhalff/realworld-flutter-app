@@ -22,7 +22,6 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     super.initState();
   }
 
-  bool _pressed = false;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -30,76 +29,62 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     final favoriteBloc = BlocProvider.of<FavoriteBloc>(context);
 
     return BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
-      final isUpdating = state is FavoriteUpdating;
+      final isUpdating = state is FavoriteUpdate && state.isUpdating;
+      final favorited =
+          state is FavoriteUpdate ? state.value : widget.favorited;
+      final textColor = favorited ? Colors.white : theme.primaryColor;
+      final backgroundColor = favorited ? theme.primaryColor : Colors.white;
 
       return InkWell(
         onTap: () {
           favoriteBloc.dispatch(
             UpdateFavoriteEvent(
               slug: widget.slug,
-              favorited: !widget.favorited,
+              favorited: !favorited,
             ),
           );
         },
-        onHighlightChanged: (bool val) {
-          setState(() {
-            if (val) {
-              _pressed = true;
-            } else {
-              _pressed = false;
-            }
-          });
-        },
-        onHover: (_) {
-          setState(() => _pressed = true);
-        },
-        onTapCancel: () {
-          setState(() => _pressed = false);
-        },
-        child: isUpdating
-            ? const SizedBox(
-                width: 10,
-                height: 10,
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                ),
-              )
-            : Container(
-                padding: const EdgeInsets.only(
-                  top: 5.0,
-                  bottom: 5.0,
-                  left: 12.0,
-                  right: 12.0,
-                ),
-                decoration: BoxDecoration(
-                  color: _pressed || widget.favorited
-                      ? theme.primaryColor
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: theme.primaryColor,
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 5.0,
+            bottom: 5.0,
+            left: 12.0,
+            right: 12.0,
+          ),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: theme.primaryColor,
+            ),
+          ),
+          child: isUpdating
+              ? SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(textColor),
+                    backgroundColor: backgroundColor,
+                    strokeWidth: 1,
                   ),
-                ),
-                child: Row(
-                  children: <Widget>[
+                )
+              : Row(
+                  children: [
                     Icon(
-                      Icons.ac_unit,
+                      Icons.favorite,
                       size: 14,
-                      color: _pressed || widget.favorited
-                          ? Colors.white
-                          : theme.primaryColor,
+                      color: textColor,
                     ),
+                    const SizedBox(width: 2),
                     Text(
                       widget.favorites.toString(),
                       style: TextStyle(
-                        color: _pressed || widget.favorited
-                            ? Colors.white
-                            : theme.primaryColor,
+                        color: textColor,
                       ),
                     ),
                   ],
                 ),
-              ),
+        ),
       );
     });
   }
