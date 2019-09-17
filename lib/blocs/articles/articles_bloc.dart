@@ -81,12 +81,11 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       UpdateArticleInListEvent event) async* {
     if (currentState is ArticlesLoaded) {
       final state = currentState as ArticlesLoaded;
-      final reloadEvent = _eventForReload as LoadArticlesEvent;
 
       final articles = <Article>[];
 
       if (state.feedType == FeedType.globalFeed &&
-          reloadEvent.favorited != null) {
+          (_eventForReload as LoadArticlesEvent).favorited != null) {
         var exists = false;
         for (var article in state.articles) {
           if (article.slug != event.article.slug) {
