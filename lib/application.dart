@@ -2,13 +2,13 @@
 // import 'package:jaguar_cache/jaguar_cache.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_repository.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_shared_preferences_repository.dart';
-import 'package:realworld_flutter/repositories/user_repository.dart';
+import 'package:realworld_flutter/repositories/user/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api.dart';
 import 'blocs/auth/bloc.dart';
 import 'blocs/user/bloc.dart';
-import 'repositories/articles_repository.dart';
+import 'repositories/articles/repository.dart';
 
 class Config {}
 

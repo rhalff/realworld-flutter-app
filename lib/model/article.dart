@@ -1,7 +1,7 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:validations/annotations/mixed.dart';
-import 'package:validations/validations.dart' hide Alias;
+import 'package:validations/validations.dart';
 
 part 'article.g.dart';
 part 'article.jser.dart';

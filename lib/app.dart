@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
+import 'package:realworld_flutter/repositories/articles/repository.dart';
 
 import 'application.dart';
 import 'blocs/user/bloc.dart';

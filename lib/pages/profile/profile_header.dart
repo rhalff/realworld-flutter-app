@@ -36,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   profile.username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

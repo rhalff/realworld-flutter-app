@@ -13,7 +13,7 @@ import 'package:realworld_flutter/api/model/new_user.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/blocs/auth/bloc.dart';
 import 'package:realworld_flutter/model/user.dart';
-import 'package:realworld_flutter/repositories/user_repository.dart';
+import 'package:realworld_flutter/repositories/user/repository.dart';
 
 part 'user_bloc.dart';
 part 'user_events.dart';

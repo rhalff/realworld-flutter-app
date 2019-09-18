@@ -3,7 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/favorite/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
+import 'package:realworld_flutter/repositories/articles/repository.dart';
 import 'package:realworld_flutter/widgets/favorite_button.dart';
 
 import '../article/article_meta.dart';
@@ -82,7 +82,7 @@ class PreviewPost extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'MerriweatherSans',
                       fontSize: 24,
                       fontWeight: FontWeight.w700,

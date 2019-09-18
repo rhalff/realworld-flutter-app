@@ -37,9 +37,9 @@ class _ArticleCommentFormState extends State<ArticleCommentForm> {
             Container(
               padding: const EdgeInsets.all(8),
               child: TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Write a comment...',
-                    contentPadding: const EdgeInsets.all(14),
+                    contentPadding: EdgeInsets.all(14),
                   ),
                   minLines: 2,
                   maxLines: 10,

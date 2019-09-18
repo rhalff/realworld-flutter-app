@@ -10,7 +10,7 @@ import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:meta/meta.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
-import 'package:realworld_flutter/repositories/user_repository.dart';
+import 'package:realworld_flutter/repositories/user/repository.dart';
 
 part 'user_profile_bloc.dart';
 part 'user_profile_events.dart';

@@ -34,7 +34,7 @@ class AppDrawer extends StatelessWidget {
                   onTap: () => _toProfile(context),
                   child: Text(
                     user.username,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -2,22 +2,26 @@ part of blocs.profile;
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserRepository userRepository;
+  StreamSubscription _userRepositorySubscription;
 
   ProfileBloc({
     @required this.userRepository,
   }) {
     assert(userRepository != null);
 
-    userRepository.addListener(_reloadHandler);
+    _userRepositorySubscription =
+        userRepository.on<UserRepositoryEvent>().listen(_reloadHandler);
   }
 
-  void _reloadHandler() {
+  void _reloadHandler(UserRepositoryEvent event) {
     if (currentState is ProfileLoaded) {
-      dispatch(
-        LoadProfileEvent(
-          username: (currentState as ProfileLoaded).profile.username,
-        ),
-      );
+      if (event is UserUpdatedEvent) {
+        dispatch(
+          LoadProfileEvent(
+            username: (currentState as ProfileLoaded).profile.username,
+          ),
+        );
+      }
     }
   }
 
@@ -81,7 +85,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   @override
   void dispose() {
-    userRepository.removeListener(_reloadHandler);
+    _userRepositorySubscription.cancel();
     super.dispose();
   }
 }

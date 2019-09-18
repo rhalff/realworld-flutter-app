@@ -2,6 +2,8 @@
 analyzer:
   exclude:
     - "TODO/"
+    - "**.jretro.dart"
+    - "**.jser.dart"
   strong-mode:
     implicit-casts: false
   errors:

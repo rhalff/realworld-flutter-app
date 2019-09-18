@@ -5,7 +5,7 @@ import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/article/article_page.dart';
-import 'package:realworld_flutter/repositories/articles_repository.dart';
+import 'package:realworld_flutter/repositories/articles/repository.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 

@@ -12,7 +12,7 @@ class OAuthInterceptor extends AuthInterceptor {
     for (var info in authInfo) {
       final token = tokens[info['name']];
       if (token != null) {
-        route.header('Authorization', 'Token ${token}');
+        route.header('Authorization', 'Token $token');
         break;
       }
     }
