@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
@@ -10,7 +11,7 @@ import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 
 final feeds = [
-  Feed(
+  FeedModel(
     id: 'your-feed',
     label: 'Your Feed',
     onLoad: (ArticlesBloc bloc) {
@@ -20,12 +21,10 @@ final feeds = [
       bloc.dispatch(LoadArticlesEvent());
     },
     onRefresh: (ArticlesBloc bloc) async {
-      bloc.dispatch(
-        LoadArticlesEvent(refresh: true),
-      );
+      bloc.dispatch(LoadArticlesEvent(refresh: true));
     },
   ),
-  Feed(
+  FeedModel(
     id: 'global-feed',
     label: 'Global Feed',
     onLoad: (ArticlesBloc bloc) {
@@ -35,12 +34,45 @@ final feeds = [
       bloc.dispatch(LoadArticlesFeedEvent());
     },
     onRefresh: (ArticlesBloc bloc) async {
-      bloc.dispatch(
-        LoadArticlesFeedEvent(refresh: true),
-      );
+      bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
     },
   ),
 ];
+
+class HeroHeader implements SliverPersistentHeaderDelegate {
+  @override
+  double maxExtent;
+  @override
+  double minExtent;
+  Widget child;
+
+  HeroHeader({
+    this.minExtent,
+    this.maxExtent,
+    this.child,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final h = maxExtent - shrinkOffset;
+    return Hero(
+      tag: 'header',
+      child: SizedBox(
+        height: (h < minExtent) ? minExtent : h,
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  FloatingHeaderSnapConfiguration get snapConfiguration => null;
+}
 
 class HomeScreen extends StatefulWidget {
   final UserBloc userBloc;
@@ -67,21 +99,14 @@ class _HomeScreenState extends State<HomeScreen>
 
         return Layout(
           drawer: user != null ? Drawer(child: AppDrawer(user: user)) : null,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const Hero(
-                tag: 'header',
-                child: Header(
-                  title: 'conduit',
-                  subtitle: 'A place to share your knowledge.',
-                  padding: EdgeInsets.only(top: 8, bottom: 26),
-                ),
-              ),
-              Feeds(
-                feeds: feeds,
-              ),
-            ],
+          child: Feeds(
+            header: const Header(
+              title: 'conduit',
+              subtitle: 'A place to share your knowledge.',
+              padding: EdgeInsets.only(top: 8, bottom: 26),
+              fit: BoxFit.scaleDown,
+            ),
+            feeds: feeds,
           ),
         );
       },

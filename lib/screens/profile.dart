@@ -5,7 +5,6 @@ import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/pages/profile/profile_page.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
-import 'package:realworld_flutter/widgets/scroll_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String route = '/profile';
@@ -73,9 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
 
         return Layout(
-          child: ScrollPage(
-            child: child,
-          ),
+          child: child,
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 4.0,

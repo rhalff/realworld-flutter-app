@@ -11,6 +11,8 @@ class Header extends StatelessWidget {
   final bool disableBoxShadow;
   final double width;
   final double height;
+  final BoxFit fit;
+
   const Header({
     this.title,
     this.subtitle,
@@ -21,6 +23,7 @@ class Header extends StatelessWidget {
     this.height,
     this.child,
     this.disableBoxShadow = false,
+    this.fit,
   });
   @override
   Widget build(BuildContext context) {
@@ -50,47 +53,56 @@ class Header extends StatelessWidget {
       type: MaterialType.transparency,
       child: Container(
         padding: padding,
-        width: width,
+        width: width ?? double.infinity,
         height: height,
         decoration: BoxDecoration(
           color: _color,
           boxShadow: boxShadow,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: crossAxisAlignment,
-          children: <Widget>[
-            if (title != null)
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Titilliumweb',
-                  shadows: [
-                    const Shadow(
-                      blurRadius: 3.0,
-                      color: Color(0X48000000),
-                      offset: Offset(0, 1.0),
-                    ),
-                  ],
-                ),
-              ),
-            if (subtitle != null)
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  height: 1.5,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            if (child != null) child,
-          ],
-        ),
+        child: fit != null
+            ? FittedBox(
+                fit: fit,
+                child: _buildHeader(),
+              )
+            : _buildHeader(),
       ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment,
+      children: <Widget>[
+        if (title != null)
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 48,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Titilliumweb',
+              shadows: [
+                const Shadow(
+                  blurRadius: 3.0,
+                  color: Color(0X48000000),
+                  offset: Offset(0, 1.0),
+                ),
+              ],
+            ),
+          ),
+        if (subtitle != null)
+          Text(
+            subtitle,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              height: 1.5,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+        if (child != null) child,
+      ],
     );
   }
 }

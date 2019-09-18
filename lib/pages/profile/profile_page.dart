@@ -7,8 +7,6 @@ import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/articles/feed.dart';
 import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/pages/profile/profile_header.dart';
-import 'package:realworld_flutter/screens/settings.dart';
-import 'package:realworld_flutter/widgets/drop_down_menu.dart';
 
 class ProfilePage extends StatefulWidget {
   final Profile profile;
@@ -28,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final feeds = [
-      Feed(
+      FeedModel(
         id: 'my-posts',
         label: 'My Posts',
         onLoad: (ArticlesBloc bloc) {
@@ -55,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         },
       ),
-      Feed(
+      FeedModel(
         id: 'favorited-posts',
         label: 'Favorited Posts',
         onLoad: (ArticlesBloc bloc) {
@@ -90,47 +88,16 @@ class _ProfilePageState extends State<ProfilePage> {
         ProfileState state,
       ) {
         if (state is ProfileLoaded) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      child: ProfileHeader(profile: state.profile),
-                    ),
-                    if (widget.profile.username == widget.user.username)
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: DropdownMenu(
-                          onSelect: (item) {
-                            if (item.id == 'edit_profile') {
-                              Navigator.of(context)
-                                  .pushNamed(SettingsScreen.route);
-                            }
-                          },
-                          items: [
-                            MenuItem(
-                              id: 'edit_profile',
-                              label: 'Edit profile',
-                              icon: Icons.edit,
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                child: Feeds(
-                  feeds: feeds,
-                  initialFeed: widget.initialFeed,
-                ),
-              )
-            ],
+          return Feeds(
+            feeds: feeds,
+            minExtentHeader: 0,
+            maxExtentHeader: 250,
+            header: ProfileHeader(
+              profile: state.profile,
+              fit: BoxFit.fitWidth,
+              isUserPage: widget.profile.username == widget.user.username,
+            ),
+            initialFeed: widget.initialFeed,
           );
         }
 

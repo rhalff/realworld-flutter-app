@@ -5,6 +5,23 @@ import 'package:realworld_flutter/widgets/error_container.dart';
 
 import 'article_widget.dart';
 
+class FeedModel {
+  final String id;
+  final String label;
+  final Function(ArticlesBloc bloc) onRefresh;
+  final Function(ArticlesBloc bloc) onLoad;
+  final Function(ArticlesBloc bloc) onLoadMore;
+  final double scrollThreshold;
+  FeedModel({
+    @required this.id,
+    @required this.label,
+    @required this.onRefresh,
+    @required this.onLoad,
+    @required this.onLoadMore,
+    this.scrollThreshold = 400.0,
+  });
+}
+
 class Feed extends StatefulWidget {
   final String id;
   final String label;
@@ -66,7 +83,6 @@ class _FeedState extends State<Feed> {
                 );
               },
               itemCount: articles.length,
-              controller: _scrollController,
             ),
           );
         }
