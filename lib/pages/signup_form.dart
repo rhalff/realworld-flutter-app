@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/new_user.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/helpers/form.dart';
+import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
 class SignUpForm extends StatefulWidget {
-  final String error;
-  SignUpForm({this.error});
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -30,58 +29,80 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: <Widget>[
-          if (widget.error != null)
-            ErrorContainer(
-              error: widget.error,
-            ),
-          createTextField(
-            hintText: 'Your Name',
-            // focusNode: _emailFocus,
-            validator: _validator.validateUsername,
-            onSaved: (String value) {
-              setState(() {
-                _newUser.username = value;
-              });
-            },
+    return BlocListener<UserBloc, UserState>(
+      listener: (BuildContext context, UserState state) {
+        if (state is UserLoaded) {
+          Navigator.of(context).pushReplacementNamed(HomeScreen.route);
+        }
+      },
+      child: BlocBuilder<UserBloc, UserState>(
+          builder: (BuildContext context, UserState state) {
+        if (state is UserLoaded || state is UserLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        String error;
+        if (state is UserError) {
+          error = state.error;
+        }
+
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              if (error != null)
+                ErrorContainer(
+                  error: error,
+                ),
+              const SizedBox(height: 16),
+              createTextField(
+                hintText: 'Your Name',
+                // focusNode: _emailFocus,
+                validator: _validator.validateUsername,
+                onSaved: (String value) {
+                  setState(() {
+                    _newUser.username = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              createTextField(
+                // focusNode: _emailFocus,
+                hintText: 'Email',
+                autovalidate: false,
+                keyboardType: TextInputType.emailAddress,
+                validator: _validator.validateEmail,
+                onSaved: (String value) {
+                  setState(() {
+                    _newUser.email = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              createTextField(
+                hintText: 'Password',
+                autovalidate: false,
+                obscureText: true,
+                // focusNode: _passwordFocus,
+                onChanged: (String value) {
+                  _newUser.password = value;
+                },
+                validator: _validator.validatePassword,
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: RoundedButton(
+                  text: 'Sign Up',
+                  onPressed: _signUp,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          createTextField(
-            // focusNode: _emailFocus,
-            hintText: 'Email',
-            autovalidate: false,
-            keyboardType: TextInputType.emailAddress,
-            validator: _validator.validateEmail,
-            onSaved: (String value) {
-              setState(() {
-                _newUser.email = value;
-              });
-            },
-          ),
-          const SizedBox(height: 16),
-          createTextField(
-            hintText: 'Password',
-            autovalidate: false,
-            obscureText: true,
-            // focusNode: _passwordFocus,
-            onChanged: (String value) {
-              _newUser.password = value;
-            },
-            validator: _validator.validatePassword,
-          ),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerRight,
-            child: RoundedButton(
-              text: 'Sign Up',
-              onPressed: _signUp,
-            ),
-          ),
-        ],
-      ),
+        );
+      }),
     );
   }
 

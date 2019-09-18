@@ -38,8 +38,8 @@ class _SignInFormState extends State<SignInForm> {
       child: BlocBuilder<UserBloc, UserState>(
           builder: (BuildContext context, UserState state) {
         if (state is UserLoaded || state is UserLoading) {
-          return Center(
-            child: const CircularProgressIndicator(),
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         }
 
@@ -99,14 +99,7 @@ class _SignInFormState extends State<SignInForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc.dispatch(
-        SignInEvent(
-          LoginUser(
-            email: _data.email,
-            password: _data.password,
-          ),
-        ),
-      );
+      _userBloc.dispatch(SignInEvent(_data));
     }
   }
 }
