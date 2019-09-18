@@ -10,41 +10,6 @@ import 'package:realworld_flutter/pages/articles/feed.dart';
 import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 
-class HeroHeader implements SliverPersistentHeaderDelegate {
-  @override
-  double maxExtent;
-  @override
-  double minExtent;
-  Widget child;
-
-  HeroHeader({
-    this.minExtent,
-    this.maxExtent,
-    this.child,
-  });
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final h = maxExtent - shrinkOffset;
-    return Hero(
-      tag: 'header',
-      child: SizedBox(
-        height: (h < minExtent) ? minExtent : h,
-        child: child,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-
-  @override
-  FloatingHeaderSnapConfiguration get snapConfiguration => null;
-}
-
 class HomeScreen extends StatefulWidget {
   final UserBloc userBloc;
   HomeScreen({
@@ -81,19 +46,21 @@ class _HomeScreenState extends State<HomeScreen>
         ];
 
         if (state is UserLoaded) {
-          feeds.add(FeedModel(
-            id: 'your-feed',
-            label: 'Your Feed',
-            onLoad: (ArticlesBloc bloc) {
-              bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-            },
-            onLoadMore: (ArticlesBloc bloc) {
-              bloc.dispatch(LoadArticlesFeedEvent());
-            },
-            onRefresh: (ArticlesBloc bloc) async {
-              bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-            },
-          ));
+          feeds.add(
+            FeedModel(
+              id: 'your-feed',
+              label: 'Your Feed',
+              onLoad: (ArticlesBloc bloc) {
+                bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+              },
+              onLoadMore: (ArticlesBloc bloc) {
+                bloc.dispatch(LoadArticlesFeedEvent());
+              },
+              onRefresh: (ArticlesBloc bloc) async {
+                bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+              },
+            ),
+          );
           user = state.user;
         }
 
@@ -112,4 +79,39 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
   }
+}
+
+class HeroHeader implements SliverPersistentHeaderDelegate {
+  @override
+  double maxExtent;
+  @override
+  double minExtent;
+  Widget child;
+
+  HeroHeader({
+    this.minExtent,
+    this.maxExtent,
+    this.child,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final h = maxExtent - shrinkOffset;
+    return Hero(
+      tag: 'header',
+      child: SizedBox(
+        height: (h < minExtent) ? minExtent : h,
+        child: child,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  FloatingHeaderSnapConfiguration get snapConfiguration => null;
 }

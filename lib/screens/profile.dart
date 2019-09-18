@@ -74,8 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return Layout(
           child: child,
           bottomNavigationBar: BottomAppBar(
-            shape: const CircularNotchedRectangle(),
-            notchMargin: 4.0,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
