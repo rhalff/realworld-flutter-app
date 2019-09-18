@@ -82,7 +82,7 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
 
     super.initState();
     _tabController = TabController(
-      length: 2,
+      length: widget.feeds.length,
       initialIndex: initialIndex == -1 ? 0 : initialIndex,
       vsync: this,
     );

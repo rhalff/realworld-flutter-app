@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         } else if (state is ProfileLoaded) {
           actions.addAll(
             <Widget>[
-              if (user?.username != state.profile.username)
+              if (user != null && user.username != state.profile.username)
                 IconButton(
                   icon: state.profile.following
                       ? Icon(Icons.star)

@@ -46,35 +46,6 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
 }
 
 class HomeScreen extends StatefulWidget {
-  final feeds = [
-    FeedModel(
-      id: 'your-feed',
-      label: 'Your Feed',
-      onLoad: (ArticlesBloc bloc) {
-        bloc.dispatch(LoadArticlesEvent(refresh: true));
-      },
-      onLoadMore: (ArticlesBloc bloc) {
-        bloc.dispatch(LoadArticlesEvent());
-      },
-      onRefresh: (ArticlesBloc bloc) async {
-        bloc.dispatch(LoadArticlesEvent(refresh: true));
-      },
-    ),
-    FeedModel(
-      id: 'global-feed',
-      label: 'Global Feed',
-      onLoad: (ArticlesBloc bloc) {
-        bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-      },
-      onLoadMore: (ArticlesBloc bloc) {
-        bloc.dispatch(LoadArticlesFeedEvent());
-      },
-      onRefresh: (ArticlesBloc bloc) async {
-        bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-      },
-    ),
-  ];
-
   final UserBloc userBloc;
   HomeScreen({
     @required this.userBloc,
@@ -93,9 +64,38 @@ class _HomeScreenState extends State<HomeScreen>
       builder: (BuildContext context, UserState state) {
         User user;
 
+        final feeds = <FeedModel>[];
+
         if (state is UserLoaded) {
+          feeds.add(FeedModel(
+            id: 'your-feed',
+            label: 'Your Feed',
+            onLoad: (ArticlesBloc bloc) {
+              bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+            },
+            onLoadMore: (ArticlesBloc bloc) {
+              bloc.dispatch(LoadArticlesFeedEvent());
+            },
+            onRefresh: (ArticlesBloc bloc) async {
+              bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+            },
+          ));
           user = state.user;
         }
+
+        feeds.add(FeedModel(
+          id: 'global-feed',
+          label: 'Global Feed',
+          onLoad: (ArticlesBloc bloc) {
+            bloc.dispatch(LoadArticlesEvent(refresh: true));
+          },
+          onLoadMore: (ArticlesBloc bloc) {
+            bloc.dispatch(LoadArticlesEvent());
+          },
+          onRefresh: (ArticlesBloc bloc) async {
+            bloc.dispatch(LoadArticlesEvent(refresh: true));
+          },
+        ));
 
         return Layout(
           drawer: user != null ? Drawer(child: AppDrawer(user: user)) : null,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen>
               padding: EdgeInsets.only(top: 8, bottom: 26),
               fit: BoxFit.scaleDown,
             ),
-            feeds: widget.feeds,
+            feeds: feeds,
           ),
         );
       },

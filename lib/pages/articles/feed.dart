@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
+import 'package:realworld_flutter/pages/articles/preview_post.dart';
+import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
-
-import 'article_widget.dart';
 
 class FeedModel {
   final String id;
@@ -78,8 +78,25 @@ class _FeedState extends State<Feed> {
             onRefresh: _onRefresh,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return ArticleWidget(
-                  article: articles[index],
+                final article = articles[index];
+
+                return PreviewPost(
+                  slug: article.slug,
+                  author: article.author.username,
+                  avatar: article.author.image,
+                  date: article.createdAt,
+                  title: article.title,
+                  text: article.description,
+                  favorited: article.favorited,
+                  favorites: article.favoritesCount,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      ArticleScreen.route,
+                      arguments: {
+                        'slug': article.slug,
+                      },
+                    );
+                  },
                 );
               },
               itemCount: articles.length,

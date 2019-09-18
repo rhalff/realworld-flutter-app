@@ -6,22 +6,19 @@ class FavoriteButton extends StatefulWidget {
   final String slug;
   final num favorites;
   final bool favorited;
+  final bool enabled;
   FavoriteButton({
     Key key,
     @required this.slug,
     @required this.favorites,
     @required this.favorited,
+    this.enabled = true,
   }) : super(key: key);
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();
 }
 
 class _FavoriteButtonState extends State<FavoriteButton> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -36,14 +33,16 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       final backgroundColor = favorited ? theme.primaryColor : Colors.white;
 
       return InkWell(
-        onTap: () {
-          favoriteBloc.dispatch(
-            UpdateFavoriteEvent(
-              slug: widget.slug,
-              favorited: !favorited,
-            ),
-          );
-        },
+        onTap: widget.enabled
+            ? () {
+                favoriteBloc.dispatch(
+                  UpdateFavoriteEvent(
+                    slug: widget.slug,
+                    favorited: !favorited,
+                  ),
+                );
+              }
+            : null,
         child: Container(
           padding: const EdgeInsets.only(
             top: 5.0,

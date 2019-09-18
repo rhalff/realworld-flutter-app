@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
             header: ProfileHeader(
               profile: state.profile,
               fit: BoxFit.fitWidth,
-              isUserPage: widget.profile.username == widget.user.username,
+              isUserPage: widget.profile.username == widget.user?.username,
             ),
             initialFeed: widget.initialFeed,
           );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/favorite/bloc.dart';
+import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/repositories/articles_repository.dart';
 import 'package:realworld_flutter/widgets/favorite_button.dart';
 
@@ -57,10 +58,17 @@ class PreviewPost extends StatelessWidget {
               ),
               BlocProvider(
                 builder: (context) => favoriteBloc,
-                child: FavoriteButton(
-                  slug: slug,
-                  favorites: favorites,
-                  favorited: favorited,
+                child: BlocBuilder<UserBloc, UserState>(
+                  builder: (BuildContext context, UserState state) {
+                    final user = (state is UserLoaded) ? state.user : null;
+
+                    return FavoriteButton(
+                      slug: slug,
+                      favorites: favorites,
+                      favorited: favorited,
+                      enabled: user != null,
+                    );
+                  },
                 ),
               ),
             ],
