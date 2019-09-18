@@ -29,7 +29,6 @@ import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
 import 'package:realworld_flutter/auth/api_key_auth.dart';
-import 'package:realworld_flutter/auth/oauth.dart';
 import 'package:realworld_flutter/log_interceptor.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
@@ -62,12 +61,12 @@ final _jsonJaguarRepo = JsonRepo()
   ..add(UpdateUserRequestSerializer())
   ..add(UserSerializer())
   ..add(UserResponseSerializer());
+
 final Map<String, CodecRepo> defaultConverters = {
   MimeTypes.json: _jsonJaguarRepo,
 };
 
 final _defaultInterceptors = [
-  OAuthInterceptor(),
   ApiKeyAuthInterceptor(),
   LogInterceptor(),
 ];
@@ -98,20 +97,12 @@ class RealWorldApi {
     }
   }
 
-  void setOAuthToken(String name, String token) {
-    (_defaultInterceptors[0] as OAuthInterceptor).tokens[name] = token;
-  }
-
-  void removeOAuthToken(String name) {
-    (_defaultInterceptors[0] as OAuthInterceptor).tokens.remove(name);
-  }
-
   void setApiKey(String name, String apiKey) {
-    (_defaultInterceptors[1] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
+    (_defaultInterceptors[0] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
   }
 
   void removeApiKey(String name) {
-    (_defaultInterceptors[1] as ApiKeyAuthInterceptor).apiKeys.remove(name);
+    (_defaultInterceptors[0] as ApiKeyAuthInterceptor).apiKeys.remove(name);
   }
 
   ArticlesApi getArticlesApi({Route base, Map<String, CodecRepo> converters}) {

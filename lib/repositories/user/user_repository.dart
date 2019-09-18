@@ -65,9 +65,7 @@ class UserRepository extends EventEmitter {
   Future<void> setAccessToken(String accessToken) async {
     await secureStorage.write(key: _authKey, value: accessToken);
 
-    api
-      ..setOAuthToken('Token', accessToken)
-      ..setApiKey('Token', accessToken);
+    api.setApiKey('Token', accessToken);
   }
 
   Future<String> getAccessToken() async {
@@ -96,9 +94,7 @@ class UserRepository extends EventEmitter {
   }
 
   Future<void> removeAccessToken() async {
-    api
-      ..setOAuthToken('Token', null)
-      ..setApiKey('Token', null);
+    api.setApiKey('Token', null);
 
     return secureStorage.delete(key: _authKey);
   }

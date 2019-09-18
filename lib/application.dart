@@ -54,9 +54,7 @@ class Application {
     var isAuthenticated = false;
     if (accessToken != null) {
       try {
-        _api
-          ..setOAuthToken('Token', accessToken)
-          ..setApiKey('Token', accessToken);
+        _api.setApiKey('Token', accessToken);
 
         await userRepository.getCurrentUser();
 
