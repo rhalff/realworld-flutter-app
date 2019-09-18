@@ -18,7 +18,7 @@ abstract class _$LoginUserValidator implements Validator<LoginUser> {
           name: 'email', validators: [EmailValidator(), NotEmptyValidator()]),
       FieldValidator<String>(name: 'password', validators: [
         NotEmptyValidator(),
-        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage
+        SizeValidator(min: 8, max: 255)..message = passwordSizeMessage
       ])
     ];
   }

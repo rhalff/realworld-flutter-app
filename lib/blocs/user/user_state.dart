@@ -42,10 +42,10 @@ class UserLoaded extends UserState {
 }
 
 class UserError extends UserState {
-  final String error;
+  final List<String> errors;
 
-  UserError(this.error) : super([error]);
+  UserError(this.errors) : super([errors]);
 
   @override
-  String toString() => 'UserError[error: $error]';
+  String toString() => 'UserError[errors: $errors]';
 }

@@ -31,13 +31,13 @@ Widget createTextField({
       hintText: hintText,
       contentPadding: contentPadding ?? const EdgeInsets.all(14),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Color(0XFF66AFE9),
         ),
         borderRadius: BorderRadius.circular(6.0),
       ),
       border: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Color(0XFFCCCCCC),
         ),
         borderRadius: BorderRadius.circular(6.0),

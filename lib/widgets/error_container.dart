@@ -17,6 +17,7 @@ class ErrorContainer extends StatelessWidget {
           padding: const EdgeInsets.all(18.0),
           child: Text(
             title ?? error.toString(),
+            softWrap: true,
             style: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,

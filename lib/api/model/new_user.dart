@@ -20,8 +20,8 @@ class NewUser {
   @Alias('password', isNullable: false)
   @NotEmpty()
   @Size(
-    min: 2,
-    max: 20,
+    min: 8,
+    max: 255,
     message: r'password length must be between $min and $max',
   )
   String password;

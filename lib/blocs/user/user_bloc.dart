@@ -87,16 +87,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  String _parseError(Object error) {
+  List<String> _parseError(Object error) {
     if (error is StringResponse) {
-      final body = jsonDecode(error.body) as Map<String, dynamic>;
+      try {
+        final body = jsonDecode(error.body) as Map<String, dynamic>;
 
-      if (body['error'] != null && body['error']['message'] != null) {
-        return body['error']['message'] as String;
+        final errors = <String>[];
+        if (body['errors'] != null) {
+          for (var entry in (body['errors'] as Map<String, dynamic>).entries) {
+            errors.add('${entry.key} ${entry.value.join(', ')}');
+          }
+        }
+
+        return errors;
+      } catch (e) {
+        print(e);
       }
     }
 
-    return error.toString();
+    return [error.toString()];
   }
 
   Stream<UserState> _signUp(SignUpEvent event) async* {

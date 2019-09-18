@@ -24,7 +24,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
     _validator = NewUserValidator();
 
-    _userBloc = BlocProvider.of<UserBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context)
+      ..dispatch(ClearUserDataEvent());
   }
 
   @override
@@ -45,7 +46,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
         String error;
         if (state is UserError) {
-          error = state.error;
+          error = state.errors.join('\n\n');
         }
 
         return Form(

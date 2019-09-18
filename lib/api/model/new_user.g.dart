@@ -20,7 +20,7 @@ abstract class _$NewUserValidator implements Validator<NewUser> {
           name: 'email', validators: [EmailValidator(), NotEmptyValidator()]),
       FieldValidator<String>(name: 'password', validators: [
         NotEmptyValidator(),
-        SizeValidator(min: 2, max: 20)..message = passwordSizeMessage1
+        SizeValidator(min: 8, max: 255)..message = passwordSizeMessage1
       ])
     ];
   }
