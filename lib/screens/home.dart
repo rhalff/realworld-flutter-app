@@ -64,7 +64,21 @@ class _HomeScreenState extends State<HomeScreen>
       builder: (BuildContext context, UserState state) {
         User user;
 
-        final feeds = <FeedModel>[];
+        final feeds = <FeedModel>[
+          FeedModel(
+            id: 'global-feed',
+            label: 'Global Feed',
+            onLoad: (ArticlesBloc bloc) {
+              bloc.dispatch(LoadArticlesEvent(refresh: true));
+            },
+            onLoadMore: (ArticlesBloc bloc) {
+              bloc.dispatch(LoadArticlesEvent());
+            },
+            onRefresh: (ArticlesBloc bloc) async {
+              bloc.dispatch(LoadArticlesEvent(refresh: true));
+            },
+          ),
+        ];
 
         if (state is UserLoaded) {
           feeds.add(FeedModel(
@@ -82,20 +96,6 @@ class _HomeScreenState extends State<HomeScreen>
           ));
           user = state.user;
         }
-
-        feeds.add(FeedModel(
-          id: 'global-feed',
-          label: 'Global Feed',
-          onLoad: (ArticlesBloc bloc) {
-            bloc.dispatch(LoadArticlesEvent(refresh: true));
-          },
-          onLoadMore: (ArticlesBloc bloc) {
-            bloc.dispatch(LoadArticlesEvent());
-          },
-          onRefresh: (ArticlesBloc bloc) async {
-            bloc.dispatch(LoadArticlesEvent(refresh: true));
-          },
-        ));
 
         return Layout(
           drawer: user != null ? Drawer(child: AppDrawer(user: user)) : null,
