@@ -29,14 +29,7 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   @PostReq(
     path: '/articles/:slug/comments',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -53,14 +46,7 @@ class CommentsApi extends ApiClient with _$CommentsApiClient {
   @DeleteReq(
     path: '/articles/:slug/comments/:id',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override

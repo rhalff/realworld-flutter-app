@@ -29,14 +29,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @PostReq(
     path: '/articles',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -52,14 +45,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @DeleteReq(
     path: '/articles/:slug',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -73,14 +59,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @GetReq(
     path: '/articles/:slug',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -94,14 +73,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @GetReq(
     path: '/articles',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -123,14 +95,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @GetReq(
     path: '/articles/feed',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -147,14 +112,7 @@ class ArticlesApi extends ApiClient with _$ArticlesApiClient {
   @PutReq(
     path: '/articles/:slug',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override

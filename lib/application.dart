@@ -1,5 +1,6 @@
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:jaguar_cache/jaguar_cache.dart';
+import 'package:realworld_flutter/api/interceptors/log_interceptor.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_repository.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_shared_preferences_repository.dart';
 import 'package:realworld_flutter/repositories/user/repository.dart';
@@ -43,7 +44,7 @@ class Application {
 
     _api = RealWorldApi(
       interceptors: [
-        //  LogInterceptor(),
+        LogInterceptor(),
       ],
     );
 

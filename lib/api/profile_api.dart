@@ -27,14 +27,7 @@ class ProfileApi extends ApiClient with _$ProfileApiClient {
   @PostReq(
     path: '/profiles/:username/follow',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -61,14 +54,7 @@ class ProfileApi extends ApiClient with _$ProfileApiClient {
   @DeleteReq(
     path: '/profiles/:username/follow',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override

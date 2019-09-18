@@ -28,13 +28,12 @@ import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/api/profile_api.dart';
 import 'package:realworld_flutter/api/tags_api.dart';
 import 'package:realworld_flutter/api/user_and_authentication_api.dart';
-import 'package:realworld_flutter/auth/api_key_auth.dart';
-import 'package:realworld_flutter/log_interceptor.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/comment.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
 
+import 'api/interceptors/auth_interceptor.dart';
 import 'api/model/request/article_submission_request.dart';
 
 final _jsonJaguarRepo = JsonRepo()
@@ -66,43 +65,33 @@ final Map<String, CodecRepo> defaultConverters = {
   MimeTypes.json: _jsonJaguarRepo,
 };
 
-final _defaultInterceptors = [
-  ApiKeyAuthInterceptor(),
-  LogInterceptor(),
-];
-
 class RealWorldApi {
-  List<Interceptor> interceptors;
   String basePath = 'https://conduit.productionready.io/api';
   Route _baseRoute;
   final Duration timeout;
+  final authInterceptor = AuthInterceptor();
 
-  RealWorldApi(
-      {List<Interceptor> interceptors,
-      bool overrideInterceptors = false,
-      String baseUrl,
-      this.timeout = const Duration(minutes: 2)}) {
+  RealWorldApi({
+    String baseUrl,
+    List<Interceptor> interceptors,
+    this.timeout = const Duration(minutes: 2),
+  }) {
     _baseRoute = Route(baseUrl ?? basePath)
         .withClient(globalClient ?? IOClient()) as Route;
-    if (interceptors == null) {
-      this.interceptors = _defaultInterceptors;
-    } else if (overrideInterceptors) {
-      this.interceptors = interceptors;
-    } else {
-      this.interceptors = List.from(_defaultInterceptors)..addAll(interceptors);
-    }
 
-    for (var interceptor in this.interceptors) {
+    _baseRoute.before(authInterceptor.before).after(authInterceptor.after);
+
+    for (var interceptor in interceptors) {
       _baseRoute.before(interceptor.before).after(interceptor.after);
     }
   }
 
   void setApiKey(String name, String apiKey) {
-    (_defaultInterceptors[0] as ApiKeyAuthInterceptor).apiKeys[name] = apiKey;
+    authInterceptor.apiKey = apiKey;
   }
 
   void removeApiKey(String name) {
-    (_defaultInterceptors[0] as ApiKeyAuthInterceptor).apiKeys.remove(name);
+    authInterceptor.apiKey = null;
   }
 
   ArticlesApi getArticlesApi({Route base, Map<String, CodecRepo> converters}) {

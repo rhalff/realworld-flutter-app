@@ -41,14 +41,7 @@ class UserAndAuthenticationApi extends ApiClient
   @GetReq(
     path: '/user',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -71,14 +64,7 @@ class UserAndAuthenticationApi extends ApiClient
   @PutReq(
     path: '/user',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override

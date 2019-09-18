@@ -27,14 +27,7 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
   @PostReq(
     path: '/articles/:slug/favorite',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
@@ -51,14 +44,7 @@ class FavoritesApi extends ApiClient with _$FavoritesApiClient {
   @DeleteReq(
     path: '/articles/:slug/favorite',
     metadata: {
-      'auth': [
-        {
-          'type': 'apiKey',
-          'name': 'Token',
-          'keyName': 'Authorization',
-          'where': 'header'
-        }
-      ]
+      'auth': true,
     },
   )
   @override
