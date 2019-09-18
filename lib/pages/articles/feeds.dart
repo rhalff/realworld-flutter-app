@@ -117,7 +117,9 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
                 child: Container(
                   child: TabBar(
                     controller: _tabController,
-                    tabs: feeds.map((feed) => Tab(text: feed.label)).toList(),
+                    tabs: widget.feeds
+                        .map((feed) => Tab(text: feed.label))
+                        .toList(),
                   ),
                 ),
               ),

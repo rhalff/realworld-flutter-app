@@ -10,35 +10,6 @@ import 'package:realworld_flutter/pages/articles/feed.dart';
 import 'package:realworld_flutter/pages/articles/feeds.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 
-final feeds = [
-  FeedModel(
-    id: 'your-feed',
-    label: 'Your Feed',
-    onLoad: (ArticlesBloc bloc) {
-      bloc.dispatch(LoadArticlesEvent(refresh: true));
-    },
-    onLoadMore: (ArticlesBloc bloc) {
-      bloc.dispatch(LoadArticlesEvent());
-    },
-    onRefresh: (ArticlesBloc bloc) async {
-      bloc.dispatch(LoadArticlesEvent(refresh: true));
-    },
-  ),
-  FeedModel(
-    id: 'global-feed',
-    label: 'Global Feed',
-    onLoad: (ArticlesBloc bloc) {
-      bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-    },
-    onLoadMore: (ArticlesBloc bloc) {
-      bloc.dispatch(LoadArticlesFeedEvent());
-    },
-    onRefresh: (ArticlesBloc bloc) async {
-      bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
-    },
-  ),
-];
-
 class HeroHeader implements SliverPersistentHeaderDelegate {
   @override
   double maxExtent;
@@ -75,6 +46,35 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
 }
 
 class HomeScreen extends StatefulWidget {
+  final feeds = [
+    FeedModel(
+      id: 'your-feed',
+      label: 'Your Feed',
+      onLoad: (ArticlesBloc bloc) {
+        bloc.dispatch(LoadArticlesEvent(refresh: true));
+      },
+      onLoadMore: (ArticlesBloc bloc) {
+        bloc.dispatch(LoadArticlesEvent());
+      },
+      onRefresh: (ArticlesBloc bloc) async {
+        bloc.dispatch(LoadArticlesEvent(refresh: true));
+      },
+    ),
+    FeedModel(
+      id: 'global-feed',
+      label: 'Global Feed',
+      onLoad: (ArticlesBloc bloc) {
+        bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+      },
+      onLoadMore: (ArticlesBloc bloc) {
+        bloc.dispatch(LoadArticlesFeedEvent());
+      },
+      onRefresh: (ArticlesBloc bloc) async {
+        bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+      },
+    ),
+  ];
+
   final UserBloc userBloc;
   HomeScreen({
     @required this.userBloc,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen>
               padding: EdgeInsets.only(top: 8, bottom: 26),
               fit: BoxFit.scaleDown,
             ),
-            feeds: feeds,
+            feeds: widget.feeds,
           ),
         );
       },
