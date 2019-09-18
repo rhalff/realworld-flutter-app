@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
+import 'package:realworld_flutter/helpers/collection.dart';
 import 'package:realworld_flutter/repositories/articles/repository.dart';
 import 'package:realworld_flutter/screens/home.dart';
-import 'package:realworld_flutter/utils.dart';
 
 import 'feed.dart';
 

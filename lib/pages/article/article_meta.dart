@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/helpers/date.dart';
 import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
-
-import '../../utils.dart';
 
 class ArticleMeta extends StatelessWidget {
   final String avatar;
