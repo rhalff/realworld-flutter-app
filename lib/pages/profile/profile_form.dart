@@ -7,20 +7,20 @@ import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
-class SettingsForm extends StatefulWidget {
+class ProfileForm extends StatefulWidget {
   final String error;
   final Function(UpdateUser user) onSave;
   final VoidCallback onLogout;
-  SettingsForm({
+  ProfileForm({
     this.error,
     this.onSave,
     this.onLogout,
   });
   @override
-  _SettingsFormState createState() => _SettingsFormState();
+  _ProfileFormState createState() => _ProfileFormState();
 }
 
-class _SettingsFormState extends State<SettingsForm> {
+class _ProfileFormState extends State<ProfileForm> {
   final _formKey = GlobalKey<FormState>();
   final _updateUser = UpdateUser();
   UpdateUserValidator _validator;

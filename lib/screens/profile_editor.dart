@@ -5,18 +5,18 @@ import 'package:realworld_flutter/blocs/auth/bloc.dart';
 import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
 import 'package:realworld_flutter/localizations/rw_localizations.dart';
-import 'package:realworld_flutter/pages/settings.dart';
+import 'package:realworld_flutter/pages/profile/profile_form.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
 
-class SettingsScreen extends StatefulWidget {
-  static const String route = '/settings';
+class ProfileEditorScreen extends StatefulWidget {
+  static const String route = '/profile_editor';
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _ProfileEditorScreenState createState() => _ProfileEditorScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
   AuthBloc _authBloc;
   UserProfileBloc _userProfileBloc;
 
@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 12),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: SettingsForm(
+                child: ProfileForm(
                   onSave: _onSave,
                   onLogout: _onLogout,
                 )),

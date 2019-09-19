@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/profile.dart';
-import 'package:realworld_flutter/screens/settings.dart';
+import 'package:realworld_flutter/screens/profile_editor.dart';
 import 'package:realworld_flutter/widgets/drop_down_menu.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
@@ -65,7 +65,7 @@ class ProfileHeader extends StatelessWidget {
               child: DropdownMenu(
                 onSelect: (item) {
                   if (item.id == 'edit_profile') {
-                    Navigator.of(context).pushNamed(SettingsScreen.route);
+                    Navigator.of(context).pushNamed(ProfileEditorScreen.route);
                   }
                 },
                 items: [

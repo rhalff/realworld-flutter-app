@@ -5,7 +5,7 @@ import 'package:realworld_flutter/screens/article_editor.dart';
 import 'package:realworld_flutter/screens/hero_splash.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/profile.dart';
-import 'package:realworld_flutter/screens/settings.dart';
+import 'package:realworld_flutter/screens/profile_editor.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
@@ -88,7 +88,7 @@ RouteFactory routes({
         fullScreen = true;
         screen = SignInScreen();
         break;
-      case SettingsScreen.route:
+      case ProfileEditorScreen.route:
         fullScreen = true;
         screen = MultiBlocProvider(
           providers: [
@@ -99,7 +99,7 @@ RouteFactory routes({
               ),
             ),
           ],
-          child: SettingsScreen(),
+          child: ProfileEditorScreen(),
         );
         break;
       default:
