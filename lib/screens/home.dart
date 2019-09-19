@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen>
           feeds.add(
             FeedModel(
               id: 'your-feed',
-              label: 'Your feed',
+              label: locale.yourFeed,
               child: Container(
                 padding: const EdgeInsets.all(80),
                 width: 250,
