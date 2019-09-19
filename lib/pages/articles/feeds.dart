@@ -94,25 +94,31 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
             builder: (BuildContext context, snapshot) {
               return TabBarView(
                 controller: _tabController,
-                children:
-                    mapWithIndex(widget.feeds, (FeedModel feed, int index) {
-                  return BlocProvider<ArticlesBloc>.value(
-                    value: getArticlesBloc(feed),
-                    child: Opacity(
-                      opacity: index % 2 == 0
-                          ? 1 - _tabController.animation.value
-                          : _tabController.animation.value,
-                      child: Feed(
-                        id: feed.id,
-                        scrollThreshold: feed.scrollThreshold,
-                        label: feed.label,
-                        onRefresh: feed.onRefresh,
-                        onLoadMore: feed.onLoadMore,
-                        onLoad: feed.onLoad,
-                      ),
-                    ),
-                  );
-                }),
+                children: mapWithIndex(
+                  widget.feeds,
+                  (FeedModel feed, int index) {
+                    if (feed.child != null) {
+                      return feed.child;
+                    } else {
+                      return BlocProvider<ArticlesBloc>.value(
+                        value: getArticlesBloc(feed),
+                        child: Opacity(
+                          opacity: index % 2 == 0
+                              ? 1 - _tabController.animation.value
+                              : _tabController.animation.value,
+                          child: Feed(
+                            id: feed.id,
+                            scrollThreshold: feed.scrollThreshold,
+                            label: feed.label,
+                            onRefresh: feed.onRefresh,
+                            onLoadMore: feed.onLoadMore,
+                            onLoad: feed.onLoad,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
               );
             },
           ),

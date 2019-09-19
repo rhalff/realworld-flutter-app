@@ -123,12 +123,14 @@ class FeedModel {
   final Function(ArticlesBloc bloc) onLoad;
   final Function(ArticlesBloc bloc) onLoadMore;
   final double scrollThreshold;
+  final Widget child;
   FeedModel({
     @required this.id,
     @required this.label,
-    @required this.onRefresh,
-    @required this.onLoad,
-    @required this.onLoadMore,
+    this.onRefresh,
+    this.onLoad,
+    this.onLoadMore,
+    this.child,
     this.scrollThreshold = 400.0,
   });
 }

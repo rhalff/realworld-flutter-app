@@ -65,6 +65,21 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           );
           user = state.user;
+        } else {
+          feeds.add(
+            FeedModel(
+              id: 'your-feed',
+              label: 'Your feed',
+              child: Container(
+                padding: const EdgeInsets.all(80),
+                width: 250,
+                child: const Text(
+                  'Please login or register in order to post your own articles.',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          );
         }
 
         return Layout(
