@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/screens/sign_up.dart';
 
@@ -31,6 +32,7 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final theme = Theme.of(context);
     return BlocBuilder(
       bloc: _userBloc,
@@ -42,7 +44,7 @@ class _LayoutState extends State<Layout> {
             actions: <Widget>[
               if (state is! UserLoaded)
                 RawMaterialButton(
-                  child: const Text('Sign in'),
+                  child: Text(locale.userSignIn),
                   constraints:
                       const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
                   padding: const EdgeInsets.all(3),
@@ -50,7 +52,7 @@ class _LayoutState extends State<Layout> {
                 ),
               if (state is! UserLoaded)
                 RawMaterialButton(
-                  child: const Text('Sign up'),
+                  child: Text(locale.userSignUp),
                   constraints:
                       const BoxConstraints(minWidth: 28.0, minHeight: 36.0),
                   padding: const EdgeInsets.all(3),

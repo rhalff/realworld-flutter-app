@@ -27,6 +27,7 @@ class RealWorldApp extends StatelessWidget {
       child: BlocBuilder<UserBloc, UserState>(
         builder: (BuildContext context, UserState state) {
           return MaterialApp(
+            locale: const Locale('nl', ''),
             onGenerateTitle: (BuildContext context) =>
                 RWLocalizations.of(context).appName,
             color: Colors.green,

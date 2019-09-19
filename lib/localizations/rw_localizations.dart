@@ -38,6 +38,7 @@ abstract class RWLocalizations {
   /// Feeds
   String get globalFeed;
   String get yourFeed;
+  String get yourFeedLogin;
 
   /// App
   String get appName;

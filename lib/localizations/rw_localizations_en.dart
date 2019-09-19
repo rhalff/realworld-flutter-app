@@ -57,6 +57,9 @@ class RWLocalizationsEN implements RWLocalizations {
   String get globalFeed => 'Global Feed';
   @override
   String get yourFeed => 'Your Feed';
+  @override
+  String get yourFeedLogin =>
+      'Please login or register in order to post your own articles.';
 
   /// App
   @override

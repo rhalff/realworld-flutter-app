@@ -73,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen>
               child: Container(
                 padding: const EdgeInsets.all(80),
                 width: 250,
-                child: const Text(
-                  'Please login or register in order to post your own articles.',
+                child: Text(
+                  locale.yourFeedLogin,
                   textAlign: TextAlign.center,
                 ),
               ),

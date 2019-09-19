@@ -57,6 +57,9 @@ class RWLocalizationsNL implements RWLocalizations {
   String get globalFeed => 'Globale Feed';
   @override
   String get yourFeed => 'Jouw Feed';
+  @override
+  String get yourFeedLogin =>
+      'Om artikelen te kunnen plaatsen moet u eerst inloggen.';
 
   /// App
   @override
