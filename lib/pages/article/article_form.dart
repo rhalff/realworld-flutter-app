@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realworld_flutter/api/model/article_submission.dart';
 import 'package:realworld_flutter/helpers/form.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
@@ -32,6 +33,8 @@ class _ArticleFormState extends State<ArticleForm> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -43,7 +46,7 @@ class _ArticleFormState extends State<ArticleForm> {
           const SizedBox(height: 16),
           createTextField(
             initialValue: widget.article?.title,
-            hintText: 'Title',
+            hintText: locale.articleFormTitle,
             // focusNode: _emailFocus,
             validator: _validator.validateTitle,
             onSaved: (String value) {
@@ -55,7 +58,7 @@ class _ArticleFormState extends State<ArticleForm> {
           const SizedBox(height: 16),
           createTextField(
             initialValue: widget.article?.description,
-            hintText: 'What\'s this article about?',
+            hintText: locale.articleFormDescription,
             // focusNode: _emailFocus,
             validator: _validator.validateDescription,
             onSaved: (String value) {
@@ -67,7 +70,7 @@ class _ArticleFormState extends State<ArticleForm> {
           const SizedBox(height: 16),
           createTextField(
             initialValue: widget.article?.body,
-            hintText: 'Write your post (in markdown)',
+            hintText: locale.articleFormBody,
             maxLines: 8,
             // focusNode: _emailFocus,
             validator: _validator.validateBody,
@@ -80,7 +83,7 @@ class _ArticleFormState extends State<ArticleForm> {
           const SizedBox(height: 16),
           createTextField(
             initialValue: widget.article?.tagList?.join(' '),
-            hintText: 'Enter tags',
+            hintText: locale.articleFormTags,
             autovalidate: false,
             // focusNode: _passwordFocus,
             onChanged: (String value) {
@@ -92,8 +95,9 @@ class _ArticleFormState extends State<ArticleForm> {
           Align(
             alignment: Alignment.centerRight,
             child: RoundedButton(
-              text:
-                  widget.article == null ? 'Create article' : 'Update article',
+              text: widget.article == null
+                  ? locale.articleFormCreateArticle
+                  : locale.articleFormUpdateArticle,
               onPressed: _saveArticle,
             ),
           ),

@@ -5,23 +5,6 @@ import 'package:realworld_flutter/pages/articles/preview_post.dart';
 import 'package:realworld_flutter/screens/article.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
-class FeedModel {
-  final String id;
-  final String label;
-  final Function(ArticlesBloc bloc) onRefresh;
-  final Function(ArticlesBloc bloc) onLoad;
-  final Function(ArticlesBloc bloc) onLoadMore;
-  final double scrollThreshold;
-  FeedModel({
-    @required this.id,
-    @required this.label,
-    @required this.onRefresh,
-    @required this.onLoad,
-    @required this.onLoadMore,
-    this.scrollThreshold = 400.0,
-  });
-}
-
 class Feed extends StatefulWidget {
   final String id;
   final String label;
@@ -131,4 +114,21 @@ class _FeedState extends State<Feed> {
   Future<void> _onRefresh() async {
     widget.onRefresh(_articlesBloc);
   }
+}
+
+class FeedModel {
+  final String id;
+  final String label;
+  final Function(ArticlesBloc bloc) onRefresh;
+  final Function(ArticlesBloc bloc) onLoad;
+  final Function(ArticlesBloc bloc) onLoadMore;
+  final double scrollThreshold;
+  FeedModel({
+    @required this.id,
+    @required this.label,
+    @required this.onRefresh,
+    @required this.onLoad,
+    @required this.onLoadMore,
+    this.scrollThreshold = 400.0,
+  });
 }

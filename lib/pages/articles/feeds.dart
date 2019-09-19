@@ -8,45 +8,6 @@ import 'package:realworld_flutter/screens/home.dart';
 
 import 'feed.dart';
 
-class FeedTabs implements SliverPersistentHeaderDelegate {
-  @override
-  double maxExtent;
-  @override
-  double minExtent;
-
-  final List<Feed> feeds;
-  final TabController controller;
-
-  FeedTabs({
-    @required this.minExtent,
-    @required this.maxExtent,
-    @required this.feeds,
-    @required this.controller,
-  });
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Container(
-        child: TabBar(
-          controller: controller,
-          tabs: feeds.map((feed) => Tab(text: feed.label)).toList(),
-        ),
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-
-  @override
-  FloatingHeaderSnapConfiguration get snapConfiguration => null;
-}
-
 class Feeds extends StatefulWidget {
   final List<FeedModel> feeds;
   final String initialFeed;
@@ -166,4 +127,43 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
     }
     return _blocs[feed.label];
   }
+}
+
+class FeedTabs implements SliverPersistentHeaderDelegate {
+  @override
+  double maxExtent;
+  @override
+  double minExtent;
+
+  final List<Feed> feeds;
+  final TabController controller;
+
+  FeedTabs({
+    @required this.minExtent,
+    @required this.maxExtent,
+    @required this.feeds,
+    @required this.controller,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Container(
+        child: TabBar(
+          controller: controller,
+          tabs: feeds.map((feed) => Tab(text: feed.label)).toList(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  FloatingHeaderSnapConfiguration get snapConfiguration => null;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/screens/settings.dart';
 import 'package:realworld_flutter/widgets/drop_down_menu.dart';
@@ -16,6 +17,7 @@ class ProfileHeader extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final contentWidth = MediaQuery.of(context).size.width;
 
     return Header(
@@ -69,7 +71,7 @@ class ProfileHeader extends StatelessWidget {
                 items: [
                   MenuItem(
                     id: 'edit_profile',
-                    label: 'Edit profile',
+                    label: locale.profileEdit,
                     icon: Icons.edit,
                   ),
                 ],

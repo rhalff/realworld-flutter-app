@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/profile/bloc.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/profile.dart';
 import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/articles/feed.dart';
@@ -25,10 +26,12 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     final feeds = [
       FeedModel(
         id: 'my-posts',
-        label: 'My Posts',
+        label: locale.profilePageMyPosts,
         onLoad: (ArticlesBloc bloc) {
           bloc.dispatch(
             LoadArticlesEvent(
@@ -55,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       FeedModel(
         id: 'favorited-posts',
-        label: 'Favorited Posts',
+        label: locale.profilePageFavoritedPosts,
         onLoad: (ArticlesBloc bloc) {
           bloc.dispatch(
             LoadArticlesEvent(

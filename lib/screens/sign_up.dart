@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/pages/signup_form.dart';
 import 'package:realworld_flutter/screens/sign_in.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
@@ -9,6 +10,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final theme = Theme.of(context);
     return Layout(
       child: ScrollPage(
@@ -21,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Sign up',
+                    locale.userSignUp,
                     style: theme.textTheme.title.copyWith(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
@@ -34,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
                             .pushReplacementNamed(SignInScreen.route);
                       },
                       child: Text(
-                        'Have an account?',
+                        locale.userSignUpHaveAccount,
                         style: theme.textTheme.subtitle,
                       ))
                 ],

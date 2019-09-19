@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/articles/app_drawer.dart';
 import 'package:realworld_flutter/pages/articles/feed.dart';
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return BlocBuilder<UserBloc, UserState>(
       bloc: widget.userBloc,
       builder: (BuildContext context, UserState state) {
@@ -32,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen>
         final feeds = <FeedModel>[
           FeedModel(
             id: 'global-feed',
-            label: 'Global Feed',
+            label: locale.globalFeed,
             onLoad: (ArticlesBloc bloc) {
               bloc.dispatch(LoadArticlesEvent(refresh: true));
             },
@@ -49,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
           feeds.add(
             FeedModel(
               id: 'your-feed',
-              label: 'Your Feed',
+              label: locale.yourFeed,
               onLoad: (ArticlesBloc bloc) {
                 bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
               },
@@ -67,10 +70,10 @@ class _HomeScreenState extends State<HomeScreen>
         return Layout(
           drawer: user != null ? Drawer(child: AppDrawer(user: user)) : null,
           child: Feeds(
-            header: const Header(
-              title: 'conduit',
-              subtitle: 'A place to share your knowledge.',
-              padding: EdgeInsets.only(top: 8, bottom: 26),
+            header: Header(
+              title: locale.appTitle,
+              subtitle: locale.appSubtitle,
+              padding: const EdgeInsets.only(top: 8, bottom: 26),
               fit: BoxFit.scaleDown,
             ),
             feeds: feeds,

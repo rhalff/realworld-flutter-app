@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/login_user.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/helpers/form.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
@@ -30,6 +31,8 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return BlocListener<UserBloc, UserState>(
       listener: (BuildContext context, UserState state) {
         if (state is UserLoaded) {
@@ -60,7 +63,7 @@ class _SignInFormState extends State<SignInForm> {
               const SizedBox(height: 16),
               createTextField(
                 // focusNode: _emailFocus,
-                hintText: 'Email',
+                hintText: locale.userSignInFormEmail,
                 autovalidate: false,
                 keyboardType: TextInputType.emailAddress,
                 validator: _validator.validateEmail,
@@ -72,7 +75,7 @@ class _SignInFormState extends State<SignInForm> {
               ),
               const SizedBox(height: 16),
               createTextField(
-                hintText: 'Password',
+                hintText: locale.userSignInFormPassword,
                 obscureText: true,
                 autovalidate: false,
                 // focusNode: _passwordFocus,
@@ -85,7 +88,7 @@ class _SignInFormState extends State<SignInForm> {
               Align(
                 alignment: Alignment.centerRight,
                 child: RoundedButton(
-                  text: 'Sign In',
+                  text: locale.userSignInFormSignIn,
                   onPressed: _signIn,
                 ),
               ),

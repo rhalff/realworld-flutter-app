@@ -4,6 +4,7 @@ import 'package:realworld_flutter/api/model/article_submission.dart';
 import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/pages/article/article_form.dart';
 import 'package:realworld_flutter/screens/profile.dart';
@@ -43,6 +44,7 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final user = widget.userBloc.getCurrentUser();
 
     return BlocListener(
@@ -95,7 +97,7 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
                         ),
                         if (widget.slug != null)
                           RoundedButton(
-                            text: 'Remove article',
+                            text: locale.articleRemoveArticle,
                             onPressed: () => _articleBloc.dispatch(
                               DeleteArticleEvent(
                                 slug: widget.slug,

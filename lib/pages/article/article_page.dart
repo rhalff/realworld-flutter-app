@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:realworld_flutter/api/model/new_comment.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/article.dart';
 import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/screens/article_editor.dart';
@@ -37,6 +38,8 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -51,7 +54,7 @@ class _ArticlePageState extends State<ArticlePage> {
                   items: [
                     MenuItem(
                       id: 'edit-article',
-                      label: 'Edit article',
+                      label: locale.articlePageEditArticle,
                       icon: Icons.edit,
                     ),
                   ],
@@ -94,10 +97,10 @@ class _ArticlePageState extends State<ArticlePage> {
                           );
                         },
                       ))
-                  : const Center(
+                  : Center(
                       child: Text(
-                        'Sign in or sign up to add comments on this article.',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        locale.articlePageSignInOrUp,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
               BlocBuilder<CommentsBloc, CommentsState>(

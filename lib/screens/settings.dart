@@ -4,6 +4,7 @@ import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/blocs/auth/bloc.dart';
 import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/pages/settings.dart';
 import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/widgets/scroll_page.dart';
@@ -30,6 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Layout(
@@ -43,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Your Settings',
+                    locale.profileEdit,
                     style: theme.textTheme.title.copyWith(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,

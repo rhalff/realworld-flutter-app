@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/profile/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/pages/profile/profile_page.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 
@@ -31,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final user = widget.userBloc.getCurrentUser();
 
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -42,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (state is ProfileError) {
           child = Layout(
             child: ErrorContainer(
-              error: 'failed to load profile',
+              error: locale.profileFailedToLoad,
             ),
           );
         } else if (state is ProfileLoaded) {

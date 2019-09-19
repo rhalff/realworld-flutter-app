@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
@@ -24,6 +25,8 @@ class _ArticleCommentFormState extends State<ArticleCommentForm> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: const Color(0XFFE5E5E5)),
@@ -37,9 +40,9 @@ class _ArticleCommentFormState extends State<ArticleCommentForm> {
             Container(
               padding: const EdgeInsets.all(8),
               child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Write a comment...',
-                    contentPadding: EdgeInsets.all(14),
+                  decoration: InputDecoration(
+                    hintText: locale.articleCommentFormComment,
+                    contentPadding: const EdgeInsets.all(14),
                   ),
                   minLines: 2,
                   maxLines: 10,
@@ -61,7 +64,7 @@ class _ArticleCommentFormState extends State<ArticleCommentForm> {
                     ),
                     if (_comment != null && _comment.isNotEmpty)
                       RoundedButton(
-                        text: 'Post Comment',
+                        text: locale.articleCommentFormPostComment,
                         onPressed: _onSubmit,
                       ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/widgets/header.dart';
 
 import 'home.dart';
@@ -20,6 +21,7 @@ class _HeroSplashState extends State<HeroSplash> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -28,13 +30,13 @@ class _HeroSplashState extends State<HeroSplash> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Center(
+          Center(
             child: Hero(
               tag: 'header',
               child: Header(
-                title: 'conduit',
-                subtitle: 'A place to share your knowledge.',
-                padding: EdgeInsets.only(top: 8, bottom: 26),
+                title: locale.appTitle,
+                subtitle: locale.appSubtitle,
+                padding: const EdgeInsets.only(top: 8, bottom: 26),
                 disableBoxShadow: true,
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/api/model/update_user.dart';
 import 'package:realworld_flutter/blocs/user_profile/bloc.dart';
 import 'package:realworld_flutter/helpers/form.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
 import 'package:realworld_flutter/widgets/rounded_button.dart';
 
@@ -33,6 +34,8 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
+
     return BlocBuilder<UserProfileBloc, UserProfileState>(
       builder: (BuildContext context, UserProfileState state) {
         if (state is UserProfileLoaded) {
@@ -47,7 +50,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   ),
                 createTextField(
                   initialValue: user.image,
-                  hintText: 'URL of profile picture',
+                  hintText: locale.profileFormImage,
                   contentPadding: const EdgeInsets.all(8),
                   // focusNode: _emailFocus,
                   validator: _validator.validateImage,
@@ -60,7 +63,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 const SizedBox(height: 16),
                 createTextField(
                   initialValue: user.username,
-                  hintText: 'Your Name',
+                  hintText: locale.profileFormUsername,
                   // focusNode: _emailFocus,
                   validator: _validator.validateUsername,
                   onSaved: (String value) {
@@ -72,7 +75,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 const SizedBox(height: 16),
                 createTextField(
                   initialValue: user.bio,
-                  hintText: 'Short bio about you',
+                  hintText: locale.profileFormBio,
                   maxLines: 8,
                   // focusNode: _emailFocus,
                   validator: _validator.validateBio,
@@ -86,7 +89,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 createTextField(
                   // focusNode: _emailFocus,
                   initialValue: user.email,
-                  hintText: 'Email',
+                  hintText: locale.profileFormEmail,
                   autovalidate: false,
                   validator: _validator.validateEmail,
                   onSaved: (String value) {
@@ -99,7 +102,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: RoundedButton(
-                    text: 'Update Settings',
+                    text: locale.profileFormUpdateProfile,
                     onPressed: _onSave,
                   ),
                 ),
@@ -107,7 +110,7 @@ class _SettingsFormState extends State<SettingsForm> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: RoundedButton(
-                    text: 'Or click here to logout.',
+                    text: locale.profileFormLogout,
                     onPressed: widget.onLogout,
                   ),
                 ),

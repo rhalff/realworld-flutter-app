@@ -4,6 +4,7 @@ import 'package:realworld_flutter/blocs/article/bloc.dart';
 import 'package:realworld_flutter/blocs/comments/bloc.dart';
 import 'package:realworld_flutter/blocs/user/bloc.dart';
 import 'package:realworld_flutter/layout.dart';
+import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/pages/article/article_page.dart';
 import 'package:realworld_flutter/repositories/articles/repository.dart';
 import 'package:realworld_flutter/widgets/error_container.dart';
@@ -32,6 +33,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = RWLocalizations.of(context);
     final user = widget.userBloc.getCurrentUser();
 
     return BlocBuilder<ArticleBloc, ArticleState>(
@@ -40,7 +42,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
         Widget child;
         if (state is ArticleError) {
           child = ErrorContainer(
-            error: 'failed to load article',
+            error: locale.articleFailedToLoad,
           );
         } else if (state is ArticleLoaded) {
           actions.addAll(
