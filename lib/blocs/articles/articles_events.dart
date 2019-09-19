@@ -41,13 +41,3 @@ class LoadArticlesFeedEvent extends ArticlesEvent {
   @override
   String toString() => 'LoadArticlesFeedEvent[refresh: $refresh]';
 }
-
-@immutable
-class ToggleFavoriteEvent extends ArticlesEvent {
-  final String slug;
-  ToggleFavoriteEvent({
-    @required this.slug,
-  }); // : super([slug]);
-  @override
-  String toString() => 'ToggleFavoriteEvent[slug: $slug]';
-}

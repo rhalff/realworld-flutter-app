@@ -70,8 +70,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       yield* _loadArticlesFeed(event);
     } else if (event is ReloadArticlesEvent) {
       yield* _reloadArticles(event);
-    } else if (event is ToggleFavoriteEvent) {
-      yield* _toggleFavorite(event);
     } else if (event is UpdateArticleInListEvent) {
       yield* _updateArticleInList(event);
     }
@@ -229,44 +227,6 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       yield ArticlesUninitialized();
 
       dispatch(_eventForReload);
-    }
-  }
-
-  Stream<ArticlesState> _toggleFavorite(ToggleFavoriteEvent event) async* {
-    try {
-      if (currentState is ArticlesLoaded) {
-        var favorited = false;
-
-        final articles = (currentState as ArticlesLoaded).articles.map((item) {
-          if (item.slug == event.slug) {
-            favorited = !item.favorited;
-            final favoritesCount =
-                favorited ? item.favoritesCount + 1 : item.favoritesCount - 1;
-
-            return item.copyWith(
-              favorited: favorited,
-              favoritesCount: favoritesCount,
-            );
-          }
-
-          return item;
-        }).toList();
-
-        if (favorited) {
-          await articlesRepository.createFavorite(event.slug);
-        } else {
-          await articlesRepository.deleteArticleFavorite(event.slug);
-        }
-
-        yield ArticlesLoaded(
-          (currentState as ArticlesLoaded).feedType,
-          articles,
-          false,
-        );
-      }
-    } catch (error) {
-      print(error);
-      yield ArticlesError('Failed to load articles');
     }
   }
 
