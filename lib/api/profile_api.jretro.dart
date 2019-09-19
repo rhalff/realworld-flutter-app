@@ -11,14 +11,7 @@ abstract class _$ProfileApiClient implements ApiClient {
   Future<ProfileResponse> followUserByUsername(String username) async {
     var req = base.post
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/profiles/:username/follow")
@@ -37,14 +30,7 @@ abstract class _$ProfileApiClient implements ApiClient {
   Future<ProfileResponse> unfollowUserByUsername(String username) async {
     var req = base.delete
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/profiles/:username/follow")

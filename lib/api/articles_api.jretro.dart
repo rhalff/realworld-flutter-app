@@ -12,14 +12,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
       ArticleSubmissionRequest article) async {
     var req = base.post
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles")
@@ -30,14 +23,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
   Future<void> deleteArticle(String slug) async {
     var req = base.delete
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug")
@@ -48,14 +34,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
   Future<SingleArticleResponse> getArticle(String slug) async {
     var req = base.get
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug")
@@ -67,14 +46,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
       String favorited, int limit, int offset) async {
     var req = base.get
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles")
@@ -90,14 +62,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
       int limit, int offset) async {
     var req = base.get
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/feed")
@@ -110,14 +75,7 @@ abstract class _$ArticlesApiClient implements ApiClient {
       String slug, ArticleSubmissionRequest article) async {
     var req = base.put
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug")

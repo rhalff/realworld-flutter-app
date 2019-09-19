@@ -12,14 +12,7 @@ abstract class _$CommentsApiClient implements ApiClient {
       String slug, NewCommentRequest comment) async {
     var req = base.post
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug/comments")
@@ -31,14 +24,7 @@ abstract class _$CommentsApiClient implements ApiClient {
   Future<void> deleteArticleComment(String slug, int id) async {
     var req = base.delete
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug/comments/:id")

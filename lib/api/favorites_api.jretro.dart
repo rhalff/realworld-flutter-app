@@ -11,14 +11,7 @@ abstract class _$FavoritesApiClient implements ApiClient {
   Future<SingleArticleResponse> createArticleFavorite(String slug) async {
     var req = base.post
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug/favorite")
@@ -29,14 +22,7 @@ abstract class _$FavoritesApiClient implements ApiClient {
   Future<SingleArticleResponse> deleteArticleFavorite(String slug) async {
     var req = base.delete
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/articles/:slug/favorite")

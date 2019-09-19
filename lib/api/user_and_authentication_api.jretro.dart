@@ -17,14 +17,7 @@ abstract class _$UserAndAuthenticationApiClient implements ApiClient {
   Future<UserResponse> getCurrentUser() async {
     var req = base.get
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/user");
@@ -42,14 +35,7 @@ abstract class _$UserAndAuthenticationApiClient implements ApiClient {
   Future<UserResponse> updateCurrentUser(UpdateUserRequest body) async {
     var req = base.put
         .metadata({
-          "auth": [
-            {
-              "type": "apiKey",
-              "name": "Token",
-              "keyName": "Authorization",
-              "where": "header",
-            }
-          ],
+          "auth": true,
         })
         .path(basePath)
         .path("/user")
