@@ -16,7 +16,7 @@ flutter run
 ---
 
 <p>
-  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/rhalff/realworld-flutter-app/master/screenshot.png"><img src="https://raw.githubusercontent.com/rhalff/realworld-flutter-app/master/screenshot.png" alt="Screenshot" style="max-width:350px;"></a>
+  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/rhalff/realworld-flutter-app/master/screenshot.png"><img src="https://raw.githubusercontent.com/rhalff/realworld-flutter-app/master/screenshot.png" alt="Screenshot" style="max-width:250px;"></a>
 </p>
 
 ---
