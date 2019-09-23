@@ -22,7 +22,7 @@ flutter run
 ---
 
 Libraries used:
-* [Validations](https://github.com/dartlib/validations/validations)
+* [Validations](https://github.com/dartlib/validations/tree/master/validations)
 * [Flutter Bloc](https://github.com/felangel/bloc)
 * [Jaguar Serializer](https://github.com/Jaguar-dart/jaguar_serializer)
 * [Jaguar Retrofit](https://github.com/Jaguar-dart/client/tree/master/retrofit)
