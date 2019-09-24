@@ -60,6 +60,7 @@ class _FeedState extends State<Feed> {
           return RefreshIndicator(
             onRefresh: _onRefresh,
             child: ListView.builder(
+              controller: _scrollController,
               itemBuilder: (BuildContext context, int index) {
                 final article = articles[index];
 
