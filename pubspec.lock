@@ -211,13 +211,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.9"
-  fluro:
-    dependency: "direct main"
-    description:
-      name: fluro
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -331,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  jaguar_cache:
+    dependency: "direct main"
+    description:
+      name: jaguar_cache
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.2"
   jaguar_mimetype:
     dependency: "direct main"
     description:
