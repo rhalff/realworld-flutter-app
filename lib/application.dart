@@ -1,5 +1,5 @@
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:jaguar_cache/jaguar_cache.dart';
+import 'package:jaguar_cache/jaguar_cache.dart';
 import 'package:realworld_flutter/api/interceptors/log_interceptor.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_repository.dart';
 import 'package:realworld_flutter/repositories/key_value_repository/key_value_shared_preferences_repository.dart';
@@ -16,7 +16,7 @@ class Config {}
 class Application {
   KeyValueRepository secureStorage;
   Config config;
-  // Cache cache;
+  Cache cache;
   RealWorldApi _api;
   ArticlesRepository articlesRepository;
   UserRepository userRepository;
@@ -36,11 +36,11 @@ class Application {
     secureStorage = KeyValueSharedPreferencesRepository(
         sharedPreferences: sharedPreferences);
 
-    // cache = InMemoryCache(
-    //   const Duration(
-    //     hours: 5,
-    //  ),
-    // );
+    cache = InMemoryCache(
+      const Duration(
+        hours: 5,
+      ),
+    );
 
     _api = RealWorldApi(
       interceptors: [
