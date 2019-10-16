@@ -39,7 +39,7 @@ class UserRepository extends EventEmitter {
       UpdateUserRequest(user: user),
     );
 
-    fire(UserCreatedEvent(user: result.user));
+    fire(UserUpdatedEvent(user: result.user));
 
     return result.user;
   }
@@ -63,13 +63,13 @@ class UserRepository extends EventEmitter {
   }
 
   Future<void> setAccessToken(String accessToken) async {
-    await secureStorage.write(key: _authKey, value: accessToken);
+    await secureStorage.write(_authKey, accessToken);
 
     api.setApiKey('Token', accessToken);
   }
 
   Future<String> getAccessToken() async {
-    final token = await secureStorage.read(key: _authKey);
+    final token = await secureStorage.read(_authKey);
 
     if (token == null) return null;
 
@@ -96,6 +96,6 @@ class UserRepository extends EventEmitter {
   Future<void> removeAccessToken() async {
     api.setApiKey('Token', null);
 
-    return secureStorage.delete(key: _authKey);
+    return secureStorage.delete(_authKey);
   }
 }
