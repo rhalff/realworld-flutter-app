@@ -38,11 +38,11 @@ build: &build
     - export BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
     - echo "$PLAY_STORE_UPLOAD_KEY" | tr -d "'" | base64 --decode > $TRAVIS_BUILD_DIR/android/app/key.jks
   script:
-    - if [[ $TRAVIS_TAG == "" ]]; then flutter build apk; else flutter build apk --build-name $BUILD_NAME --build-number $BUILD_NUMBER; fi
+    - if [[ $TRAVIS_TAG == "" ]]; then flutter build appbundle --verbose; else flutter build appbundle --build-name $BUILD_NAME --build-number $BUILD_NUMBER --verbose; fi
   deploy:
     - provider: releases
       api_key: $GITHUB_TOKEN
-      file: build/app/outputs/apk/release/app-release.apk
+      file: build/app/outputs/bundle/release/app.aab
       skip_cleanup: true
       name: $TRAVIS_TAG
       on:
@@ -60,7 +60,7 @@ google_play: &google_play
     - chmod +x get_build_artifacts.sh
     - export TRACK=$TRAVIS_BRANCH
     - if [[ $TRAVIS_BRANCH == "prod" ]]; then export TRACK=production; fi
-    - mkdir -p "$TRAVIS_BUILD_DIR/build/app/outputs/apk/release" && cd "$_"
+    - mkdir -p "$TRAVIS_BUILD_DIR/build/app/outputs/bundle/release" && cd "$_"
     - $TRAVIS_BUILD_DIR/get_build_artifacts.sh
     - cd $TRAVIS_BUILD_DIR/android
   script:

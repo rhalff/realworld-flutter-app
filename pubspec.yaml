@@ -42,12 +42,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.7.3
   validations_generator: ^0.8.4
   jaguar_retrofit_gen: ^2.8.10
   jaguar_serializer_cli: ^2.2.8
   build_runner: ^1.7.0
 
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
