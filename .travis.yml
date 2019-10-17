@@ -1,0 +1,85 @@
+language: generic
+dist: xenial
+addons:
+  apt:
+    packages:
+      - lib32stdc++6
+env:
+  global:
+    - FLUTTER_CHANNEL=stable
+install:
+  - git clone https://github.com/flutter/flutter.git -b $FLUTTER_CHANNEL
+  - export PATH="$PATH:`pwd`/flutter/bin/cache/dart-sdk/bin"
+  - export PATH="$PATH:`pwd`/flutter/bin"
+  - flutter doctor -v
+  - flutter packages get
+cache:
+  directories:
+    - $HOME/.pub-cache
+static_analysis: &static_analysis
+  name: "Static analysis"
+  script: flutter analyze --no-current-package $TRAVIS_BUILD_DIR/lib
+
+build: &build
+  name: "Build APK"
+  language: android
+  jdk:
+    - oraclejdk8
+  android:
+    components:
+      - tools
+      - tools # See (https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
+      - platform-tools
+      - build-tools-28.0.3
+      - android-27 # Breaks the build if not present (https://github.com/flutter/flutter/pull/26798#issuecomment-455758159)
+      - android-28
+  before_script:
+    - export BUILD_NAME=$TRAVIS_TAG
+    - export BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
+  script:
+    - if [[ $TRAVIS_TAG == "" ]]; then flutter build apk; else flutter build apk --build-name $BUILD_NAME --build-number $BUILD_NUMBER; fi
+  deploy:
+    - provider: releases
+      api_key: $GITHUB_TOKEN
+      file: build/app/outputs/apk/release/app-release.apk
+      skip_cleanup: true
+      name: $TRAVIS_TAG
+      on:
+        tags: true
+  after_deploy:
+    - git branch $TRAVIS_TAG
+    - git push https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_TAG
+
+google_play: &google_play
+  name: "Google Play"
+  install:
+    - bundle install --retry=3 --gemfile=android/Gemfile
+    - echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > $TRAVIS_BUILD_DIR/android/app/key.jks
+  before_script:
+    - chmod +x get_build_artifacts.sh
+    - export TRACK=$TRAVIS_BRANCH
+    - if [[ $TRAVIS_BRANCH == "prod" ]]; then export TRACK=production; fi
+    - mkdir -p "$TRAVIS_BUILD_DIR/build/app/outputs/apk/release" && cd "$_"
+    - $TRAVIS_BUILD_DIR/get_build_artifacts.sh
+    - cd $TRAVIS_BUILD_DIR/android
+  script:
+    - if [[ $TRAVIS_PULL_REQUEST_BRANCH == beta || $TRAVIS_PULL_REQUEST_BRANCH = alpha || $TRAVIS_PULL_REQUEST_BRANCH = internal ]]; then
+        bundle exec fastlane promote;
+      else
+        bundle exec fastlane release;
+      fi
+
+jobs:
+  include:
+    - <<: *static_analysis
+    - stage: build
+      <<: *build
+    - stage: deploy
+      <<: *google_play
+stages:
+  - name: test
+    if: (NOT branch =~ /^\d*\.\d*\.\d*$/) OR (NOT branch IN (internal, alpha, beta, prod))
+  - name: build
+    if: (NOT branch =~ /^\d*\.\d*\.\d*$/) OR (NOT branch IN (internal, alpha, beta, prod))
+  - name: deploy
+    if: (type = push) AND (branch IN (internal, alpha, beta, prod))
