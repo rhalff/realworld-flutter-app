@@ -1,6 +1,7 @@
 
 analyzer:
   exclude:
+    - "ATTIC/"
     - "TODO/"
     - "**.jretro.dart"
     - "**.jser.dart"
