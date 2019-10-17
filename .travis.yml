@@ -6,7 +6,7 @@ addons:
       - lib32stdc++6
 env:
   global:
-    - FLUTTER_CHANNEL=stable
+    - FLUTTER_CHANNEL=dev
 install:
   - git clone https://github.com/flutter/flutter.git -b $FLUTTER_CHANNEL
   - export PATH="$PATH:`pwd`/flutter/bin/cache/dart-sdk/bin"
