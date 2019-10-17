@@ -36,6 +36,7 @@ build: &build
   before_script:
     - export BUILD_NAME=$TRAVIS_TAG
     - export BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
+    - echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > $TRAVIS_BUILD_DIR/android/app/key.jks
   script:
     - if [[ $TRAVIS_TAG == "" ]]; then flutter build apk; else flutter build apk --build-name $BUILD_NAME --build-number $BUILD_NUMBER; fi
   deploy:
@@ -54,7 +55,7 @@ google_play: &google_play
   name: "Google Play"
   install:
     - bundle install --retry=3 --gemfile=android/Gemfile
-    - echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > $TRAVIS_BUILD_DIR/android/app/key.jks
+#    - echo "$PLAY_STORE_UPLOAD_KEY" | base64 --decode > $TRAVIS_BUILD_DIR/android/app/key.jks
   before_script:
     - chmod +x get_build_artifacts.sh
     - export TRACK=$TRAVIS_BRANCH
