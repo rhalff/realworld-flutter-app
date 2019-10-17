@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 import 'key_value_repository.dart';
 
@@ -10,16 +9,15 @@ class KeyValueSecureStorageRepository implements KeyValueRepository {
       MethodChannel('plugins.it_nomads.com/flutter_secure_storage');
 
   @override
-  Future<String> read({@required String key}) async {
+  Future<String> read(String key) {
     return _channel.invokeMethod('read', <String, String>{'key': key});
   }
 
   @override
-  Future<void> write({@required String key, @required String value}) async =>
-      _channel
-          .invokeMethod('write', <String, String>{'key': key, 'value': value});
+  Future<void> write(String key, String value) => _channel
+      .invokeMethod('write', <String, String>{'key': key, 'value': value});
 
   @override
-  Future<void> delete({@required String key}) =>
+  Future<void> delete(String key) =>
       _channel.invokeMethod('delete', <String, String>{'key': key});
 }

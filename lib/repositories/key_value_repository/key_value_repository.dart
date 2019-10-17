@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 abstract class KeyValueRepository {
-  Future<String> read({@required String key});
+  Future<String> read(String key);
 
-  Future<void> write({@required String key, @required String value});
+  Future<void> write(String key, String value);
 
-  Future<void> delete({@required String key});
+  Future<void> delete(String key);
 }
