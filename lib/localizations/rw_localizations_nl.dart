@@ -44,6 +44,8 @@ class RWLocalizationsNL implements RWLocalizations {
   @override
   String get appDrawerArticles => 'Artikelen';
   @override
+  String get appDrawerLogout => 'Logout';
+  @override
   String get appDrawerAbout => 'Over ons';
 
   /// About

@@ -29,6 +29,7 @@ abstract class RWLocalizations {
   String get appDrawerFavorited;
   String get appDrawerNewArticle;
   String get appDrawerArticles;
+  String get appDrawerLogout;
   String get appDrawerAbout;
 
   /// About
