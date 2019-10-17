@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:realworld_flutter/blocs/auth/bloc.dart';
 import 'package:realworld_flutter/localizations/rw_localizations.dart';
 import 'package:realworld_flutter/model/user.dart';
 import 'package:realworld_flutter/pages/articles/about.dart';
 import 'package:realworld_flutter/screens/article_editor.dart';
+import 'package:realworld_flutter/screens/home.dart';
 import 'package:realworld_flutter/screens/profile.dart';
 import 'package:realworld_flutter/widgets/user_avatar.dart';
 
@@ -85,6 +88,15 @@ class AppDrawer extends StatelessWidget {
           },
         ),
         const Divider(),
+        ListTile(
+          title: Text(locale.appDrawerLogout),
+          onTap: () => BlocProvider.of<AuthBloc>(context).dispatch(
+            SignOutEvent(
+              onComplete: () =>
+                  Navigator.of(context).popAndPushNamed(HomeScreen.route),
+            ),
+          ),
+        ),
         ListTile(
           title: Text(locale.appDrawerAbout),
           onTap: () => about(context),
