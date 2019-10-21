@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:realworld_flutter/localizations/rw_localizations.dart';
+import 'package:realworld_flutter/version.dart';
 import 'package:realworld_flutter/widgets/external_link.dart';
 
 void about(BuildContext context) {
@@ -20,7 +21,7 @@ void about(BuildContext context) {
       ),
       *
        */
-    applicationVersion: 'Version: 1.0.0',
+    applicationVersion: 'Version: $version',
     applicationLegalese: '© ${DateTime.now().year} ${locale.appName}',
     children: <Widget>[
       Padding(

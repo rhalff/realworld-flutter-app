@@ -34,23 +34,28 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
 
   final Map<String, ArticlesBloc> _blocs = {};
 
+  ScrollController _scrollController;
   @override
   void initState() {
+    _scrollController = ScrollController();
+
     final initialIndex = widget.initialFeed != null
         ? widget.feeds
             .indexWhere((FeedModel feed) => feed.id == widget.initialFeed)
         : 0;
 
-    super.initState();
     _tabController = TabController(
       length: widget.feeds.length,
       initialIndex: initialIndex == -1 ? 0 : initialIndex,
       vsync: this,
     );
+
+    super.initState();
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _tabController.dispose();
     for (var cachedBloc in _blocs.values) {
       cachedBloc.dispose();
@@ -62,67 +67,79 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverPersistentHeader(
-              pinned: widget.pinned,
-              delegate: HeroHeader(
-                minExtent: widget.minExtentHeader,
-                maxExtent: widget.maxExtentHeader,
-                child: widget.header,
-              ),
+      controller: _scrollController,
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverPersistentHeader(
+            pinned: widget.pinned,
+            delegate: HeroHeader(
+              minExtent: widget.minExtentHeader,
+              maxExtent: widget.maxExtentHeader,
+              child: widget.header,
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Container(
-                  child: TabBar(
-                    controller: _tabController,
-                    tabs: widget.feeds
-                        .map((feed) => Tab(text: feed.label))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ),
-          ];
-        },
-        body: SizedBox(
-          height: 300,
-          child: AnimatedBuilder(
-            animation: _tabController.animation,
-            builder: (BuildContext context, snapshot) {
-              return TabBarView(
-                controller: _tabController,
-                children: mapWithIndex(
-                  widget.feeds,
-                  (FeedModel feed, int index) {
-                    if (feed.child != null) {
-                      return feed.child;
-                    } else {
-                      return BlocProvider<ArticlesBloc>.value(
-                        value: getArticlesBloc(feed),
-                        child: Opacity(
-                          opacity: index % 2 == 0
-                              ? 1 - _tabController.animation.value
-                              : _tabController.animation.value,
-                          child: Feed(
-                            id: feed.id,
-                            scrollThreshold: feed.scrollThreshold,
-                            label: feed.label,
-                            onRefresh: feed.onRefresh,
-                            onLoadMore: feed.onLoadMore,
-                            onLoad: feed.onLoad,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              );
-            },
           ),
-        ));
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Container(
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: widget.feeds
+                      .map((feed) => Tab(text: feed.label))
+                      .toList(),
+                ),
+              ),
+            ),
+          ),
+        ];
+      },
+      body: Builder(
+        builder: (BuildContext context) {
+          final innerScrollController =
+              context.ancestorWidgetOfExactType(PrimaryScrollController)
+                  as PrimaryScrollController;
+
+          return SizedBox(
+            height: 300,
+            child: AnimatedBuilder(
+              animation: _tabController.animation,
+              builder: (BuildContext context, snapshot) {
+                return TabBarView(
+                  controller: _tabController,
+                  children: mapWithIndex(
+                    widget.feeds,
+                    (FeedModel feed, int index) {
+                      if (feed.child != null) {
+                        return feed.child;
+                      } else {
+                        return BlocProvider<ArticlesBloc>.value(
+                          value: getArticlesBloc(feed),
+                          child: Opacity(
+                            opacity: index % 2 == 0
+                                ? 1 - _tabController.animation.value
+                                : _tabController.animation.value,
+                            child: Feed(
+                              id: feed.id,
+                              scrollThreshold: feed.scrollThreshold,
+                              label: feed.label,
+                              onRefresh: feed.onRefresh,
+                              onLoadMore: feed.onLoadMore,
+                              onLoad: feed.onLoad,
+                              scrollController:
+                                  innerScrollController.controller,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 
   ArticlesBloc getArticlesBloc(FeedModel feed) {

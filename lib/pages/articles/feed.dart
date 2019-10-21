@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:realworld_flutter/blocs/articles/bloc.dart';
 import 'package:realworld_flutter/pages/articles/preview_post.dart';
@@ -12,12 +13,16 @@ class Feed extends StatefulWidget {
   final Function(ArticlesBloc bloc) onLoad;
   final Function(ArticlesBloc bloc) onLoadMore;
   final double scrollThreshold;
+
+  /// The ScrollController itself is handled by the NestedScrollView parent.
+  final ScrollController scrollController;
   Feed({
     @required this.id,
     @required this.label,
     @required this.onRefresh,
     @required this.onLoad,
     @required this.onLoadMore,
+    @required this.scrollController,
     this.scrollThreshold = 400.0,
   });
   @override
@@ -25,19 +30,24 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  final _scrollController = ScrollController();
   double _scrollMarker = 0;
   ArticlesBloc _articlesBloc;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    widget.scrollController.addListener(_onScroll);
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
 
     if (_articlesBloc.currentState is! ArticlesLoaded) {
       widget.onLoad(_articlesBloc);
     }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController.removeListener(_onScroll);
+    super.dispose();
   }
 
   @override
@@ -60,7 +70,6 @@ class _FeedState extends State<Feed> {
           return RefreshIndicator(
             onRefresh: _onRefresh,
             child: ListView.builder(
-              controller: _scrollController,
               itemBuilder: (BuildContext context, int index) {
                 final article = articles[index];
 
@@ -94,18 +103,22 @@ class _FeedState extends State<Feed> {
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  bool get _hasReachedMax {
+    return (_articlesBloc.currentState as ArticlesLoaded).hasReachedMax;
+  }
+
+  bool get _isAtBottom {
+    final scrollPosition = widget.scrollController.position;
+
+    return scrollPosition.atEdge &&
+        scrollPosition.userScrollDirection == ScrollDirection.forward;
   }
 
   void _onScroll() {
     final maxScroll = _scrollMarker + widget.scrollThreshold;
-    final currentScroll = _scrollController.position.pixels;
+    final currentScroll = widget.scrollController.position.pixels;
     if (_articlesBloc.currentState is ArticlesLoaded) {
-      if (!(_articlesBloc.currentState as ArticlesLoaded).hasReachedMax &&
-          currentScroll >= maxScroll) {
+      if (!_hasReachedMax && (currentScroll >= maxScroll || _isAtBottom)) {
         _scrollMarker = maxScroll;
         widget.onLoadMore(_articlesBloc);
       }
