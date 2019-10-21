@@ -1,3 +1,6 @@
+## 1.2.2
+ -  Improve favorites list update
+
 ## 1.2.1
  -  Ignore badly formed avatar urls
 
