@@ -28,7 +28,7 @@ class PreviewPost extends StatelessWidget {
     @required this.favorited,
     @required this.favorites,
     @required this.onTap,
-  });
+  }) : super(key: Key(slug));
   @override
   Widget build(BuildContext context) {
     final favoriteBloc = FavoriteBloc(
