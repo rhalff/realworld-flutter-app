@@ -2,6 +2,12 @@
 
 This is a [RealWorld](https://github.com/gothinkster/realworld) Flutter app.
 
+<p>
+  <a href="https://play.google.com/store/apps/details?id=com.robberthalff.realworld_flutter">
+    <img alt="Get it on Google Play" title="Google Play" src="https://raw.githubusercontent.com/rhalff/realworld-flutter-app/master/assets/google-play-badge.png" height="60" />
+  </a>
+</p>
+
 # Quick Installation
 
 ```dart
