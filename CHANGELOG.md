@@ -1,3 +1,6 @@
+## 1.2.0
+ - Improve feed scrolling and reload
+
 ## 1.0.2
  - Add logout to drawer
  - Fix permissions
