@@ -11,12 +11,18 @@ class SanitizeUrlProcessor implements FieldProcessor<String, String> {
   String deserialize(String value) {
     if (value.isEmpty) return value;
 
-    final uri = Uri.parse(value);
-    if (uri.host.isEmpty) {
-      print('Url was invalid!');
+    try {
+      final uri = Uri.parse(value);
+      if (uri.host.isEmpty) {
+        print('Url was invalid!');
+        return '';
+      }
+
+      return value;
+    } catch (error) {
+      print(error);
+
       return '';
     }
-
-    return value;
   }
 }
