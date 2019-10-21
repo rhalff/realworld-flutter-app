@@ -1,3 +1,6 @@
+## 1.2.1
+ -  Ignore badly formed avatar urls
+
 ## 1.2.0
  - Improve feed scrolling and reload
 
