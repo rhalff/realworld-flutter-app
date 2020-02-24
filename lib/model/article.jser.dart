@@ -8,8 +8,10 @@ part of 'article.dart';
 
 abstract class _$ArticleSerializer implements Serializer<Article> {
   Serializer<Profile> __profileSerializer;
+
   Serializer<Profile> get _profileSerializer =>
       __profileSerializer ??= ProfileSerializer();
+
   @override
   Map<String, dynamic> toMap(Article model) {
     if (model == null) return null;

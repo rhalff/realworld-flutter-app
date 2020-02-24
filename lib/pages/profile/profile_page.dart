@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
   final Profile profile;
   final User user;
   final String initialFeed;
+
   const ProfilePage({
     this.profile,
     this.user,
@@ -33,54 +34,60 @@ class _ProfilePageState extends State<ProfilePage> {
         id: 'my-posts',
         label: locale.profilePageMyPosts,
         onLoad: (ArticlesBloc bloc) {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              author: widget.profile.username,
-              refresh: true,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                author: widget.profile.username,
+                refresh: true,
+              ),
+            );
         },
         onLoadMore: (ArticlesBloc bloc) {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              author: widget.profile.username,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                author: widget.profile.username,
+              ),
+            );
         },
         onRefresh: (ArticlesBloc bloc) async {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              author: widget.profile.username,
-              refresh: true,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                author: widget.profile.username,
+                refresh: true,
+              ),
+            );
         },
       ),
       FeedModel(
         id: 'favorited-posts',
         label: locale.profilePageFavoritedPosts,
         onLoad: (ArticlesBloc bloc) {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              favorited: widget.profile.username,
-              refresh: true,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                favorited: widget.profile.username,
+                refresh: true,
+              ),
+            );
         },
         onLoadMore: (ArticlesBloc bloc) {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              favorited: widget.profile.username,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                favorited: widget.profile.username,
+              ),
+            );
         },
         onRefresh: (ArticlesBloc bloc) async {
-          bloc.dispatch(
-            LoadArticlesEvent(
-              favorited: widget.profile.username,
-              refresh: true,
-            ),
-          );
+          bloc
+            ..add(
+              LoadArticlesEvent(
+                favorited: widget.profile.username,
+                refresh: true,
+              ),
+            );
         },
       ),
     ];

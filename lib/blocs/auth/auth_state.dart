@@ -2,7 +2,10 @@ part of blocs.auth;
 
 @immutable
 abstract class AuthState extends Equatable {
-  AuthState([List props = const []]) : super(props);
+  const AuthState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class NotAuthenticated extends AuthState {
@@ -20,8 +23,11 @@ class Authenticated extends AuthState {
 class AuthError extends AuthState {
   final Object error;
 
-  AuthError(this.error) : super([error]);
+  AuthError(this.error);
 
   @override
   String toString() => 'AuthError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

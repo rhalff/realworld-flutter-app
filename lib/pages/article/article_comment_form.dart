@@ -8,6 +8,7 @@ import 'article_meta.dart';
 class ArticleCommentForm extends StatefulWidget {
   final User user;
   final Function(String comment) onSubmit;
+
   ArticleCommentForm({
     Key key,
     this.user,

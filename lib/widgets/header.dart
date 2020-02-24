@@ -25,6 +25,7 @@ class Header extends StatelessWidget {
     this.disableBoxShadow = false,
     this.fit,
   });
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -5,6 +5,7 @@ abstract class AuthEvent {}
 
 class SignedInEvent extends AuthEvent {
   final String accessToken;
+
   SignedInEvent({
     @required this.accessToken,
   });
@@ -12,6 +13,7 @@ class SignedInEvent extends AuthEvent {
 
 class SignOutEvent extends AuthEvent {
   final Function() onComplete;
+
   SignOutEvent({
     this.onComplete,
   });

@@ -8,7 +8,9 @@ part of 'user_response.dart';
 
 abstract class _$UserResponseSerializer implements Serializer<UserResponse> {
   Serializer<User> __userSerializer;
+
   Serializer<User> get _userSerializer => __userSerializer ??= UserSerializer();
+
   @override
   Map<String, dynamic> toMap(UserResponse model) {
     if (model == null) return null;

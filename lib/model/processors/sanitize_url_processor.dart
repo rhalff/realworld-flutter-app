@@ -2,6 +2,7 @@ import 'package:jaguar_serializer/jaguar_serializer.dart';
 
 class SanitizeUrlProcessor implements FieldProcessor<String, String> {
   const SanitizeUrlProcessor();
+
   @override
   String serialize(String value) {
     return value;

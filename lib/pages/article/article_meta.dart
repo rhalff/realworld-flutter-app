@@ -8,12 +8,14 @@ class ArticleMeta extends StatelessWidget {
   final String author;
   final DateTime date;
   final Color color;
+
   ArticleMeta({
     this.avatar = '',
     this.author,
     this.date,
     this.color,
   });
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

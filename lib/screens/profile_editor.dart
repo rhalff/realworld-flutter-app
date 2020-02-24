@@ -26,7 +26,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
 
     _authBloc = BlocProvider.of<AuthBloc>(context);
     _userProfileBloc = BlocProvider.of<UserProfileBloc>(context)
-      ..dispatch(LoadUserProfileEvent());
+      ..add(LoadUserProfileEvent());
   }
 
   @override
@@ -68,15 +68,16 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
   }
 
   void _onLogout() {
-    _authBloc.dispatch(
-      SignOutEvent(
-        onComplete: () =>
-            Navigator.of(context).pushReplacementNamed(HomeScreen.route),
-      ),
-    );
+    _authBloc
+      ..add(
+        SignOutEvent(
+          onComplete: () =>
+              Navigator.of(context).pushReplacementNamed(HomeScreen.route),
+        ),
+      );
   }
 
   void _onSave(UpdateUser user) {
-    _userProfileBloc.dispatch(UpdateUserProfileEvent(user));
+    _userProfileBloc..add(UpdateUserProfileEvent(user));
   }
 }

@@ -8,6 +8,7 @@ part of 'favorites_api.dart';
 
 abstract class _$FavoritesApiClient implements ApiClient {
   final String basePath = "";
+
   Future<SingleArticleResponse> createArticleFavorite(String slug) async {
     var req = base.post
         .metadata({

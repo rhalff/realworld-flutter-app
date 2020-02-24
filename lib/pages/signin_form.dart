@@ -25,8 +25,7 @@ class _SignInFormState extends State<SignInForm> {
 
     _validator = LoginUserValidator();
 
-    _userBloc = BlocProvider.of<UserBloc>(context)
-      ..dispatch(ClearUserDataEvent());
+    _userBloc = BlocProvider.of<UserBloc>(context)..add(ClearUserDataEvent());
   }
 
   @override
@@ -103,7 +102,7 @@ class _SignInFormState extends State<SignInForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc.dispatch(SignInEvent(_data));
+      _userBloc..add(SignInEvent(_data));
     }
   }
 }

@@ -2,7 +2,10 @@ part of blocs.article;
 
 @immutable
 abstract class ArticleState extends Equatable {
-  ArticleState([List props = const []]) : super(props);
+  const ArticleState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ArticleUninitialized extends ArticleState {
@@ -17,31 +20,42 @@ class ArticleLoading extends ArticleState {
 
 class ArticleSaved extends ArticleState {
   final Article article;
-  ArticleSaved({
+
+  const ArticleSaved({
     @required this.article,
   });
+
   @override
   String toString() => 'ArticleSaved(article: $article)';
+
+  @override
+  List<Object> get props => [article];
 }
 
 class ArticleLoaded extends ArticleState {
   final Article article;
 
-  ArticleLoaded({
+  const ArticleLoaded({
     @required this.article,
-  }) : super([article]);
+  });
 
   @override
   String toString() {
     return 'ArticleLoaded[article: $article]';
   }
+
+  @override
+  List<Object> get props => [article];
 }
 
 class ArticleError extends ArticleState {
   final Object error;
 
-  ArticleError(this.error) : super([error]);
+  const ArticleError(this.error);
 
   @override
   String toString() => 'ArticleError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

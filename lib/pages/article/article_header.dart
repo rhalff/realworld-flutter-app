@@ -6,9 +6,11 @@ import 'article_meta.dart';
 
 class ArticleHeader extends StatelessWidget {
   final Article article;
+
   ArticleHeader({
     this.article,
   });
+
   @override
   Widget build(BuildContext context) {
     return Header(

@@ -25,8 +25,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
     _validator = NewUserValidator();
 
-    _userBloc = BlocProvider.of<UserBloc>(context)
-      ..dispatch(ClearUserDataEvent());
+    _userBloc = BlocProvider.of<UserBloc>(context)..add(ClearUserDataEvent());
   }
 
   @override
@@ -114,7 +113,7 @@ class _SignUpFormState extends State<SignUpForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc.dispatch(SignUpEvent(_newUser));
+      _userBloc..add(SignUpEvent(_newUser));
     }
   }
 }

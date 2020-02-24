@@ -9,9 +9,11 @@ part of 'generic_error_model.dart';
 abstract class _$GenericErrorModelSerializer
     implements Serializer<GenericErrorModel> {
   Serializer<GenericErrorModelErrors> __genericErrorModelErrorsSerializer;
+
   Serializer<GenericErrorModelErrors> get _genericErrorModelErrorsSerializer =>
       __genericErrorModelErrorsSerializer ??=
           GenericErrorModelErrorsSerializer();
+
   @override
   Map<String, dynamic> toMap(GenericErrorModel model) {
     if (model == null) return null;

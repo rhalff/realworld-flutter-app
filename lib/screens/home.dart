@@ -13,10 +13,13 @@ import 'package:realworld_flutter/widgets/header.dart';
 
 class HomeScreen extends StatefulWidget {
   final UserBloc userBloc;
+
   HomeScreen({
     @required this.userBloc,
   });
+
   static const String route = '/';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -37,13 +40,13 @@ class _HomeScreenState extends State<HomeScreen>
             id: 'global-feed',
             label: locale.globalFeed,
             onLoad: (ArticlesBloc bloc) {
-              bloc.dispatch(LoadArticlesEvent(refresh: true));
+              bloc..add(LoadArticlesEvent(refresh: true));
             },
             onLoadMore: (ArticlesBloc bloc) {
-              bloc.dispatch(LoadArticlesEvent());
+              bloc..add(LoadArticlesEvent());
             },
             onRefresh: (ArticlesBloc bloc) async {
-              bloc.dispatch(LoadArticlesEvent(refresh: true));
+              bloc..add(LoadArticlesEvent(refresh: true));
             },
           ),
         ];
@@ -54,13 +57,13 @@ class _HomeScreenState extends State<HomeScreen>
               id: 'your-feed',
               label: locale.yourFeed,
               onLoad: (ArticlesBloc bloc) {
-                bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+                bloc..add(LoadArticlesFeedEvent(refresh: true));
               },
               onLoadMore: (ArticlesBloc bloc) {
-                bloc.dispatch(LoadArticlesFeedEvent());
+                bloc..add(LoadArticlesFeedEvent());
               },
               onRefresh: (ArticlesBloc bloc) async {
-                bloc.dispatch(LoadArticlesFeedEvent(refresh: true));
+                bloc..add(LoadArticlesFeedEvent(refresh: true));
               },
             ),
           );
@@ -132,4 +135,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
 
   @override
   FloatingHeaderSnapConfiguration get snapConfiguration => null;
+
+  @override
+  OverScrollHeaderStretchConfiguration get stretchConfiguration => null;
 }

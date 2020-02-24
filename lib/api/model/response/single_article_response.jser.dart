@@ -9,8 +9,10 @@ part of 'single_article_response.dart';
 abstract class _$SingleArticleResponseSerializer
     implements Serializer<SingleArticleResponse> {
   Serializer<Article> __articleSerializer;
+
   Serializer<Article> get _articleSerializer =>
       __articleSerializer ??= ArticleSerializer();
+
   @override
   Map<String, dynamic> toMap(SingleArticleResponse model) {
     if (model == null) return null;

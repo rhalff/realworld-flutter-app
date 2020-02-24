@@ -9,8 +9,10 @@ part of 'new_user_request.dart';
 abstract class _$NewUserRequestSerializer
     implements Serializer<NewUserRequest> {
   Serializer<NewUser> __newUserSerializer;
+
   Serializer<NewUser> get _newUserSerializer =>
       __newUserSerializer ??= NewUserSerializer();
+
   @override
   Map<String, dynamic> toMap(NewUserRequest model) {
     if (model == null) return null;

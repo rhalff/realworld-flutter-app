@@ -2,7 +2,10 @@ part of blocs.user;
 
 @immutable
 abstract class UserEvent extends Equatable {
-  const UserEvent([List props = const []]) : super(props);
+  const UserEvent();
+
+  @override
+  List<Object> get props => [props];
 }
 
 class LoadUserEvent extends UserEvent {
@@ -13,24 +16,36 @@ class LoadUserEvent extends UserEvent {
 class UpdateUserEvent extends UserEvent {
   final UpdateUser user;
 
-  UpdateUserEvent(
+  const UpdateUserEvent(
     this.user,
-  ) : super([user]);
+  );
 
   @override
   String toString() => 'UpdateUserEvent: [user: $user]';
+
+  @override
+  List<Object> get props => [user];
 }
 
 class SignInEvent extends UserEvent {
   final LoginUser user;
-  SignInEvent(this.user) : super([user]);
+
+  const SignInEvent(this.user);
+
   @override
   String toString() => 'SignInEvent: [user: $user]';
+
+  @override
+  List<Object> get props => [user];
 }
 
 class SignUpEvent extends UserEvent {
   final NewUser user;
-  SignUpEvent(this.user) : super([user]);
+
+  SignUpEvent(this.user);
+
+  @override
+  List<Object> get props => [user];
 }
 
 class ClearUserDataEvent extends UserEvent {}

@@ -9,8 +9,10 @@ part of 'multiple_articles_response.dart';
 abstract class _$MultipleArticlesResponseSerializer
     implements Serializer<MultipleArticlesResponse> {
   Serializer<Article> __articleSerializer;
+
   Serializer<Article> get _articleSerializer =>
       __articleSerializer ??= ArticleSerializer();
+
   @override
   Map<String, dynamic> toMap(MultipleArticlesResponse model) {
     if (model == null) return null;

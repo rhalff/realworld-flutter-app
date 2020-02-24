@@ -9,8 +9,10 @@ part of 'multiple_comments_response.dart';
 abstract class _$MultipleCommentsResponseSerializer
     implements Serializer<MultipleCommentsResponse> {
   Serializer<Comment> __commentSerializer;
+
   Serializer<Comment> get _commentSerializer =>
       __commentSerializer ??= CommentSerializer();
+
   @override
   Map<String, dynamic> toMap(MultipleCommentsResponse model) {
     if (model == null) return null;

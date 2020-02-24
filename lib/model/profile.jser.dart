@@ -8,6 +8,7 @@ part of 'profile.dart';
 
 abstract class _$ProfileSerializer implements Serializer<Profile> {
   final _sanitizeUrlProcessor = const SanitizeUrlProcessor();
+
   @override
   Map<String, dynamic> toMap(Profile model) {
     if (model == null) return null;

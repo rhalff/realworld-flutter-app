@@ -8,6 +8,7 @@ part of 'profile_api.dart';
 
 abstract class _$ProfileApiClient implements ApiClient {
   final String basePath = "";
+
   Future<ProfileResponse> followUserByUsername(String username) async {
     var req = base.post
         .metadata({

@@ -9,8 +9,10 @@ part of 'article_submission_request.dart';
 abstract class _$ArticleSubmissionRequestSerializer
     implements Serializer<ArticleSubmissionRequest> {
   Serializer<ArticleSubmission> __articleSubmissionSerializer;
+
   Serializer<ArticleSubmission> get _articleSubmissionSerializer =>
       __articleSubmissionSerializer ??= ArticleSubmissionSerializer();
+
   @override
   Map<String, dynamic> toMap(ArticleSubmissionRequest model) {
     if (model == null) return null;

@@ -6,6 +6,7 @@ abstract class FavoriteEvent {}
 class UpdateFavoriteEvent extends FavoriteEvent {
   final String slug;
   final bool favorited;
+
   UpdateFavoriteEvent({
     @required this.slug,
     @required this.favorited,

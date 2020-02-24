@@ -23,9 +23,13 @@ abstract class _$UpdateUserValidator implements Validator<UpdateUser> {
   }
 
   String validateUsername(Object value) => errorCheck('username', value);
+
   String validateEmail(Object value) => errorCheck('email', value);
+
   String validateBio(Object value) => errorCheck('bio', value);
+
   String validateImage(Object value) => errorCheck('image', value);
+
   @override
   PropertyMap<UpdateUser> props(UpdateUser instance) {
     return PropertyMap<UpdateUser>({

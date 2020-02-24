@@ -12,17 +12,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     assert(userRepository != null);
     assert(authBloc != null);
 
-    _authBlocSubscription = authBloc.state.listen((state) {
+    _authBlocSubscription = authBloc.listen((state) {
       if (state is NotAuthenticated) {
-        dispatch(ClearUserDataEvent());
+        add(ClearUserDataEvent());
       }
     });
   }
 
   @override
-  void dispose() {
+  Future<void> close() {
     _authBlocSubscription.cancel();
-    super.dispose();
+    return super.close();
   }
 
   @override
@@ -44,8 +44,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   User getCurrentUser() {
-    if (currentState is UserLoaded) {
-      return (currentState as UserLoaded).user;
+    if (state is UserLoaded) {
+      return (state as UserLoaded).user;
     }
 
     return null;
@@ -79,7 +79,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield UserSigningIn();
       final user = await userRepository.login(event.user);
 
-      authBloc.dispatch(SignedInEvent(accessToken: user.token));
+      authBloc.add(SignedInEvent(accessToken: user.token));
 
       yield UserLoaded(user);
     } catch (error) {
@@ -114,7 +114,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       final user = await userRepository.signUp(event.user);
 
-      authBloc.dispatch(SignedInEvent(accessToken: user.token));
+      authBloc.add(SignedInEvent(accessToken: user.token));
 
       yield UserLoaded(user);
     } catch (error) {

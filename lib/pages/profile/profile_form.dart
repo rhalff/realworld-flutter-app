@@ -11,11 +11,13 @@ class ProfileForm extends StatefulWidget {
   final String error;
   final Function(UpdateUser user) onSave;
   final VoidCallback onLogout;
+
   ProfileForm({
     this.error,
     this.onSave,
     this.onLogout,
   });
+
   @override
   _ProfileFormState createState() => _ProfileFormState();
 }

@@ -14,13 +14,11 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   }
 
   void _reloadHandler(ArticleRepositoryEvent event) {
-    if (currentState is ArticleLoaded) {
+    if (state is ArticleLoaded) {
       if (event is ArticleUpdatedEvent) {
-        if (event.article.slug ==
-            (currentState as ArticleLoaded).article.slug) {
-          dispatch(
-            LoadArticleEvent(
-                slug: (currentState as ArticleLoaded).article.slug),
+        if (event.article.slug == (state as ArticleLoaded).article.slug) {
+          add(
+            LoadArticleEvent(slug: (state as ArticleLoaded).article.slug),
           );
         }
       }
@@ -90,7 +88,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         article: article,
       );
 
-      dispatch(ArticleUpdatedEvent());
+      .add(ArticleUpdatedEvent());
        */
     } catch (error) {
       print(error);
@@ -113,10 +111,10 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
 
   Stream<ArticleState> _toggleFavorite(ToggleFavoriteEvent event) async* {
     try {
-      if (currentState is ArticleLoaded) {
+      if (state is ArticleLoaded) {
         Article article;
 
-        if ((currentState as ArticleLoaded).article.favorited) {
+        if ((state as ArticleLoaded).article.favorited) {
           article = await articlesRepository.deleteArticleFavorite(event.slug);
         } else {
           article = await articlesRepository.createFavorite(event.slug);
@@ -126,13 +124,13 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       }
     } catch (error) {
       print(error);
-      yield ArticleError('Failed to favorite article');
+      yield const ArticleError('Failed to favorite article');
     }
   }
 
   @override
-  void dispose() {
+  Future<void> close() {
     _articlesRepositorySubscription.cancel();
-    super.dispose();
+    return super.close();
   }
 }

@@ -53,7 +53,7 @@ class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
       final user = await userRepository.updateCurrentUser(event.user);
 
       // reload user
-      userBloc.dispatch(LoadUserEvent());
+      userBloc.add(LoadUserEvent());
 
       yield UserProfileLoaded(
         UpdateUser(

@@ -16,6 +16,7 @@ class Feed extends StatefulWidget {
 
   /// The ScrollController itself is handled by the NestedScrollView parent.
   final ScrollController scrollController;
+
   Feed({
     @required this.id,
     @required this.label,
@@ -25,6 +26,7 @@ class Feed extends StatefulWidget {
     @required this.scrollController,
     this.scrollThreshold = 400.0,
   });
+
   @override
   _FeedState createState() => _FeedState();
 }
@@ -39,7 +41,7 @@ class _FeedState extends State<Feed> {
     widget.scrollController.addListener(_onScroll);
     _articlesBloc = BlocProvider.of<ArticlesBloc>(context);
 
-    if (_articlesBloc.currentState is! ArticlesLoaded) {
+    if (_articlesBloc.state is! ArticlesLoaded) {
       widget.onLoad(_articlesBloc);
     }
   }
@@ -104,7 +106,7 @@ class _FeedState extends State<Feed> {
   }
 
   bool get _hasReachedMax {
-    return (_articlesBloc.currentState as ArticlesLoaded).hasReachedMax;
+    return (_articlesBloc.state as ArticlesLoaded).hasReachedMax;
   }
 
   bool get _isAtBottom {
@@ -117,7 +119,7 @@ class _FeedState extends State<Feed> {
   void _onScroll() {
     final maxScroll = _scrollMarker + widget.scrollThreshold;
     final currentScroll = widget.scrollController.position.pixels;
-    if (_articlesBloc.currentState is ArticlesLoaded) {
+    if (_articlesBloc.state is ArticlesLoaded) {
       if (!_hasReachedMax && (currentScroll >= maxScroll || _isAtBottom)) {
         _scrollMarker = maxScroll;
         widget.onLoadMore(_articlesBloc);
@@ -138,6 +140,7 @@ class FeedModel {
   final Function(ArticlesBloc bloc) onLoadMore;
   final double scrollThreshold;
   final Widget child;
+
   FeedModel({
     @required this.id,
     @required this.label,

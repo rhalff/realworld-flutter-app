@@ -8,6 +8,7 @@ part of 'comments_api.dart';
 
 abstract class _$CommentsApiClient implements ApiClient {
   final String basePath = "";
+
   Future<SingleCommentResponse> createArticleComment(
       String slug, NewCommentRequest comment) async {
     var req = base.post

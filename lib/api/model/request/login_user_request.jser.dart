@@ -9,8 +9,10 @@ part of 'login_user_request.dart';
 abstract class _$LoginUserRequestSerializer
     implements Serializer<LoginUserRequest> {
   Serializer<LoginUser> __loginUserSerializer;
+
   Serializer<LoginUser> get _loginUserSerializer =>
       __loginUserSerializer ??= LoginUserSerializer();
+
   @override
   Map<String, dynamic> toMap(LoginUserRequest model) {
     if (model == null) return null;

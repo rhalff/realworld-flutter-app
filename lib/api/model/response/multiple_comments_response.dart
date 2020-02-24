@@ -1,5 +1,4 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-
 import 'package:realworld_flutter/model/comment.dart';
 
 part 'multiple_comments_response.jser.dart';

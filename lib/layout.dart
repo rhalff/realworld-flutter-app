@@ -10,6 +10,7 @@ class Layout extends StatefulWidget {
   final Widget bottomNavigationBar;
   final Widget child;
   final Drawer drawer;
+
   Layout({
     this.bottomNavigationBar,
     this.drawer,

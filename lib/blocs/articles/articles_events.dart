@@ -8,6 +8,7 @@ class LoadArticlesEvent extends ArticlesEvent {
   final String author;
   final String favorited;
   final bool refresh;
+
   LoadArticlesEvent({
     this.tag,
     this.author,
@@ -22,9 +23,11 @@ class LoadArticlesEvent extends ArticlesEvent {
 @immutable
 class UpdateArticleInListEvent extends ArticlesEvent {
   final Article article;
+
   UpdateArticleInListEvent({
     this.article,
   });
+
   @override
   String toString() => 'UpdateArticleInListEvent[article: $article]';
 }
@@ -35,6 +38,7 @@ class ReloadArticlesEvent extends ArticlesEvent {}
 @immutable
 class LoadArticlesFeedEvent extends ArticlesEvent {
   final bool refresh;
+
   LoadArticlesFeedEvent({
     this.refresh = false,
   }); // : super([refresh]);

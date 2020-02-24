@@ -42,9 +42,9 @@ RouteFactory routes({
         break;
       case ProfileScreen.route:
         screen = BlocProvider(
-            builder: (context) => ProfileBloc(
+            create: (context) => ProfileBloc(
                   userRepository: application.userRepository,
-                )..dispatch(
+                )..add(
                     LoadProfileEvent(username: arguments['username'] as String),
                   ),
             child: ProfileScreen(
@@ -54,9 +54,9 @@ RouteFactory routes({
         break;
       case ArticleScreen.route:
         screen = BlocProvider<ArticleBloc>(
-          builder: (context) => ArticleBloc(
+          create: (context) => ArticleBloc(
             articlesRepository: application.articlesRepository,
-          )..dispatch(
+          )..add(
               LoadArticleEvent(slug: arguments['slug'] as String),
             ),
           child: ArticleScreen(
@@ -69,7 +69,7 @@ RouteFactory routes({
         screen = MultiBlocProvider(
           providers: [
             BlocProvider<ArticleBloc>(
-              builder: (_) => ArticleBloc(
+              create: (_) => ArticleBloc(
                 articlesRepository: application.articlesRepository,
               ),
             ),
@@ -93,7 +93,7 @@ RouteFactory routes({
         screen = MultiBlocProvider(
           providers: [
             BlocProvider<UserProfileBloc>(
-              builder: (context) => UserProfileBloc(
+              create: (context) => UserProfileBloc(
                 userBloc: application.userBloc,
                 userRepository: application.userRepository,
               ),

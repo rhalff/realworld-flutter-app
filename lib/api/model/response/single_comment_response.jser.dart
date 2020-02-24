@@ -9,8 +9,10 @@ part of 'single_comment_response.dart';
 abstract class _$SingleCommentResponseSerializer
     implements Serializer<SingleCommentResponse> {
   Serializer<Comment> __commentSerializer;
+
   Serializer<Comment> get _commentSerializer =>
       __commentSerializer ??= CommentSerializer();
+
   @override
   Map<String, dynamic> toMap(SingleCommentResponse model) {
     if (model == null) return null;

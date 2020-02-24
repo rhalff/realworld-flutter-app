@@ -2,7 +2,10 @@ part of blocs.comments;
 
 @immutable
 abstract class CommentsState extends Equatable {
-  CommentsState([List props = const []]) : super(props);
+  const CommentsState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class CommentsUninitialized extends CommentsState {
@@ -20,19 +23,25 @@ class CommentsLoaded extends CommentsState {
 
   CommentsLoaded({
     this.comments,
-  }) : super([comments]);
+  });
 
   @override
   String toString() {
     return 'CommentsLoaded[comments: $comments]';
   }
+
+  @override
+  List<Object> get props => [comments];
 }
 
 class CommentsError extends CommentsState {
   final String error;
 
-  CommentsError(this.error) : super([error]);
+  CommentsError(this.error);
 
   @override
   String toString() => 'CommentsError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

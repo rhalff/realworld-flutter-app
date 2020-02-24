@@ -26,8 +26,11 @@ abstract class _$NewUserValidator implements Validator<NewUser> {
   }
 
   String validateUsername(Object value) => errorCheck('username', value);
+
   String validateEmail(Object value) => errorCheck('email', value);
+
   String validatePassword(Object value) => errorCheck('password', value);
+
   @override
   PropertyMap<NewUser> props(NewUser instance) {
     return PropertyMap<NewUser>({

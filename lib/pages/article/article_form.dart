@@ -10,11 +10,13 @@ class ArticleForm extends StatefulWidget {
   final String error;
   final Function(ArticleSubmission article) onSave;
   final Article article;
+
   ArticleForm({
     this.article,
     this.error,
     this.onSave,
   });
+
   @override
   _ArticleFormState createState() => _ArticleFormState();
 }

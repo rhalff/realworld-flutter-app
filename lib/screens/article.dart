@@ -14,6 +14,7 @@ class ArticleScreen extends StatefulWidget {
   static const String route = '/article';
 
   final UserBloc userBloc;
+
   ArticleScreen({
     this.userBloc,
   });
@@ -60,7 +61,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
           child = MultiBlocProvider(
             providers: <BlocProvider>[
               BlocProvider<CommentsBloc>(
-                builder: (BuildContext context) {
+                create: (BuildContext context) {
                   return CommentsBloc(
                     articlesRepository:
                         RepositoryProvider.of<ArticlesRepository>(context),
@@ -98,6 +99,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
   }
 
   void _toggleFavorited(String slug) {
-    _articleBloc.dispatch(ToggleFavoriteEvent(slug: slug));
+    _articleBloc..add(ToggleFavoriteEvent(slug: slug));
   }
 }

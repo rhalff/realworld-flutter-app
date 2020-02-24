@@ -17,19 +17,19 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   }
 
   void _reloadHandler(ArticleRepositoryEvent event) {
-    if (currentState is ArticlesLoaded) {
-      final state = currentState as ArticlesLoaded;
+    if (state is ArticlesLoaded) {
+      final currentState = state as ArticlesLoaded;
 
       if (event is ArticleCreatedEvent ||
           event is ArticleDeletedEvent ||
           event is ArticleUpdatedEvent) {
-        dispatch(ReloadArticlesEvent());
+        add(ReloadArticlesEvent());
       }
 
       if (event is FavoriteCreatedEvent) {
-        _updateIfArticleInList(state.articles, event.article);
+        _updateIfArticleInList(currentState.articles, event.article);
       } else if (event is FavoriteDeletedEvent) {
-        _updateIfArticleInList(state.articles, event.article);
+        _updateIfArticleInList(currentState.articles, event.article);
       }
     }
   }
@@ -37,7 +37,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
   void _updateIfArticleInList(List<Article> articles, Article article) {
     for (var _article in articles) {
       if (_article.slug == article.slug) {
-        dispatch(
+        add(
           UpdateArticleInListEvent(
             article: article,
           ),
@@ -52,7 +52,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     Stream<ArticlesState> Function(ArticlesEvent event) next,
   ) {
     return super.transformEvents(
-      (events as Observable<ArticlesEvent>).debounceTime(
+      events.debounceTime(
         const Duration(milliseconds: 500),
       ),
       next,
@@ -77,15 +77,15 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   Stream<ArticlesState> _updateArticleInList(
       UpdateArticleInListEvent event) async* {
-    if (currentState is ArticlesLoaded) {
-      final state = currentState as ArticlesLoaded;
+    if (state is ArticlesLoaded) {
+      final currentState = state as ArticlesLoaded;
 
       final articles = <Article>[];
 
-      if (state.feedType == FeedType.globalFeed &&
+      if (currentState.feedType == FeedType.globalFeed &&
           (_eventForReload as LoadArticlesEvent).favorited != null) {
         var exists = false;
-        for (var article in state.articles) {
+        for (var article in currentState.articles) {
           if (article.slug != event.article.slug) {
             articles.add(article);
           } else {
@@ -102,7 +102,7 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           }
         }
       } else {
-        for (var article in state.articles) {
+        for (var article in currentState.articles) {
           if (article.slug == event.article.slug) {
             articles.add(
               article.copyWith(
@@ -117,23 +117,21 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
       }
 
       yield ArticlesLoaded(
-        state.feedType,
+        currentState.feedType,
         articles,
-        state.hasReachedMax,
+        currentState.hasReachedMax,
       );
     }
   }
 
   bool _hasReachedMax() =>
-      currentState is ArticlesLoaded &&
-      (currentState as ArticlesLoaded).hasReachedMax;
+      state is ArticlesLoaded && (state as ArticlesLoaded).hasReachedMax;
 
   Stream<ArticlesState> _loadArticles(LoadArticlesEvent event) async* {
     try {
-      if (currentState is ArticlesUninitialized ||
-          (currentState is ArticlesLoaded &&
-              (currentState as ArticlesLoaded).feedType !=
-                  FeedType.globalFeed) ||
+      if (state is ArticlesUninitialized ||
+          (state is ArticlesLoaded &&
+              (state as ArticlesLoaded).feedType != FeedType.globalFeed) ||
           event.refresh) {
         yield ArticlesUninitialized();
 
@@ -150,8 +148,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           result.articles,
           false,
         );
-      } else if (currentState is ArticlesLoaded) {
-        final loadedArticles = currentState as ArticlesLoaded;
+      } else if (state is ArticlesLoaded) {
+        final loadedArticles = state as ArticlesLoaded;
 
         final result = await articlesRepository.getArticles(
           tag: event.tag,
@@ -181,9 +179,9 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
 
   Stream<ArticlesState> _loadArticlesFeed(LoadArticlesFeedEvent event) async* {
     try {
-      if (currentState is ArticlesUninitialized ||
-          (currentState is ArticlesLoaded &&
-              (currentState as ArticlesLoaded).feedType != FeedType.userFeed) ||
+      if (state is ArticlesUninitialized ||
+          (state is ArticlesLoaded &&
+              (state as ArticlesLoaded).feedType != FeedType.userFeed) ||
           event.refresh) {
         yield ArticlesUninitialized();
         final result = await articlesRepository.getArticlesFeed(
@@ -196,8 +194,8 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
           result.articles,
           false,
         );
-      } else if (currentState is ArticlesLoaded) {
-        final loadedArticles = currentState as ArticlesLoaded;
+      } else if (state is ArticlesLoaded) {
+        final loadedArticles = state as ArticlesLoaded;
 
         final result = await articlesRepository.getArticlesFeed(
           limit: _itemsPerRequest,
@@ -226,13 +224,13 @@ class ArticlesBloc extends Bloc<ArticlesEvent, ArticlesState> {
     if (_eventForReload != null) {
       yield ArticlesUninitialized();
 
-      dispatch(_eventForReload);
+      add(_eventForReload);
     }
   }
 
   @override
-  void dispose() {
+  Future<void> close() {
     _articlesRepositorySubscription.cancel();
-    super.dispose();
+    return super.close();
   }
 }

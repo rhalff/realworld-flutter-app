@@ -18,6 +18,7 @@ class PreviewPost extends StatelessWidget {
   final bool favorited;
   final int favorites;
   final VoidCallback onTap;
+
   PreviewPost({
     @required this.slug,
     @required this.avatar,
@@ -29,6 +30,7 @@ class PreviewPost extends StatelessWidget {
     @required this.favorites,
     @required this.onTap,
   }) : super(key: Key(slug));
+
   @override
   Widget build(BuildContext context) {
     final favoriteBloc = FavoriteBloc(
@@ -57,7 +59,7 @@ class PreviewPost extends StatelessWidget {
                 date: date,
               ),
               BlocProvider(
-                builder: (context) => favoriteBloc,
+                create: (context) => favoriteBloc,
                 child: BlocBuilder<UserBloc, UserState>(
                   builder: (BuildContext context, UserState state) {
                     final user = (state is UserLoaded) ? state.user : null;

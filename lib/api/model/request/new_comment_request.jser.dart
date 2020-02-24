@@ -9,8 +9,10 @@ part of 'new_comment_request.dart';
 abstract class _$NewCommentRequestSerializer
     implements Serializer<NewCommentRequest> {
   Serializer<NewComment> __newCommentSerializer;
+
   Serializer<NewComment> get _newCommentSerializer =>
       __newCommentSerializer ??= NewCommentSerializer();
+
   @override
   Map<String, dynamic> toMap(NewCommentRequest model) {
     if (model == null) return null;

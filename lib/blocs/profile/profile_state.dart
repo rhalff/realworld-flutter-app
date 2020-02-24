@@ -2,7 +2,10 @@ part of blocs.profile;
 
 @immutable
 abstract class ProfileState extends Equatable {
-  ProfileState([List props = const []]) : super(props);
+  const ProfileState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ProfileUninitialized extends ProfileState {
@@ -18,23 +21,29 @@ class ProfileLoading extends ProfileState {
 class ProfileLoaded extends ProfileState {
   final Profile profile;
 
-  ProfileLoaded({this.profile}) : super([profile]);
+  const ProfileLoaded({this.profile});
 
   @override
   String toString() {
     return 'ProfileLoaded[profile: $profile]';
   }
+
+  @override
+  List<Object> get props => [profile];
 }
 
 class ProfileError extends ProfileState {
   final String error;
   final UpdateUser profile;
 
-  ProfileError({
+  const ProfileError({
     this.profile,
     this.error,
-  }) : super([error]);
+  });
 
   @override
   String toString() => 'ProfileError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

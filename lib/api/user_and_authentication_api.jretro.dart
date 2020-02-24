@@ -8,6 +8,7 @@ part of 'user_and_authentication_api.dart';
 
 abstract class _$UserAndAuthenticationApiClient implements ApiClient {
   final String basePath = "";
+
   Future<UserResponse> createUser(NewUserRequest body) async {
     var req =
         base.post.path(basePath).path("/users").json(jsonConverter.to(body));

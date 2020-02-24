@@ -13,9 +13,11 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 @immutable
 class RealWorldApp extends StatelessWidget {
   final Application application;
+
   const RealWorldApp({
     this.application,
   });
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

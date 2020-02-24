@@ -2,7 +2,10 @@ part of blocs.favorite;
 
 @immutable
 abstract class FavoriteState extends Equatable {
-  FavoriteState([List props = const []]) : super(props);
+  const FavoriteState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class FavoriteUninitialized extends FavoriteState {
@@ -13,19 +16,27 @@ class FavoriteUninitialized extends FavoriteState {
 class FavoriteUpdate extends FavoriteState {
   final bool value;
   final bool isUpdating;
-  FavoriteUpdate({
+
+  const FavoriteUpdate({
     this.value,
     this.isUpdating = false,
-  }) : super([value, isUpdating]);
+  });
+
   @override
   String toString() => 'FavoriteUpdate(value: $value, isUpdating: $isUpdating';
+
+  @override
+  List<Object> get props => [value, isUpdating];
 }
 
 class FavoriteError extends FavoriteState {
   final String error;
 
-  FavoriteError(this.error) : super([error]);
+  const FavoriteError(this.error);
 
   @override
   String toString() => 'FavoriteError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

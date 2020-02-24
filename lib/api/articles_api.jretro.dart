@@ -8,6 +8,7 @@ part of 'articles_api.dart';
 
 abstract class _$ArticlesApiClient implements ApiClient {
   final String basePath = "";
+
   Future<SingleArticleResponse> createArticle(
       ArticleSubmissionRequest article) async {
     var req = base.post

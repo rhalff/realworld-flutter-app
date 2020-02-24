@@ -5,10 +5,12 @@ import 'package:realworld_flutter/image_cache_manager.dart';
 class UserAvatar extends StatelessWidget {
   final String avatar;
   final double radius;
+
   UserAvatar({
     this.avatar,
     this.radius = 14.0,
   });
+
   @override
   Widget build(BuildContext context) {
     return avatar != null && avatar.isNotEmpty

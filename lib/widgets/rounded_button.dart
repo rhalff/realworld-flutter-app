@@ -14,6 +14,7 @@ class RoundedButton extends StatelessWidget {
     this.style,
     this.backgroundColor,
   }) : assert(text != null);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

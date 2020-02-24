@@ -26,7 +26,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
       yield CommentsLoading();
       await articlesRepository.createComment(event.slug, event.comment);
 
-      dispatch(
+      add(
         LoadCommentsEvent(
           slug: event.slug,
         ),
@@ -42,7 +42,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
       yield CommentsLoading();
       await articlesRepository.deleteComment(event.slug, event.id);
 
-      dispatch(
+      add(
         LoadCommentsEvent(
           slug: event.slug,
         ),

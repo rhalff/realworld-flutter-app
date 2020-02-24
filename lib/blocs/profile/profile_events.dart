@@ -2,16 +2,24 @@ part of blocs.profile;
 
 @immutable
 abstract class ProfileEvent extends Equatable {
-  const ProfileEvent([List props = const []]) : super(props);
+  const ProfileEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class LoadProfileEvent extends ProfileEvent {
   final String username;
-  LoadProfileEvent({
+
+  const LoadProfileEvent({
     @required this.username,
-  }) : super([username]);
+  });
+
   @override
   String toString() => 'LoadProfileEvent(username: username)';
+
+  @override
+  List<Object> get props => [username];
 }
 
 class ReloadProfileEvent extends ProfileEvent {
@@ -21,9 +29,14 @@ class ReloadProfileEvent extends ProfileEvent {
 
 class ToggleFollowUserEvent extends ProfileEvent {
   final String username;
-  ToggleFollowUserEvent({
+
+  const ToggleFollowUserEvent({
     @required this.username,
-  }) : super([username]);
+  });
+
   @override
   String toString() => 'FollowUserEvent(username: $username)';
+
+  @override
+  List<Object> get props => [username];
 }

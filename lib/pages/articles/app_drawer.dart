@@ -11,9 +11,11 @@ import 'package:realworld_flutter/widgets/user_avatar.dart';
 
 class AppDrawer extends StatelessWidget {
   final User user;
+
   AppDrawer({
     @required this.user,
   });
+
   @override
   Widget build(BuildContext context) {
     final locale = RWLocalizations.of(context);
@@ -90,12 +92,13 @@ class AppDrawer extends StatelessWidget {
         const Divider(),
         ListTile(
           title: Text(locale.appDrawerLogout),
-          onTap: () => BlocProvider.of<AuthBloc>(context).dispatch(
-            SignOutEvent(
-              onComplete: () =>
-                  Navigator.of(context).popAndPushNamed(HomeScreen.route),
+          onTap: () => BlocProvider.of<AuthBloc>(context)
+            ..add(
+              SignOutEvent(
+                onComplete: () =>
+                    Navigator.of(context).popAndPushNamed(HomeScreen.route),
+              ),
             ),
-          ),
         ),
         ListTile(
           title: Text(locale.appDrawerAbout),

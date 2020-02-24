@@ -35,6 +35,7 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
   final Map<String, ArticlesBloc> _blocs = {};
 
   ScrollController _scrollController;
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -58,7 +59,7 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
     _scrollController.dispose();
     _tabController.dispose();
     for (var cachedBloc in _blocs.values) {
-      cachedBloc.dispose();
+      cachedBloc.close();
     }
     _blocs.clear();
     super.dispose();
@@ -186,4 +187,7 @@ class FeedTabs implements SliverPersistentHeaderDelegate {
 
   @override
   FloatingHeaderSnapConfiguration get snapConfiguration => null;
+
+  @override
+  OverScrollHeaderStretchConfiguration get stretchConfiguration => null;
 }

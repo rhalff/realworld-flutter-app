@@ -2,7 +2,10 @@ part of blocs.user;
 
 @immutable
 abstract class UserState extends Equatable {
-  UserState([List props = const []]) : super(props);
+  const UserState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class UserUninitialized extends UserState {
@@ -33,19 +36,25 @@ class UserSigningOut extends UserState {
 class UserLoaded extends UserState {
   final User user;
 
-  UserLoaded(this.user) : super([user]);
+  const UserLoaded(this.user);
 
   @override
   String toString() {
     return 'UserLoaded[user: $user]';
   }
+
+  @override
+  List<Object> get props => [user];
 }
 
 class UserError extends UserState {
   final List<String> errors;
 
-  UserError(this.errors) : super([errors]);
+  const UserError(this.errors);
 
   @override
   String toString() => 'UserError[errors: $errors]';
+
+  @override
+  List<Object> get props => [errors];
 }

@@ -55,9 +55,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: state.profile.following
                       ? Icon(Icons.star)
                       : Icon(Icons.star_border),
-                  onPressed: () => _profileBloc.dispatch(
-                    ToggleFollowUserEvent(username: state.profile.username),
-                  ),
+                  onPressed: () => _profileBloc
+                    ..add(
+                      ToggleFollowUserEvent(username: state.profile.username),
+                    ),
                 ),
             ],
           );

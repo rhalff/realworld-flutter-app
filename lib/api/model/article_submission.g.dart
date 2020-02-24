@@ -21,8 +21,11 @@ abstract class _$ArticleSubmissionValidator
   }
 
   String validateTitle(Object value) => errorCheck('title', value);
+
   String validateDescription(Object value) => errorCheck('description', value);
+
   String validateBody(Object value) => errorCheck('body', value);
+
   @override
   PropertyMap<ArticleSubmission> props(ArticleSubmission instance) {
     return PropertyMap<ArticleSubmission>({

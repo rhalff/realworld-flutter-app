@@ -7,6 +7,7 @@ class FavoriteButton extends StatefulWidget {
   final num favorites;
   final bool favorited;
   final bool enabled;
+
   FavoriteButton({
     Key key,
     @required this.slug,
@@ -14,6 +15,7 @@ class FavoriteButton extends StatefulWidget {
     @required this.favorited,
     this.enabled = true,
   }) : super(key: key);
+
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();
 }
@@ -35,12 +37,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       return InkWell(
         onTap: widget.enabled
             ? () {
-                favoriteBloc.dispatch(
-                  UpdateFavoriteEvent(
-                    slug: widget.slug,
-                    favorited: !favorited,
-                  ),
-                );
+                favoriteBloc
+                  ..add(
+                    UpdateFavoriteEvent(
+                      slug: widget.slug,
+                      favorited: !favorited,
+                    ),
+                  );
               }
             : null,
         child: Container(

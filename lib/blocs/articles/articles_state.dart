@@ -7,7 +7,10 @@ enum FeedType {
 
 @immutable
 abstract class ArticlesState extends Equatable {
-  ArticlesState([List props = const []]) : super(props);
+  const ArticlesState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ArticlesUninitialized extends ArticlesState {
@@ -29,7 +32,7 @@ class ArticlesLoaded extends ArticlesState {
     this.feedType,
     this.articles,
     this.hasReachedMax,
-  ) : super([feedType, articles, hasReachedMax]);
+  );
 
   ArticlesLoaded copyWith({
     FeedType feedType,
@@ -47,13 +50,19 @@ class ArticlesLoaded extends ArticlesState {
   String toString() {
     return 'ArticlesLoaded[articles: $articles]';
   }
+
+  @override
+  List<Object> get props => [feedType, articles, hasReachedMax];
 }
 
 class ArticlesError extends ArticlesState {
   final String error;
 
-  ArticlesError(this.error) : super([error]);
+  ArticlesError(this.error);
 
   @override
   String toString() => 'ArticlesError[error: $error]';
+
+  @override
+  List<Object> get props => [error];
 }

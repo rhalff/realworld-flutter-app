@@ -6,6 +6,7 @@ import 'article_meta.dart';
 class ArticleComment extends StatelessWidget {
   final Comment comment;
   final Function(int id) onRemove;
+
   ArticleComment({
     Key key,
     this.comment,

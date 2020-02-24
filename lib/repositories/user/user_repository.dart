@@ -7,6 +7,7 @@ class UserRepository extends EventEmitter {
   final ProfileApi profileApi;
   final UserAndAuthenticationApi usersApi;
   final KeyValueRepository secureStorage;
+
   UserRepository({
     this.api,
     this.profileApi,

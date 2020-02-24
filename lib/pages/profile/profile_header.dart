@@ -10,11 +10,13 @@ class ProfileHeader extends StatelessWidget {
   final Profile profile;
   final BoxFit fit;
   final bool isUserPage;
+
   ProfileHeader({
     this.profile,
     this.fit,
     this.isUserPage,
   });
+
   @override
   Widget build(BuildContext context) {
     final locale = RWLocalizations.of(context);

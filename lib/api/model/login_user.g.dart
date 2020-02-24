@@ -24,7 +24,9 @@ abstract class _$LoginUserValidator implements Validator<LoginUser> {
   }
 
   String validateEmail(Object value) => errorCheck('email', value);
+
   String validatePassword(Object value) => errorCheck('password', value);
+
   @override
   PropertyMap<LoginUser> props(LoginUser instance) {
     return PropertyMap<LoginUser>(

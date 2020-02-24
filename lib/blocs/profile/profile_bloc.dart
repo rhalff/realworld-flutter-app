@@ -14,11 +14,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   void _reloadHandler(UserRepositoryEvent event) {
-    if (currentState is ProfileLoaded) {
+    if (state is ProfileLoaded) {
       if (event is UserUpdatedEvent) {
-        dispatch(
+        add(
           LoadProfileEvent(
-            username: (currentState as ProfileLoaded).profile.username,
+            username: (state as ProfileLoaded).profile.username,
           ),
         );
       }
@@ -51,8 +51,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Stream<ProfileState> _toggleFollowUser(ToggleFollowUserEvent event) async* {
-    if (currentState is ProfileLoaded) {
-      var profile = (currentState as ProfileLoaded).profile;
+    if (state is ProfileLoaded) {
+      var profile = (state as ProfileLoaded).profile;
       try {
         yield ProfileLoading();
 
@@ -84,8 +84,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   @override
-  void dispose() {
+  Future<void> close() {
     _userRepositorySubscription.cancel();
-    super.dispose();
+    return super.close();
   }
 }

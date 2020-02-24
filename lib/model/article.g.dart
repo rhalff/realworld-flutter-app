@@ -18,8 +18,11 @@ abstract class _$ArticleValidator implements Validator<Article> {
   }
 
   String validateTitle(Object value) => errorCheck('title', value);
+
   String validateDescription(Object value) => errorCheck('description', value);
+
   String validateBody(Object value) => errorCheck('body', value);
+
   @override
   PropertyMap<Article> props(Article instance) {
     return PropertyMap<Article>({

@@ -13,7 +13,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     Stream<FavoriteState> Function(FavoriteEvent event) next,
   ) {
     return super.transformEvents(
-      (events as Observable<FavoriteEvent>).debounceTime(
+      events.debounceTime(
         const Duration(milliseconds: 500),
       ),
       next,

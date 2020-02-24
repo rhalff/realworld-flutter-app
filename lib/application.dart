@@ -109,11 +109,11 @@ class Application {
 
   Future<void> init() async {
     if (await userRepository.isAuthenticated()) {
-      userBloc.dispatch(LoadUserEvent());
+      userBloc.add(LoadUserEvent());
     }
   }
 
   void dispose() {
-    authBloc.dispose();
+    authBloc.close();
   }
 }

@@ -8,8 +8,10 @@ part of 'comment.dart';
 
 abstract class _$CommentSerializer implements Serializer<Comment> {
   Serializer<Profile> __profileSerializer;
+
   Serializer<Profile> get _profileSerializer =>
       __profileSerializer ??= ProfileSerializer();
+
   @override
   Map<String, dynamic> toMap(Comment model) {
     if (model == null) return null;

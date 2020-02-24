@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class ErrorContainer extends StatelessWidget {
   final String title;
   final String error;
+
   ErrorContainer({
     this.title,
     this.error,
   }) : assert(title != null || error != null);
+
   @override
   Widget build(BuildContext context) {
     print(error);
