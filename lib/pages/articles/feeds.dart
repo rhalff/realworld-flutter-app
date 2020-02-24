@@ -95,9 +95,7 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
       },
       body: Builder(
         builder: (BuildContext context) {
-          final innerScrollController =
-              context.ancestorWidgetOfExactType(PrimaryScrollController)
-                  as PrimaryScrollController;
+          final innerScrollController = PrimaryScrollController.of(context);
 
           return SizedBox(
             height: 300,
@@ -125,8 +123,7 @@ class _FeedsState extends State<Feeds> with SingleTickerProviderStateMixin {
                               onRefresh: feed.onRefresh,
                               onLoadMore: feed.onLoadMore,
                               onLoad: feed.onLoad,
-                              scrollController:
-                                  innerScrollController.controller,
+                              scrollController: innerScrollController,
                             ),
                           ),
                         );
