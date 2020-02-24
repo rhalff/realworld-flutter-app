@@ -1,3 +1,5 @@
+ - Upgrade to latest version of flutter and upgrade bloc 
+ 
 ## 1.2.2
  -  Improve favorites list update
 
