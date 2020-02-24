@@ -99,6 +99,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
   }
 
   void _toggleFavorited(String slug) {
-    _articleBloc..add(ToggleFavoriteEvent(slug: slug));
+    _articleBloc.add(ToggleFavoriteEvent(slug: slug));
   }
 }

@@ -40,13 +40,13 @@ class _HomeScreenState extends State<HomeScreen>
             id: 'global-feed',
             label: locale.globalFeed,
             onLoad: (ArticlesBloc bloc) {
-              bloc..add(LoadArticlesEvent(refresh: true));
+              bloc.add(LoadArticlesEvent(refresh: true));
             },
             onLoadMore: (ArticlesBloc bloc) {
-              bloc..add(LoadArticlesEvent());
+              bloc.add(LoadArticlesEvent());
             },
             onRefresh: (ArticlesBloc bloc) async {
-              bloc..add(LoadArticlesEvent(refresh: true));
+              bloc.add(LoadArticlesEvent(refresh: true));
             },
           ),
         ];
@@ -57,13 +57,13 @@ class _HomeScreenState extends State<HomeScreen>
               id: 'your-feed',
               label: locale.yourFeed,
               onLoad: (ArticlesBloc bloc) {
-                bloc..add(LoadArticlesFeedEvent(refresh: true));
+                bloc.add(LoadArticlesFeedEvent(refresh: true));
               },
               onLoadMore: (ArticlesBloc bloc) {
-                bloc..add(LoadArticlesFeedEvent());
+                bloc.add(LoadArticlesFeedEvent());
               },
               onRefresh: (ArticlesBloc bloc) async {
-                bloc..add(LoadArticlesFeedEvent(refresh: true));
+                bloc.add(LoadArticlesFeedEvent(refresh: true));
               },
             ),
           );

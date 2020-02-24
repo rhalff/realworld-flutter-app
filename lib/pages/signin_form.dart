@@ -102,7 +102,7 @@ class _SignInFormState extends State<SignInForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc..add(SignInEvent(_data));
+      _userBloc.add(SignInEvent(_data));
     }
   }
 }

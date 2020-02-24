@@ -6,9 +6,9 @@ import 'package:realworld_flutter/widgets/external_link.dart';
 void about(BuildContext context) {
   final themeData = Theme.of(context);
   final locale = RWLocalizations.of(context);
-  final aboutTextStyle = themeData.textTheme.body2;
+  final aboutTextStyle = themeData.textTheme.bodyText1;
   final linkStyle =
-      themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+      themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
   showAboutDialog(
     context: context,

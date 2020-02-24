@@ -50,7 +50,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       );
     } catch (error) {
       print(error);
-      yield FavoriteError('Failed to update favorite');
+      yield const FavoriteError('Failed to update favorite');
     }
   }
 }

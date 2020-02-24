@@ -113,7 +113,7 @@ class _SignUpFormState extends State<SignUpForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      _userBloc..add(SignUpEvent(_newUser));
+      _userBloc.add(SignUpEvent(_newUser));
     }
   }
 }

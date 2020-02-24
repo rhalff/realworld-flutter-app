@@ -37,13 +37,12 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       return InkWell(
         onTap: widget.enabled
             ? () {
-                favoriteBloc
-                  ..add(
-                    UpdateFavoriteEvent(
-                      slug: widget.slug,
-                      favorited: !favorited,
-                    ),
-                  );
+                favoriteBloc.add(
+                  UpdateFavoriteEvent(
+                    slug: widget.slug,
+                    favorited: !favorited,
+                  ),
+                );
               }
             : null,
         child: Container(

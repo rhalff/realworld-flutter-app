@@ -91,13 +91,12 @@ class _ArticlePageState extends State<ArticlePage> {
                       child: ArticleCommentForm(
                         user: widget.user,
                         onSubmit: (String comment) {
-                          _commentsBloc
-                            ..add(
-                              CreateCommentEvent(
-                                slug: widget.article.slug,
-                                comment: NewComment(body: comment),
-                              ),
-                            );
+                          _commentsBloc.add(
+                            CreateCommentEvent(
+                              slug: widget.article.slug,
+                              comment: NewComment(body: comment),
+                            ),
+                          );
                         },
                       ))
                   : Center(
@@ -116,13 +115,12 @@ class _ArticlePageState extends State<ArticlePage> {
                       user: widget.user,
                       comments: state.comments,
                       onRemove: (int id) {
-                        _commentsBloc
-                          ..add(
-                            DeleteCommentEvent(
-                              id: id,
-                              slug: widget.article.slug,
-                            ),
-                          );
+                        _commentsBloc.add(
+                          DeleteCommentEvent(
+                            id: id,
+                            slug: widget.article.slug,
+                          ),
+                        );
                       },
                     );
                   }

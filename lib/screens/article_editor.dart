@@ -36,7 +36,7 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
     _articleBloc = BlocProvider.of<ArticleBloc>(context);
 
     if (widget.slug != null) {
-      _articleBloc..add(LoadArticleEvent(slug: widget.slug));
+      _articleBloc.add(LoadArticleEvent(slug: widget.slug));
     }
 
     super.initState();
@@ -98,20 +98,19 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
                         if (widget.slug != null)
                           RoundedButton(
                             text: locale.articleRemoveArticle,
-                            onPressed: () => _articleBloc
-                              ..add(
-                                DeleteArticleEvent(
-                                  slug: widget.slug,
-                                  onComplete: () {
-                                    Navigator.of(context).pushReplacementNamed(
-                                      ProfileScreen.route,
-                                      arguments: {
-                                        'username': user.username,
-                                      },
-                                    );
-                                  },
-                                ),
+                            onPressed: () => _articleBloc.add(
+                              DeleteArticleEvent(
+                                slug: widget.slug,
+                                onComplete: () {
+                                  Navigator.of(context).pushReplacementNamed(
+                                    ProfileScreen.route,
+                                    arguments: {
+                                      'username': user.username,
+                                    },
+                                  );
+                                },
                               ),
+                            ),
                           )
                       ],
                     ),
@@ -127,20 +126,18 @@ class _ArticleEditorScreenState extends State<ArticleEditorScreen> {
 
   void _saveForm(ArticleSubmission article) {
     if (widget.slug != null) {
-      _articleBloc
-        ..add(
-          UpdateArticleEvent(
-              slug: widget.slug,
-              article: article,
-              onComplete: () => _onComplete(context, widget.slug)),
-        );
-    } else {
-      _articleBloc
-        ..add(
-          CreateArticleEvent(
+      _articleBloc.add(
+        UpdateArticleEvent(
+            slug: widget.slug,
             article: article,
-          ),
-        );
+            onComplete: () => _onComplete(context, widget.slug)),
+      );
+    } else {
+      _articleBloc.add(
+        CreateArticleEvent(
+          article: article,
+        ),
+      );
     }
   }
 

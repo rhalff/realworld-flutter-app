@@ -24,7 +24,7 @@ class SignUpScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     locale.userSignUp,
-                    style: theme.textTheme.title.copyWith(
+                    style: theme.textTheme.headline6.copyWith(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
                     ),
@@ -37,7 +37,7 @@ class SignUpScreen extends StatelessWidget {
                       },
                       child: Text(
                         locale.userSignUpHaveAccount,
-                        style: theme.textTheme.subtitle,
+                        style: theme.textTheme.subtitle2,
                       ))
                 ],
               ),

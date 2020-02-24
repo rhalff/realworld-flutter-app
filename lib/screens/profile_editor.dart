@@ -46,7 +46,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
                 children: <Widget>[
                   Text(
                     locale.profileEdit,
-                    style: theme.textTheme.title.copyWith(
+                    style: theme.textTheme.headline6.copyWith(
                       fontSize: 28,
                       fontWeight: FontWeight.w500,
                     ),
@@ -68,16 +68,15 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
   }
 
   void _onLogout() {
-    _authBloc
-      ..add(
-        SignOutEvent(
-          onComplete: () =>
-              Navigator.of(context).pushReplacementNamed(HomeScreen.route),
-        ),
-      );
+    _authBloc.add(
+      SignOutEvent(
+        onComplete: () =>
+            Navigator.of(context).pushReplacementNamed(HomeScreen.route),
+      ),
+    );
   }
 
   void _onSave(UpdateUser user) {
-    _userProfileBloc..add(UpdateUserProfileEvent(user));
+    _userProfileBloc.add(UpdateUserProfileEvent(user));
   }
 }

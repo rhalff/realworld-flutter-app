@@ -34,60 +34,54 @@ class _ProfilePageState extends State<ProfilePage> {
         id: 'my-posts',
         label: locale.profilePageMyPosts,
         onLoad: (ArticlesBloc bloc) {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                author: widget.profile.username,
-                refresh: true,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+              refresh: true,
+            ),
+          );
         },
         onLoadMore: (ArticlesBloc bloc) {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                author: widget.profile.username,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+            ),
+          );
         },
         onRefresh: (ArticlesBloc bloc) async {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                author: widget.profile.username,
-                refresh: true,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              author: widget.profile.username,
+              refresh: true,
+            ),
+          );
         },
       ),
       FeedModel(
         id: 'favorited-posts',
         label: locale.profilePageFavoritedPosts,
         onLoad: (ArticlesBloc bloc) {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                favorited: widget.profile.username,
-                refresh: true,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+              refresh: true,
+            ),
+          );
         },
         onLoadMore: (ArticlesBloc bloc) {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                favorited: widget.profile.username,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+            ),
+          );
         },
         onRefresh: (ArticlesBloc bloc) async {
-          bloc
-            ..add(
-              LoadArticlesEvent(
-                favorited: widget.profile.username,
-                refresh: true,
-              ),
-            );
+          bloc.add(
+            LoadArticlesEvent(
+              favorited: widget.profile.username,
+              refresh: true,
+            ),
+          );
         },
       ),
     ];
